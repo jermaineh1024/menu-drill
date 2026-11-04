@@ -214,6 +214,13 @@ table.amt tr.sep td{border-top:2px solid var(--line)}
 .pl-s{font-size:10.5px;fill:var(--ink)}
 .tz-base{fill:var(--ok-soft);stroke:var(--line)}
 .tz-danger{fill:#B3261E}
+.fifo-pan{fill:none;stroke:var(--muted);stroke-width:2}
+.fifo-new{fill:#BEE2A0}.fifo-old{fill:#D9C86E}
+.fifo-t{font:700 12px var(--body);fill:#1E3A14}
+.temp-box{fill:var(--warn-soft);stroke:var(--line)}
+.temp-big{font:800 24px var(--display);fill:var(--ink)}
+.sink{stroke:var(--line);stroke-width:1}
+.sink.wash{fill:var(--warn-soft)}.sink.rinse{fill:var(--soft)}.sink.sani{fill:var(--ok-soft)}
 .tz-label{font:800 13px var(--display);fill:#FFFFFF;letter-spacing:.06em}
 
 /* ---- touch feel ---- */
@@ -740,9 +747,181 @@ body::before{background:var(--navy)}
   </div>
 
   <div class="card">
+    <h2>FIFO: first in, first out</h2>
+    <p>Oldest product gets used first. That's the whole idea, and it runs through every storage area in the store.</p>
+    <svg class="stations" viewBox="0 0 340 118" role="img" aria-label="Restocking a pan: new product goes in a fresh pan on the bottom, existing product goes on top.">
+      <rect x="20" y="22" width="130" height="78" rx="8" class="fifo-pan"/>
+      <rect x="28" y="62" width="114" height="30" rx="4" class="fifo-new"/>
+      <rect x="28" y="30" width="114" height="30" rx="4" class="fifo-old"/>
+      <text x="85" y="81" text-anchor="middle" class="fifo-t">NEW, bottom</text>
+      <text x="85" y="49" text-anchor="middle" class="fifo-t">OLD, on top</text>
+      <text x="85" y="114" text-anchor="middle" class="t2">fresh pan, every time</text>
+      <text x="245" y="40" text-anchor="middle" class="t1">FIFO</text>
+      <text x="245" y="60" text-anchor="middle" class="t2">first in</text>
+      <text x="245" y="76" text-anchor="middle" class="t2">first out</text>
+      <text x="245" y="100" text-anchor="middle" class="t2">oldest used first</text>
+    </svg>
+    <ul class="plain">
+      <li><b>Deliveries</b> (Sysco, produce, Pepsi): label everything with the receipt date, then rotate oldest first.</li>
+      <li><b>Meat case:</b> weigh for inventory and date it when it comes in. Swap the display out by FIFO, and whatever leaves the case goes back in the walk-in in FIFO order too.</li>
+      <li><b>Prepped food</b> not used within 24 hours gets labeled with its expiration date. Tuna is the classic example.</li>
+      <li><b>Sauce bottles: never refill.</b> Use it till it's empty, wash, rinse, sanitize, then fill. Never new sauce on top of old. Keep a spare set of clean bottles.</li>
+      <li><b>Vinegar and oil bottles:</b> empty, wash, rinse and sanitize at least once a week.</li>
+      <li><b>Restocking the drop-in or sandwich unit:</b> fresh pan, new product on the bottom, existing product on top. Fill backups about <b>3/4</b> full. Restock on the back counter or in the kitchen, <b>never straight into the drop-in.</b></li>
+      <li>Chip racks, soda case and cookies rotate the same way.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Thermometers</h2>
+    <p>Temps get taken <b>3 times a day</b> and logged on the daily checklist. Logs are kept <b>3 months</b>, which is what protects the store if anyone ever claims they got sick.</p>
+    <dl class="dl">
+      <dt>Bimetallic stem</dt><dd>The cheap probe with the dial. Needs constant calibration by the ice-point method. It senses about 1 inch up from the tip, at the dimple, so the dimple has to be in the food.</dd>
+      <dt>Digital probe</dt><dd>Your best bet for accuracy, needs very little calibrating. Senses along the last inch of the stem; that whole inch goes in the food.</dd>
+      <dt>Digital oven probe</dt><dd>For cooking roast beef and heating meatballs. Stays in the oven or pan, reads out on a screen, has a timer. Delicate; keep a backup, and try new batteries before buying a new one.</dd>
+      <dt>Infrared gun</dt><dd>Surface temps only, like the grill top. <b>Never</b> for an internal temperature.</dd>
+    </dl>
+    <svg class="stations" viewBox="0 0 340 92" role="img" aria-label="Roast beef holds 140 degrees for 12 minutes. Meatballs hold 165 degrees for 15 seconds.">
+      <rect x="8" y="12" width="156" height="68" rx="10" class="temp-box"/>
+      <text x="86" y="40" text-anchor="middle" class="temp-big">140°F</text>
+      <text x="86" y="58" text-anchor="middle" class="t2">for 12 minutes</text>
+      <text x="86" y="73" text-anchor="middle" class="t1">ROAST BEEF</text>
+      <rect x="176" y="12" width="156" height="68" rx="10" class="temp-box"/>
+      <text x="254" y="40" text-anchor="middle" class="temp-big">165°F</text>
+      <text x="254" y="58" text-anchor="middle" class="t2">for 15 seconds</text>
+      <text x="254" y="73" text-anchor="middle" class="t1">MEATBALLS</text>
+    </svg>
+    <ul class="plain">
+      <li>Wash, rinse and sanitize the thermometer before use and between uses. Run three at once so you're not walking back and forth to the sink.</li>
+      <li>Aim for the center or thickest part, and get the whole sensing area in.</li>
+      <li>Air temp and the equipment thermostat are not product temp. Only temp the actual food.</li>
+      <li>The log lives on the behind-the-counter site under Food Safety.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Cleaning and sanitizing</h2>
+    <p><b>Cleaning</b> removes food and dirt. <b>Sanitizing</b> brings germs down to safe levels. Two different things, always in that order.</p>
+    <ul class="plain">
+      <li>A food contact surface is anything that touches food: prep tables, the prep sink, utensils, knives, pans, containers, cutting boards, the slicer.</li>
+      <li>Clean and sanitize <b>before and after</b> use, and <b>every 4 hours</b> of continuous use. The slicer gets fully taken apart for it: after prep, after lunch rush, before dinner rush, and at close.</li>
+      <li>Any vomiting or diarrhea in the store is treated as a possible norovirus event. There's a biohazard spill kit and a playbook (Food Safety Mike's Way 2.0) for it.</li>
+    </ul>
+    <h3 style="margin-top:14px">The three-compartment sink</h3>
+    <svg class="stations" viewBox="0 0 340 104" role="img" aria-label="Sink one: wash, hot soapy water at least 110 degrees. Sink two: rinse, kept empty. Sink three: sanitize, 30 seconds. Then air dry 30 seconds.">
+      <rect x="8" y="14" width="100" height="62" rx="8" class="sink wash"/>
+      <text x="58" y="38" text-anchor="middle" class="t1">1 WASH</text>
+      <text x="58" y="55" text-anchor="middle" class="t2">hot soapy water</text>
+      <text x="58" y="69" text-anchor="middle" class="t2">at least 110°F</text>
+      <rect x="120" y="14" width="100" height="62" rx="8" class="sink rinse"/>
+      <text x="170" y="38" text-anchor="middle" class="t1">2 RINSE</text>
+      <text x="170" y="55" text-anchor="middle" class="t2">starts empty</text>
+      <text x="170" y="69" text-anchor="middle" class="t2">soap all off</text>
+      <rect x="232" y="14" width="100" height="62" rx="8" class="sink sani"/>
+      <text x="282" y="38" text-anchor="middle" class="t1">3 SANITIZE</text>
+      <text x="282" y="55" text-anchor="middle" class="t2">dip 30 seconds</text>
+      <text x="282" y="69" text-anchor="middle" class="t2">then air dry 30 s</text>
+      <text x="170" y="96" text-anchor="middle" class="t2">scrape into the trash first, test strips kept by the sink</text>
+    </svg>
+    <dl class="dl">
+      <dt>Chlorine</dt><dd>50 to 200 parts per million.</dd>
+      <dt>Quats</dt><dd>Quaternary ammonium, 200 to 500 parts per million.</dd>
+      <dt>Test strips</dt><dd>Test every time if you free-pour. Too little doesn't kill enough; too much is a chemical hazard. The health inspector looks for the strips.</dd>
+      <dt>Change the water</dt><dd>When it's dirty or the sanitizer tests weak.</dd>
+      <dt>Knives</dt><dd>Take a knife all the way through wash, rinse, sanitize. Never leave one in the sink.</dd>
+      <dt>Red buckets</dt><dd>Same sanitizer as the sink, in a clean, sanitized red bucket, filled <b>1/3</b>, towels submerged. One for the slicer, one shared by sprinkler and wrapper, one for the grill, one for prep, one for the dining room. It loses strength fast, so test and swap often.</dd>
+    </dl>
+  </div>
+
+  <div class="card">
+    <h2>Pests and contaminants</h2>
+    <ul class="plain">
+      <li>Pests need food and shelter. Clean thoroughly, keep outside doors closed, keep a pest company under contract, and report any sign to the manager right away. <b>Never apply pesticide yourself.</b></li>
+      <li><b>Biological</b> hazards: bacteria, viruses, molds, mildews. <b>Chemical</b>: detergents, too-strong sanitizer, pesticides, cleaners, allergens. <b>Physical</b>: anything foreign in the food: jewelry, a nail, a band-aid, a staple, glass, metal, and the most common one, <b>hair</b>. Hat or visor on, hair pulled back.</li>
+      <li>If you spot any of those in product, throw the product out.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Washing produce</h2>
+    <p>Produce isn't cooked, so washing is the only thing that removes shigella. Prep and rinse onions, lettuce and tomatoes the day before they're sliced.</p>
+    <dl class="dl">
+      <dt>Onions</dt><dd>Peel, then rinse well, especially the cut ends. Don't cut deep when prepping; a deep cut is a place for germs to hide.</dd>
+      <dt>Lettuce</dt><dd>Pull off and toss the outer leaves. Rinse the head under cold water core side down, around it, never pouring water into it.</dd>
+      <dt>Tomatoes</dt><dd>Wash each one under cool water. <b>Never slice a tomato straight out of the box.</b> Only sliced if it's been washed.</dd>
+      <dt>Celery</dt><dd>Cut off the top half, cut the bunch in half at the core, de-leaf. Rinse downward between the stalks, 30 seconds per half, 1 minute total. Slice with the guard, no rushing, to 3/16 inch (tomato thickness), and don't slice the last 2 inches.</dd>
+      <dt>Also rinse</dt><dd>Lemons, green peppers, and avocados where the store carries them.</dd>
+    </dl>
+  </div>
+
+  <div class="card">
+    <h2>Cutting the sub</h2>
+    <p>Knife in your dominant hand. Clean it when needed, and always after tuna or a sub with mayo. <b>Cup, up, down:</b> cup your hand with all five fingers over the blade, bring the knife up to your hand, then down on the sub. Press the lid gently and saw. Don't cut the paper; if you do, finish wrapping and wrap it again with a second sheet.</p>
+    <dl class="dl">
+      <dt>Mini</dt><dd>In half.</dd>
+      <dt>Regular</dt><dd>In half.</dd>
+      <dt>Giant</dt><dd>In quarters. If asked for 6: halves, then each half in thirds. For 8: quarters, then each in half.</dd>
+      <dt>Don't ask</dt><dd>Cut the standard way without asking. Only change it if the guest asks. Equal pieces, every time.</dd>
+    </dl>
+    <p class="fine" style="margin-top:8px">Thumb and pinky get cut most. Keep all five over the blade.</p>
+  </div>
+
+  <div class="card">
+    <h2>Wrapping the sub</h2>
+    <p>The paper: tear from the edge of the roll with your dominant hand, other hand on the counter. One sheet at a time, logo side down. <b>Mini 12 inches, regular 15, giant 21.</b></p>
+    <ol class="steps">
+      <li><b>Four fingers underneath, thumbs on top.</b> Grab the sub by the ends, keep it low, and slide it onto the center of the paper, diagonal, ends to the corners.</li>
+      <li><b>Cut it</b>, then make sure it's still centered.</li>
+      <li><b>Pinch, pull over, punch.</b> Pinch the corner nearest you, bring it over the sub, punch it into the counter with your palm. Check the outside corners on a giant.</li>
+      <li><b>Grab, pull back.</b> Other hand on the sub, pull back to lock the paper.</li>
+      <li><b>Quarter turn.</b> Thumbs under and perpendicular to the sub, roll it onto its side.</li>
+      <li><b>Fold it in, fold it in.</b> Thumb on the end, roll your fingers over your thumb, hold the fold. Both ends.</li>
+      <li><b>Roll forward: bottom, side, top.</b> Fingers spread, thumbs perpendicular, tight without crushing.</li>
+      <li><b>Finish in your dominant hand,</b> flap anchored with your index finger, top of the sub in your hand.</li>
+    </ol>
+    <h3 style="margin-top:14px">Put the wrap in order</h3>
+    <p class="q-label">Tap the steps in order.</p>
+    <div id="wrap-tray" class="tray"></div>
+    <div id="wrap-pool" class="pool"></div>
+    <div class="row">
+      <button class="btn ghost" id="wrap-undo">Undo</button>
+      <button class="btn" id="wrap-check">Check</button>
+      <button class="btn ghost" id="wrap-reset">Shuffle again</button>
+    </div>
+    <div id="wrap-fb" class="fb" hidden></div>
+  </div>
+
+  <div class="card">
+    <h2>Bagging the sub</h2>
+    <ol class="steps">
+      <li>Wrapped sub in your dominant hand, top of the sub in your palm.</li>
+      <li><b>Pop the bag.</b> Press the stack a few inches from the open end so the top bag gapes, slide your thumb in, pinch it against your first two fingers, lift, and pop it open <b>forward</b> with a flick of the wrist, where the guest can see and hear it. Never down or back.</li>
+      <li>A little twist as it goes in. Top of the sub to the top of the bag.</li>
+      <li><b>Crease it.</b> Logo side down, pinch along the top and press into the counter, then roll it over the crease toward the guest until the logo is up.</li>
+      <li>Regulars, minis and kids meals get a twist after the roll.</li>
+      <li>Mark the sub number on the bag when there's more than one. Name on the bag for every phone, online or catering order. Bags can be marked while the subs are still being sliced.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>The register and the wrapper</h2>
+    <ul class="plain">
+      <li><b>Peripheral hearing.</b> Listen in when the guest orders at the slicer, then tell the cashier: "Number five, come down."</li>
+      <li>Direct traffic. Someone at the register who hasn't ordered gets walked to the slicer. Someone looking lost may have ordered ahead: "Did you place an online order?"</li>
+      <li><b>Never pull a guest down to the register before their cold sub is made.</b> They just get pulled back, and it confuses everyone.</li>
+      <li>The wrapper helps the whole line go faster: restock, jump in on sprinkling, stay heads up.</li>
+      <li>Celebrate the sub, and say a real thank you.</li>
+    </ul>
+  </div>
+
+  <div class="card">
     <h2>Quiz yourself</h2>
-    <p>Multiple choice on everything on this tab: handwashing, gloves, the danger zone, uniform, the P&amp;L and the floor.</p>
-    <div class="row"><button class="btn" data-bank="orient">Start the orientation quiz</button></div>
+    <p>Three decks, multiple choice. Each one ends with what you missed and why.</p>
+    <div class="row">
+      <button class="btn" data-bank="orient">Orientation (29)</button>
+      <button class="btn" data-bank="kitchen">Kitchen and food safety (27)</button>
+      <button class="btn" data-bank="wrap">Cut, wrap, bag (16)</button>
+    </div>
   </div>
 </section>
 
@@ -857,7 +1036,9 @@ var DECKS = [
   {key:"all", label:"Everything", ids:numbered.map(function(s){ return s.id; })},
   {key:"weak", label:"Weak spots", ids:null},
   {key:"amounts", label:"Sprinkling quiz", bank:"amounts"},
-  {key:"orient", label:"Orientation quiz", bank:"orient"}
+  {key:"orient", label:"Orientation quiz", bank:"orient"},
+  {key:"kitchen", label:"Kitchen and food safety quiz", bank:"kitchen"},
+  {key:"wrap", label:"Cut, wrap, bag quiz", bank:"wrap"}
 ];
 
 var MODES = [
@@ -1370,6 +1551,53 @@ var BANKS = {
     {id:"o27", q:"What's the mission?", o:["Make a difference, one sub at a time","Fastest subs in town","Bring the juice","A sub above"], a:"Make a difference, one sub at a time", why:"\"A sub above\" is the slogan. \"Bring the juice\" is a core value."},
     {id:"o28", q:"\"Bring the juice\" means:", o:["The extra and the unexpected","More vinegar on every sub","Upsell drinks","Work faster"], a:"The extra and the unexpected", why:"In how you serve guests, support the team and keep the standards."},
     {id:"o29", q:"\"We give to give\" means:", o:["Give without expecting anything back","Give discounts to regulars","Give 110 percent","Give the guest extra meat"], a:"Give without expecting anything back", why:"Passion, time, talent and attention, not to get something back."}
+  ],
+  kitchen:[
+    {id:"o30", q:"FIFO stands for:", o:["First in, first out","Fresh in, fresh out","First in, final out","Food in, food out"], a:"First in, first out", why:"Oldest product gets used first, in every storage area."},
+    {id:"o31", q:"Restocking the sandwich unit, new product goes:", o:["In a fresh pan, on the bottom, old on top","On top of the old product","In the same pan, mixed in","Straight into the drop-in"], a:"In a fresh pan, on the bottom, old on top", why:"Fresh pan every time. New on the bottom, existing on top. Never restock straight into the drop-in."},
+    {id:"o32", q:"A sauce bottle is almost empty. You:", o:["Use it until empty, then wash, rinse, sanitize and fill","Top it off","Pour it into a new bottle","Mix in fresh sauce"], a:"Use it until empty, then wash, rinse, sanitize and fill", why:"Never refill. Never new sauce on top of old."},
+    {id:"o33", q:"How full do you fill the backup pans?", o:["About 3/4","All the way","Half","A quarter"], a:"About 3/4", why:"Three quarters makes FIFO easier."},
+    {id:"o34", q:"Vinegar and oil bottles get emptied, washed, rinsed and sanitized:", o:["At least once a week","Every shift","Once a month","Only when they look dirty"], a:"At least once a week", why:"At least weekly."},
+    {id:"o35", q:"Prepped food that won't be used within 24 hours gets:", o:["Labeled with its expiration date","Thrown out","Frozen","Put in the drop-in"], a:"Labeled with its expiration date", why:"Tuna is the classic example."},
+    {id:"o36", q:"How often are temperatures taken and logged?", o:["3 times a day","Once a day","Every hour","Once a week"], a:"3 times a day", why:"Three times a day, on the daily checklist."},
+    {id:"o37", q:"How long are temperature logs kept?", o:["3 months","1 week","1 month","1 year"], a:"3 months", why:"Three months, to prove what you served was safe."},
+    {id:"o38", q:"Roast beef has to hold:", o:["140°F for 12 minutes","165°F for 15 seconds","135°F for 1 minute","120°F for 20 minutes"], a:"140°F for 12 minutes", why:"Roast beef 140 for 12 minutes. Meatballs 165 for 15 seconds."},
+    {id:"o39", q:"Meatballs have to hold:", o:["165°F for 15 seconds","140°F for 12 minutes","150°F for 1 minute","135°F for 15 seconds"], a:"165°F for 15 seconds", why:"Meatballs 165 for 15 seconds. Roast beef 140 for 12 minutes."},
+    {id:"o40", q:"The infrared gun thermometer is for:", o:["Surfaces like the grill top, never internal temps","Roast beef in the oven","Checking the tuna","Anything, it's the most accurate"], a:"Surfaces like the grill top, never internal temps", why:"Internal temps only with a probe."},
+    {id:"o41", q:"The most accurate everyday thermometer is:", o:["The digital probe","The bimetallic stem","The infrared gun","The oven thermostat"], a:"The digital probe", why:"Needs very little calibrating. The bimetallic stem needs constant ice-point calibration."},
+    {id:"o42", q:"Food contact surfaces get cleaned and sanitized every:", o:["4 hours of continuous use","8 hours","2 hours","Shift change only"], a:"4 hours of continuous use", why:"And before and after use. The slicer comes apart for it."},
+    {id:"o43", q:"Sink one in the three-compartment sink is:", o:["Hot soapy water, at least 110°F","Sanitizer","Rinse water","Empty"], a:"Hot soapy water, at least 110°F", why:"Wash, rinse, sanitize. Sink two starts empty, sink three is sanitizer."},
+    {id:"o44", q:"How long do dishes sit in the sanitizer?", o:["At least 30 seconds","5 seconds","2 minutes","Until dry"], a:"At least 30 seconds", why:"Thirty seconds in, then air dry at least 30 seconds."},
+    {id:"o45", q:"Chlorine sanitizer concentration:", o:["50 to 200 ppm","200 to 500 ppm","10 to 50 ppm","500 to 1000 ppm"], a:"50 to 200 ppm", why:"Chlorine 50 to 200. Quats 200 to 500."},
+    {id:"o46", q:"Quats (quaternary ammonium) concentration:", o:["200 to 500 ppm","50 to 200 ppm","100 ppm exactly","1000 ppm"], a:"200 to 500 ppm", why:"Quats 200 to 500. Chlorine 50 to 200."},
+    {id:"o47", q:"How full is a red sanitizer bucket?", o:["One third","Half","Full","A quarter"], a:"One third", why:"One third full, clean bucket, towels submerged, one per station."},
+    {id:"o48", q:"Which station shares a sanitizer bucket?", o:["Sprinkler and wrapper","Slicer and grill","Prep and dining room","Nobody shares"], a:"Sprinkler and wrapper", why:"Slicer, grill, prep and dining room each get their own."},
+    {id:"o49", q:"Washing a knife, you:", o:["Take it all the way through wash, rinse, sanitize and never leave it in the sink","Leave it to soak","Rinse it under the tap","Wipe it on a towel"], a:"Take it all the way through wash, rinse, sanitize and never leave it in the sink", why:"A knife left in the sink cuts someone."},
+    {id:"o50", q:"You see evidence of pests. You:", o:["Report it to the manager right away","Spray it yourself","Set a trap","Ignore it if it's small"], a:"Report it to the manager right away", why:"Never apply pesticide yourself; the manager calls the pest company."},
+    {id:"o51", q:"The most common physical contaminant in food is:", o:["Hair","Glass","A staple","A band-aid"], a:"Hair", why:"Hat or visor, hair pulled back and covered."},
+    {id:"o52", q:"Too-strong sanitizer is which kind of hazard?", o:["Chemical","Physical","Biological","Not a hazard"], a:"Chemical", why:"Detergents, pesticides, cleaners and allergens are chemical hazards too."},
+    {id:"o53", q:"One of the most dangerous things you can do in the restaurant:", o:["Slice a tomato straight out of the box","Cut a giant in sixths","Pop the bag backward","Use quats"], a:"Slice a tomato straight out of the box", why:"Only slice tomatoes that have been washed."},
+    {id:"o54", q:"Rinsing lettuce, the head goes:", o:["Core side down, rinsed around, never water poured in","Upside down with water running in","Leaves on, whole","Just the outer leaves"], a:"Core side down, rinsed around, never water poured in", why:"Outer leaves removed and tossed first."},
+    {id:"o55", q:"Celery is rinsed:", o:["30 seconds each half, 1 minute total","10 seconds","5 minutes","Not at all, it's cooked"], a:"30 seconds each half, 1 minute total", why:"Downward motion, between the stalks. Slice to 3/16, skip the last 2 inches."},
+    {id:"o56", q:"How thick is a celery slice?", o:["3/16 inch, same as a tomato","1/2 inch","1/8 inch","A quarter inch"], a:"3/16 inch, same as a tomato", why:"Same thickness as a tomato slice."}
+  ],
+  wrap:[
+    {id:"o57", q:"Cutting a sub, the motion is:", o:["Cup, up, down","Up, cup, down","Down, cup, up","Grip, press, pull"], a:"Cup, up, down", why:"Cup all five fingers over the blade, bring the knife up to your hand, then down on the sub."},
+    {id:"o58", q:"A giant gets cut in:", o:["Quarters","Halves","Thirds","Sixths"], a:"Quarters", why:"Mini half, regular half, giant quarters, without asking."},
+    {id:"o59", q:"You cut the paper. You:", o:["Finish wrapping, then wrap it again with another sheet","Start over with new paper","Tape it","Bag it anyway"], a:"Finish wrapping, then wrap it again with another sheet", why:"Double wrap it."},
+    {id:"o60", q:"When do you always clean the knife?", o:["After tuna and subs with mayo","Only at close","Every 10 subs","Never between subs"], a:"After tuna and subs with mayo", why:"Clean it whenever it needs it, and always after those."},
+    {id:"o61", q:"Paper for a regular sub:", o:["15 inches","12 inches","21 inches","18 inches"], a:"15 inches", why:"Mini 12, regular 15, giant 21."},
+    {id:"o62", q:"Paper for a giant:", o:["21 inches","15 inches","24 inches","18 inches"], a:"21 inches", why:"Mini 12, regular 15, giant 21."},
+    {id:"o63", q:"The sub goes on the paper:", o:["Centered, diagonal, ends to the corners","Straight across the middle","Along one edge","Anywhere, it gets rolled"], a:"Centered, diagonal, ends to the corners", why:"Logo side down, one sheet at a time."},
+    {id:"o64", q:"Pinch, pull over, punch is:", o:["The first fold of the wrap","How you pop the bag","How you cut the sub","How you crease the bag"], a:"The first fold of the wrap", why:"Pinch the near corner, pull it over the sub, punch it into the counter."},
+    {id:"o65", q:"The roll goes:", o:["Bottom, side, top","Top, side, bottom","Side, bottom, top","However it lands"], a:"Bottom, side, top", why:"Thumbs perpendicular to the sub for a tight roll."},
+    {id:"o66", q:"The wrapped sub finishes in:", o:["Your dominant hand, top of the sub in your palm","Your non-dominant hand","Both hands","The bag"], a:"Your dominant hand, top of the sub in your palm", why:"So your other hand is free to pop the bag."},
+    {id:"o67", q:"You pop the bag:", o:["Forward, where the guest can see and hear it","Down","Back toward you","Quietly"], a:"Forward, where the guest can see and hear it", why:"It's part of the show."},
+    {id:"o68", q:"Which subs get a twist after the bag is creased?", o:["Regulars, minis and kids meals","Giants","All of them","None"], a:"Regulars, minis and kids meals", why:"Giants don't get the twist."},
+    {id:"o69", q:"When does the name go on the bag?", o:["Every phone, online or catering order","Only catering","Only if asked","Never"], a:"Every phone, online or catering order", why:"And the sub number when there's more than one sub on an order."},
+    {id:"o70", q:"A guest walks straight to the register without ordering. You:", o:["Walk them to the slicer","Take their order at the register","Tell them to wait","Ring them up"], a:"Walk them to the slicer", why:"Direct traffic. Orders start at the slicer."},
+    {id:"o71", q:"Can you pull a guest to the register before their cold sub is made?", o:["Never","Yes, to save time","Only on giants","Only if the line is long"], a:"Never", why:"They just get pulled back, and it confuses the whole line."},
+    {id:"o72", q:"\"Peripheral hearing\" at the counter means:", o:["Listening in on the order so the next station knows what's coming","Wearing an earpiece","Asking the guest to repeat","Reading the ticket"], a:"Listening in on the order so the next station knows what's coming", why:"Then you call it down: \"Number five, come down.\""}
   ]
 };
 function bankQ(bankKey, id){
@@ -1769,7 +1997,7 @@ function renderBank(q, card){
   var fb = h("div", {class:"fb", hidden:true});
   var next = h("button", {class:"btn", text:"Next", hidden:true, onclick:function(){ D.pos++; renderQuestion(); }});
   var buttons = [];
-  card.appendChild(h("p", {class:"q-label", text:D.bank === "amounts" ? "Sprinkling and the line" : "Orientation"}));
+  card.appendChild(h("p", {class:"q-label", text:({amounts:"Sprinkling and the line", orient:"Orientation", kitchen:"Kitchen and food safety", wrap:"Cut, wrap, bag"})[D.bank] || "Quiz"}));
   card.appendChild(h("h3", {class:"q-name", text:q.q}));
   var grid = h("div", {class:"opts single"});
   shuffle(q.o).forEach(function(o){
@@ -1990,6 +2218,38 @@ function renderOrder(sub, card){
 }
 
 /* ---------- Mike's Way sequencer (The line) ---------- */
+var WRAP_STEPS = ["Four fingers under, thumbs on top","Center it on the paper, then cut","Pinch, pull over, punch","Grab, pull back","Quarter turn","Fold it in, fold it in","Roll: bottom, side, top","Finish in your dominant hand"];
+function initWrapGame(){
+  var tray = document.getElementById("wrap-tray");
+  if (!tray) return;
+  var poolEl = document.getElementById("wrap-pool"), fb = document.getElementById("wrap-fb");
+  var undo = document.getElementById("wrap-undo"), check = document.getElementById("wrap-check"), reset = document.getElementById("wrap-reset");
+  var pool = shuffle(WRAP_STEPS), seq = [], checked = false;
+  function draw(statuses){
+    tray.innerHTML = "";
+    if (!seq.length) tray.appendChild(h("span", {class:"empty", text:"Tap the first step."}));
+    seq.forEach(function(it, i){ tray.appendChild(h("span", {class:"chip" + (statuses ? " " + statuses[i] : "")}, [h("span", {class:"idx", text:(i+1) + "."}), it])); });
+    poolEl.innerHTML = "";
+    pool.forEach(function(it){
+      poolEl.appendChild(h("button", {class:"chip", text:it, disabled:checked || seq.indexOf(it) >= 0, onclick:function(){ if (checked) return; seq.push(it); draw(); }}));
+    });
+    undo.disabled = checked || !seq.length; check.disabled = checked || !seq.length;
+  }
+  undo.addEventListener("click", function(){ if (checked) return; seq.pop(); draw(); });
+  check.addEventListener("click", function(){
+    if (checked || !seq.length) return;
+    checked = true;
+    var statuses = seq.map(function(it, i){ return WRAP_STEPS[i] === it ? "ok" : "bad"; });
+    var ok = statuses.every(function(s){ return s === "ok"; }) && seq.length === WRAP_STEPS.length;
+    draw(statuses);
+    fb.innerHTML = ""; fb.className = "fb " + (ok ? "ok" : "bad");
+    fb.appendChild(h("b", {text:ok ? "That's the wrap." : "Not yet."}));
+    fb.appendChild(h("span", {text:"Four fingers under, thumbs on top. Center, cut. Pinch, pull over, punch. Grab, pull back. Quarter turn. Fold it in, fold it in. Roll bottom, side, top. Finish in your dominant hand."}));
+    fb.hidden = false; buzz(ok);
+  });
+  reset.addEventListener("click", function(){ pool = shuffle(WRAP_STEPS); seq = []; checked = false; fb.hidden = true; fb.innerHTML = ""; draw(); });
+  draw();
+}
 function initMWGame(){
   var tray = document.getElementById("mw-tray");
   var poolEl = document.getElementById("mw-pool");
@@ -2086,6 +2346,7 @@ renderStudy();
 renderLegend();
 initPics();
 initMWGame();
+initWrapGame();
 initControls();
 renderWeak();
 renderMastery();
