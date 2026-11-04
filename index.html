@@ -27,7 +27,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{margin:0}
 img{max-width:100%}
 [hidden]{display:none!important}
-html:not(.js) .tabs,html:not(.js) #view-drill,html:not(.js) .needs-js,html:not(.js) .plan-list .btn,html:not(.js) .switch{display:none!important}
+html:not(.js) .tabs,html:not(.js) #view-drill,html:not(.js) .needs-js,html:not(.js) .plan-list .btn,html:not(.js) [data-bank],html:not(.js) .switch{display:none!important}
 html:not(.js) #view-line,html:not(.js) #view-orient{margin-top:14px}
 </style>
 <style>
@@ -465,6 +465,19 @@ body::before{background:var(--navy)}
 
 <section id="view-line" class="view" role="tabpanel" aria-labelledby="tab-line">
   <div class="card">
+    <h2>Notes from the line</h2>
+    <p class="fine">What the trainer called out on the floor. These matter more than anything in a video.</p>
+    <ol class="steps">
+      <li><b>Ask "Mike's Way?" before any toppings go on.</b> The answer decides everything the sprinkler does next, so get it first.</li>
+      <li><b>Mike's Way first, then the extras.</b> Onions, lettuce, tomatoes, juice, shake. Only after that: pickles and peppers on the tomatoes, mayo and sauces on the lid.</li>
+      <li><b>Grab the sub by the ends.</b> Every time you pick it up or move it.</li>
+      <li><b>Keep your gloves out of the oil and vinegar on the cutting board.</b> Juice collects on the board; don't drag your gloves through it.</li>
+      <li><b>Work more than one sub at a time.</b> When there's a line, sprinkle two or three side by side instead of finishing one before starting the next.</li>
+    </ol>
+    <div class="row"><button class="btn" data-bank="amounts">Quiz me on these and the amounts</button></div>
+  </div>
+
+  <div class="card">
     <h2>How the counter flows</h2>
     <svg class="stations" viewBox="0 0 340 240" role="img" aria-label="Cold subs start at the slicer and hot subs at the grill. Both move to the sprinkler, then to the wrapper.">
       <g class="box"><rect x="8" y="8" width="156" height="68" rx="10"/><text x="86" y="34" text-anchor="middle" class="t1">SLICER</text><text x="86" y="52" text-anchor="middle" class="t2">cold subs</text><text x="86" y="66" text-anchor="middle" class="t2">bread, cheese, then meat</text></g>
@@ -843,7 +856,7 @@ var DECKS = [
   {key:"hot", label:"All hot", ids:numbered.filter(function(s){ return s.type==="hot"; }).map(function(s){ return s.id; })},
   {key:"all", label:"Everything", ids:numbered.map(function(s){ return s.id; })},
   {key:"weak", label:"Weak spots", ids:null},
-  {key:"amounts", label:"Sprinkling amounts quiz", bank:"amounts"},
+  {key:"amounts", label:"Sprinkling quiz", bank:"amounts"},
   {key:"orient", label:"Orientation quiz", bank:"orient"}
 ];
 
@@ -1320,7 +1333,12 @@ var BANKS = {
     {id:"a21", q:"What's the rule for onions?", o:["Taste, not texture","Crunch in every bite","Pile them in the middle","As many as fit"], a:"Taste, not texture", why:"Rings loosely overlapping, no clumps. The guest should taste them, not crunch them."},
     {id:"a22", q:"Do you ask guests if they want extras?", o:["No. Listen, and they'll tell you","Yes, every time","Only on giants","Only on hot subs"], a:"No. Listen, and they'll tell you", why:"Extras are by request only. Never offer them."},
     {id:"a23", q:"Which subs get mayo and bacon without anyone asking?", o:["#8 and #9","#7 and #8","#9 and #13","#6 and #9"], a:"#8 and #9", why:"The two clubs. Both go on the lid."},
-    {id:"a24", q:"How do you hold the oregano and salt shakers?", o:["On their side","Straight up and down","Upside down over one spot","With both hands"], a:"On their side", why:"Shaker on its side, loose shake from the wrist."}
+    {id:"a24", q:"How do you hold the oregano and salt shakers?", o:["On their side","Straight up and down","Upside down over one spot","With both hands"], a:"On their side", why:"Shaker on its side, loose shake from the wrist."},
+    {id:"a25", q:"When do you ask \"Mike's Way?\"", o:["Before any toppings go on","After the onions","Once the sub is wrapped","Only if they look unsure"], a:"Before any toppings go on", why:"Trainer's note: ask first. The answer decides everything the sprinkler does."},
+    {id:"a26", q:"A guest wants Mike's Way plus banana peppers. What goes on first?", o:["All of Mike's Way, then the banana peppers","The banana peppers, then Mike's Way","Banana peppers between the lettuce and tomatoes","Doesn't matter"], a:"All of Mike's Way, then the banana peppers", why:"Mike's Way first, then the extras. Peppers and pickles sit on the tomatoes."},
+    {id:"a27", q:"How do you pick up a sub to move it?", o:["By the ends","From the middle","By the wrapper only","With a spatula"], a:"By the ends", why:"Trainer's note: always grab the sub by the ends."},
+    {id:"a28", q:"There's oil and vinegar on the cutting board. What about your gloves?", o:["Keep them out of it","Wipe them on it","It doesn't matter","Rinse them in it"], a:"Keep them out of it", why:"Trainer's note: keep your gloves out of the juice on the board."},
+    {id:"a29", q:"There's a line. How many subs do you sprinkle at once?", o:["More than one, side by side","One at a time, start to finish","Only giants first","Wait for the slicer"], a:"More than one, side by side", why:"Trainer's note, and the sprinkling video: push yourself to do more than one sub at a time."}
   ],
   orient:[
     {id:"o1", q:"How long do you scrub your hands?", o:["At least 20 seconds","About 5 seconds","10 seconds","Until the soap is gone"], a:"At least 20 seconds", why:"Hands, wrists and arms for at least 20 seconds. The ABCs time it."},
@@ -1751,7 +1769,7 @@ function renderBank(q, card){
   var fb = h("div", {class:"fb", hidden:true});
   var next = h("button", {class:"btn", text:"Next", hidden:true, onclick:function(){ D.pos++; renderQuestion(); }});
   var buttons = [];
-  card.appendChild(h("p", {class:"q-label", text:D.bank === "amounts" ? "Sprinkling amounts" : "Orientation"}));
+  card.appendChild(h("p", {class:"q-label", text:D.bank === "amounts" ? "Sprinkling and the line" : "Orientation"}));
   card.appendChild(h("h3", {class:"q-name", text:q.q}));
   var grid = h("div", {class:"opts single"});
   shuffle(q.o).forEach(function(o){
