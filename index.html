@@ -214,6 +214,11 @@ table.amt tr.sep td{border-top:2px solid var(--line)}
 .pl-s{font-size:10.5px;fill:var(--ink)}
 .tz-base{fill:var(--ok-soft);stroke:var(--line)}
 .tz-danger{fill:#B3261E}
+.ready-card .ready-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:-16px -16px 10px;padding:10px 16px 9px;background:var(--band);color:var(--on-navy);border-radius:9px 9px 0 0}
+.ready-card .ready-top h2{margin:0;padding:0;background:none;color:inherit}
+.ready-pct{font:800 28px var(--display);font-variant-numeric:tabular-nums}
+.ready-bar{height:10px;margin:4px 0 8px}
+.ready-bar i{background:var(--ok)}
 .fifo-pan{fill:none;stroke:var(--muted);stroke-width:2}
 .fifo-new{fill:#BEE2A0}.fifo-old{fill:#D9C86E}
 .fifo-t{font:700 12px var(--body);fill:#1E3A14}
@@ -598,6 +603,12 @@ body::before{background:var(--navy)}
 </section>
 
 <section id="view-drill" class="view" role="tabpanel" aria-labelledby="tab-drill" hidden>
+  <div class="card ready-card">
+    <div class="ready-top"><h2>Ready for the floor</h2><span class="ready-pct" id="ready-pct">0%</span></div>
+    <div class="bar ready-bar"><i id="ready-bar"></i></div>
+    <p class="fine" id="ready-line"></p>
+    <div class="row"><button class="btn" id="today-btn">Start today's session</button></div>
+  </div>
   <div id="q-area"></div>
   <div class="card" id="controls">
     <div class="ctl-row">
@@ -1027,6 +1038,7 @@ var HOT_FAMS = [
 var numbered = SUBS.filter(function(s){ return !s.lto && !s.offBoard; });
 
 var DECKS = [
+  {key:"today", label:"Today", today:true},
   {key:"italian", label:"Italian ladder", ids:[3,2,5,13]},
   {key:"classicsclubs", label:"Classics and clubs", ids:[6,7,10,14,8,9]},
   {key:"pairs", label:"Steak and chicken pairs", ids:[16,17,42,43,55,56]},
@@ -1666,8 +1678,65 @@ function deckObj(key){
   for (var i=0;i<DECKS.length;i++){ if (DECKS[i].key === key) return DECKS[i]; }
   return null;
 }
+/* ---------- spacing: what comes back, and when ---------- */
+var SCHED_KEY = "jm-sched-v1";
+var sched = (function(){ try { var s = localStorage.getItem(SCHED_KEY); return s ? JSON.parse(s) : {}; } catch(e){ return {}; } })();
+function saveSched(){ try { localStorage.setItem(SCHED_KEY, JSON.stringify(sched)); } catch(e){} }
+var DAY = 86400000;
+function schedUpdate(id, ok){
+  var k = String(id), e = sched[k] || (sched[k] = {iv:0, due:0, n:0});
+  e.n++;
+  if (ok){ e.iv = e.iv === 0 ? 1 : Math.min(60, Math.round(e.iv * 2.3)); }
+  else { e.iv = 0; }
+  e.due = Date.now() + (ok ? e.iv * DAY : 10 * 60000);
+  saveSched();
+}
+function universe(){
+  var u = numbered.map(function(s){ return {kind:"sub", id:s.id, key:String(s.id)}; });
+  Object.keys(BANKS).forEach(function(b){ BANKS[b].forEach(function(q){ u.push({kind:"q", bank:b, id:q.id, key:"q:" + q.id}); }); });
+  return u;
+}
+function readiness(){
+  var u = universe(), known = 0, due = 0, now = Date.now();
+  u.forEach(function(it){ var e = sched[it.key]; if (e && e.iv >= 2) known++; if (!e || e.due <= now) due++; });
+  return {known:known, total:u.length, due:due, pct:Math.round(known / u.length * 100)};
+}
+function modeFor(key){
+  var e = sched[key]; var iv = e ? e.iv : 0;
+  if (iv === 0) return "num";
+  if (iv <= 1) return "what";
+  if (iv <= 3) return "build";
+  return "order";
+}
+function todayQueue(){
+  var now = Date.now(), u = universe();
+  var overdue = u.filter(function(it){ var e = sched[it.key]; return e && e.due <= now; });
+  var fresh = u.filter(function(it){ return !sched[it.key]; });
+  overdue.sort(function(a, b){ return sched[a.key].due - sched[b.key].due; });
+  var picks = overdue.slice(0, 14);
+  var freshSubs = shuffle(fresh.filter(function(it){ return it.kind === "sub"; }));
+  var freshQs = shuffle(fresh.filter(function(it){ return it.kind === "q"; }));
+  while (picks.length < 16 && (freshSubs.length || freshQs.length)){
+    if (freshSubs.length) picks.push(freshSubs.shift());
+    if (picks.length < 16 && freshQs.length) picks.push(freshQs.shift());
+  }
+  if (picks.length < 10){
+    var rest = shuffle(u.filter(function(it){ return picks.indexOf(it) < 0; })).slice(0, 10 - picks.length);
+    picks = picks.concat(rest);
+  }
+  return shuffle(picks).map(function(it){ return it.kind === "sub" ? {kind:"sub", id:it.id, mode:modeFor(it.key)} : it; });
+}
+function renderReady(){
+  var r = readiness();
+  var pctEl = document.getElementById("ready-pct"); if (!pctEl) return;
+  pctEl.textContent = r.pct + "%";
+  document.getElementById("ready-bar").style.width = r.pct + "%";
+  document.getElementById("ready-line").textContent = r.known + " of " + r.total + " things locked in (right twice, days apart). " +
+    (r.due ? r.due + " due now. Ten minutes a day keeps it moving." : "Nothing due right now. Come back tomorrow.");
+}
 function deckIds(key){
   var d = deckObj(key);
+  if (d && d.today) return todayQueue();
   if (!d) return numbered.map(function(s){ return s.id; });
   if (key === "weak") return weakIds().map(function(k){ return isNaN(+k) ? k : +k; });
   if (d.bank) return BANKS[d.bank].map(function(q){ return q.id; });
@@ -1676,12 +1745,14 @@ function deckIds(key){
 function startRun(mode, deck, customIds){
   if (mode) D.mode = mode;
   if (deck) D.deck = deck;
-  else if (mode && deckObj(D.deck) && deckObj(D.deck).bank) D.deck = D.lastSubDeck || "italian";
+  else if (mode && deckObj(D.deck) && (deckObj(D.deck).bank || deckObj(D.deck).today)) D.deck = D.lastSubDeck || "italian";
   var d = deckObj(D.deck);
   D.bank = (d && d.bank) ? d.bank : null;
-  if (!D.bank) D.lastSubDeck = D.deck;
+  if (!D.bank && !(d && d.today)) D.lastSubDeck = D.deck;
   D.custom = customIds || null;
   var ids = D.custom ? D.custom.slice() : deckIds(D.deck);
+  D.mixed = ids.some(function(x){ return x && typeof x === "object"; });
+  if (D.mixed) D.bank = null;
   D.queue = shuffle(ids);
   D.pos = 0; D.right = 0; D.wrong = 0; D.missed = []; D.streak = 0;
   syncControls();
@@ -1702,12 +1773,14 @@ function syncControls(){
     : (m ? m.help : "");
 }
 function modeLabel(){
+  if (D.mixed) return "Today";
   if (D.bank) return "Quiz";
   for (var i=0;i<MODES.length;i++){ if (MODES[i].key === D.mode) return MODES[i].label; }
   return "";
 }
 function deckLabel(){
-  if (D.custom) return "the ones you missed";
+  if (D.custom) return D.mixed ? "the ones you missed" : "the ones you missed";
+  if (D.mixed) return "a mix of everything that's due";
   for (var i=0;i<DECKS.length;i++){ if (DECKS[i].key === D.deck) return DECKS[i].label; }
   return "";
 }
@@ -1729,8 +1802,10 @@ function progressBar(){
 }
 function tally(id, ok){
   mark(id, ok);
+  schedUpdate(id, ok);
+  renderReady();
   buzz(ok);
-  if (ok){ D.right++; D.streak++; } else { D.wrong++; D.streak = 0; D.missed.push(id); }
+  if (ok){ D.right++; D.streak++; } else { D.wrong++; D.streak = 0; D.missed.push(D.mixed && String(id).indexOf("q:") !== 0 ? {kind:"sub", id:id, mode:"build"} : id); }
 }
 function renderQuestion(){
   qArea.innerHTML = "";
@@ -1744,16 +1819,20 @@ function renderQuestion(){
   if (D.pos >= D.queue.length){ renderSummary(); return; }
   var card = h("div", {class:"card"});
   card.appendChild(progressBar());
-  if (D.bank){
-    renderBank(bankQ(D.bank, D.queue[D.pos]), card);
+  var entry = D.queue[D.pos], mode = D.mode;
+  if (D.mixed && entry && typeof entry === "object"){
+    if (entry.kind === "q"){ renderBank(bankQ(entry.bank, entry.id), card, entry.bank); qArea.appendChild(card); return; }
+    mode = entry.mode || "num"; entry = entry.id;
+  } else if (D.bank){
+    renderBank(bankQ(D.bank, entry), card, D.bank);
     qArea.appendChild(card);
     return;
   }
-  var sub = byId(D.queue[D.pos]);
-  if (D.mode === "flash") renderFlash(sub, card);
-  else if (D.mode === "num") renderMC(sub, card, "num");
-  else if (D.mode === "what") renderMC(sub, card, "what");
-  else if (D.mode === "order") renderOrder(sub, card);
+  var sub = byId(entry);
+  if (mode === "flash") renderFlash(sub, card);
+  else if (mode === "num") renderMC(sub, card, "num");
+  else if (mode === "what") renderMC(sub, card, "what");
+  else if (mode === "order") renderOrder(sub, card);
   else renderBuild(sub, card);
   qArea.appendChild(card);
 }
@@ -1766,7 +1845,17 @@ function renderSummary(){
   var total = D.queue.length;
   var pct = total ? Math.round(D.right / total * 100) : 0;
   var card = h("div", {class:"card"}, [h("h2", {text:pct === 100 ? "Clean run" : "Done"}), h("p", {text:D.right + " of " + total + " right (" + pct + "%)."})]);
-  if (D.missed.length && D.bank){
+  if (D.missed.length && D.mixed){
+    var box = h("div", {});
+    var rows2 = h("div", {class:"rows"}), ul2 = h("ul", {class:"plain"});
+    D.missed.forEach(function(m){
+      if (m.kind === "q"){ var q2 = bankQ(m.bank, m.id); if (q2) ul2.appendChild(h("li", {}, [h("b", {text:q2.q + " "}), h("span", {text:q2.a + ". " + q2.why})])); }
+      else rows2.appendChild(subRow(byId(m.id), false));
+    });
+    card.appendChild(h("p", {class:"fine", text:"Missed. They'll be back in ten minutes, and again tomorrow:"}));
+    if (rows2.children.length) card.appendChild(rows2);
+    if (ul2.children.length) card.appendChild(ul2);
+  } else if (D.missed.length && D.bank){
     var ul = h("ul", {class:"plain"});
     D.missed.forEach(function(id){
       var q = bankQ(D.bank, id);
@@ -1993,11 +2082,11 @@ function renderBuild(sub, card){
 }
 
 /* quiz banks */
-function renderBank(q, card){
+function renderBank(q, card, bankKey){
   var fb = h("div", {class:"fb", hidden:true});
   var next = h("button", {class:"btn", text:"Next", hidden:true, onclick:function(){ D.pos++; renderQuestion(); }});
   var buttons = [];
-  card.appendChild(h("p", {class:"q-label", text:({amounts:"Sprinkling and the line", orient:"Orientation", kitchen:"Kitchen and food safety", wrap:"Cut, wrap, bag"})[D.bank] || "Quiz"}));
+  card.appendChild(h("p", {class:"q-label", text:({amounts:"Sprinkling and the line", orient:"Orientation", kitchen:"Kitchen and food safety", wrap:"Cut, wrap, bag"})[bankKey || D.bank] || "Quiz"}));
   card.appendChild(h("h3", {class:"q-name", text:q.q}));
   var grid = h("div", {class:"opts single"});
   shuffle(q.o).forEach(function(o){
@@ -2013,7 +2102,7 @@ function renderBank(q, card){
       fb.hidden = false;
       next.hidden = false;
       tally("q:" + q.id, ok);
-      if (!ok){ D.missed[D.missed.length - 1] = q.id; }
+      if (!ok){ D.missed[D.missed.length - 1] = D.mixed ? {kind:"q", bank:bankKey, id:q.id} : q.id; }
       try { next.focus({preventScroll:true}); } catch(e){}
     });
     buttons.push(b);
@@ -2327,6 +2416,7 @@ function initControls(){
     });
   });
   document.getElementById("weak-drill").addEventListener("click", function(){ startRun("flash", "weak"); window.scrollTo(0,0); });
+  document.getElementById("today-btn").addEventListener("click", function(){ startRun(null, "today"); toQuestion(); });
   var resetBtn = document.getElementById("reset-stats");
   var armed = false, timer = null;
   resetBtn.addEventListener("click", function(){
@@ -2336,7 +2426,7 @@ function initControls(){
       return;
     }
     clearTimeout(timer); armed = false; resetBtn.textContent = "Reset progress";
-    stats = {}; saveStats(); renderWeak();
+    stats = {}; saveStats(); sched = {}; saveSched(); renderWeak(); renderReady(); renderMastery();
     if (D.deck === "weak" && !D.custom) startRun(null, "weak");
   });
 }
@@ -2350,6 +2440,7 @@ initWrapGame();
 initControls();
 renderWeak();
 renderMastery();
+renderReady();
 showView(currentHashView());
 var prefs = loadPrefs();
 if (prefs && prefs.mode && prefs.deck){
