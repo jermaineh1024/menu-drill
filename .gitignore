@@ -1,0 +1,5 @@
+dist/
+proof/
+notes/
+__pycache__/
+*.pyc

@@ -1,0 +1,32 @@
+// node tools/look.js [light|dark]  -> the screens changed by the review, at an iPhone's visible size, into proof/look-*.png
+const pw = require('playwright'); const path = require('path');
+const scheme = process.argv[2] || 'light';
+(async()=>{
+  const b = await pw.webkit.launch();
+  const p = await b.newPage({viewport:{width:390,height:664}, colorScheme:scheme});
+  const errs = []; p.on('pageerror', e => errs.push(e.message));
+  await p.goto('file://' + path.resolve(__dirname, '../dist/site/index.html')); await p.waitForTimeout(700);
+  const shot = async n => { await p.waitForTimeout(650); await p.screenshot({path: path.resolve(__dirname, `../proof/look-${scheme}-${n}.png`)}); };
+  const btn = (l, sc = '#q-area') => p.evaluate(([l, sc]) => { const x = [...document.querySelectorAll(sc + ' button')].find(b => b.textContent.trim() === l && !b.hidden && !b.disabled && b.getClientRects().length); if (x) x.click(); return !!x; }, [l, sc]);
+  await shot('01-study');
+  await p.click('#study-today [data-today]'); await shot('02-teach-mw');
+  await btn('Got it, ask me'); await shot('03-ask-mw');
+  for (const it of ['Onions','Lettuce','Tomatoes','Red wine vinegar','Olive oil blend','Oregano','Salt']) await p.evaluate(n => [...document.querySelectorAll('#q-area .pool button')].find(b => b.textContent.trim() === n).click(), it);
+  await btn('Check'); await btn('Next'); await shot('04-teach-fact');
+  await btn('Got it, ask me'); await shot('05-ask-fact');
+  await p.evaluate(() => document.querySelector('#q-area .opt').click()); await shot('06-fact-answered');
+  await btn('Next'); await shot('07-teach-sub');
+  await btn('Stop'); await p.evaluate(() => scrollTo(0, 0)); await shot('08-ready');
+  await p.click('#tab-orient'); await p.click('#o-wrap summary'); await p.evaluate(() => document.getElementById('wrap-game').scrollIntoView({block:'center'}));
+  for (const it of ['Four fingers underneath, thumbs on top','Cut it, then check the center','Quarter turn']) await p.evaluate(n => [...document.querySelectorAll('#wrap-game .pool button')].find(b => b.textContent.trim().endsWith(n)).click(), it);
+  await shot('09-wrap-game');
+  await btn('Check', '#wrap-game'); await shot('10-wrap-checked');
+  await p.click('#o-wrap [data-walk]'); await shot('11-walk-start');
+  await btn('Next', '#sheet'); await btn('Next', '#sheet'); await shot('12-walk-2');
+  await p.keyboard.press('Escape');
+  await p.click('#o-wrap summary'); await p.click('#o-pl summary'); await p.evaluate(() => document.getElementById('o-pl').scrollIntoView()); await shot('13-pl');
+  await p.click('#o-pl summary'); await p.click('#o-temps summary'); await p.evaluate(() => document.querySelector('#o-temps svg').scrollIntoView({block:'center'})); await shot('14-temps');
+  await p.click('#tab-study'); await p.click('#glance [data-sub="13"]'); await btn('Take an order for it', '#sheet'); await p.evaluate(() => document.querySelector('#q-area .opt').click()); await btn('Now build it'); await shot('15-order-build');
+  console.log('ERRORS', errs.length ? errs : 'none');
+  await b.close();
+})();
