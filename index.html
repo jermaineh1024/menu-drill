@@ -27,7 +27,7 @@ html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{margin:0}
 img{max-width:100%}
 [hidden]{display:none!important}
-html:not(.js) .tabs,html:not(.js) #view-drill,html:not(.js) .needs-js,html:not(.js) .plan-list .btn,html:not(.js) [data-bank],html:not(.js) .switch{display:none!important}
+html:not(.js) .tabs,html:not(.js) #view-drill,html:not(.js) .needs-js,html:not(.js) .plan-list .btn,html:not(.js) [data-bank],html:not(.js) [data-today],html:not(.js) .jump,html:not(.js) .switch{display:none!important}
 html:not(.js) #view-line,html:not(.js) #view-orient{margin-top:14px}
 </style>
 <style>
@@ -219,6 +219,16 @@ table.amt tr.sep td{border-top:2px solid var(--line)}
 .ready-pct{font:800 28px var(--display);font-variant-numeric:tabular-nums}
 .ready-bar{height:10px;margin:4px 0 8px}
 .ready-bar i{background:var(--ok)}
+.jump{display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:2px 0 6px;margin:0 0 2px}
+.jump::-webkit-scrollbar{display:none}
+.jump a{flex:none;min-height:36px;display:inline-flex;align-items:center;padding:0 12px;border-radius:999px;background:var(--surface);border:1.5px solid var(--navy-2);color:var(--ink);font:600 13px var(--body);text-decoration:none;white-space:nowrap}
+.card[id]{scroll-margin-top:84px}
+.say-btn{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 12px;border-radius:999px;border:1.5px solid var(--navy-2);background:var(--surface);color:var(--ink);font:600 14px var(--body);cursor:pointer}
+.say-btn[aria-pressed="true"]{background:var(--ui);color:var(--on-navy);border-color:var(--ui)}
+.teach-note{margin:0 0 10px;padding:10px 12px;border-radius:10px;background:var(--warn-soft);color:var(--ink);font-size:14px}
+.ready-two{display:grid;gap:10px;margin-top:6px}
+.ready-two .lbl{display:flex;justify-content:space-between;font:600 14px var(--body);margin-bottom:4px}
+.ready-two .lbl b{font-variant-numeric:tabular-nums}
 .fifo-pan{fill:none;stroke:var(--muted);stroke-width:2}
 .fifo-new{fill:#BEE2A0}.fifo-old{fill:#D9C86E}
 .fifo-t{font:700 12px var(--body);fill:#1E3A14}
@@ -389,7 +399,15 @@ body::before{background:var(--navy)}
 <noscript><p class="fine" style="margin:0 0 12px">You're looking at the read-only preview. Open this file in Chrome or Safari to use the drills.</p></noscript>
 
 <section id="view-study" class="view" role="tabpanel" aria-labelledby="tab-study">
-  <div class="card">
+  <nav class="jump" aria-label="Jump to">
+    <a href="#study" data-jump="j-start">Start here</a>
+    <a href="#study" data-jump="j-case">What's in the case</a>
+    <a href="#study" data-jump="cold-families">Cold subs</a>
+    <a href="#study" data-jump="hot-families">Hot subs</a>
+    <a href="#study" data-jump="j-lingo">Sizes and lingo</a>
+    <a href="#study" data-jump="j-glance">At a glance</a>
+  </nav>
+  <div class="card" id="j-first">
     <h2>Never been inside one? Read this first</h2>
     <ul class="plain">
       <li>Every sandwich has a number, and guests order by number. "A regular 13, Mike's Way" means a regular size, sub number 13, with the standard toppings.</li>
@@ -400,9 +418,11 @@ body::before{background:var(--navy)}
     </ul>
   </div>
 
-  <div class="card">
+  <div class="card" id="j-start">
     <h2>Start here</h2>
-    <p>This page matches your store's board: 18 numbered subs and one special. One round at a time, ten minutes of drill, then stop.</p>
+    <p>This page matches your store's board: 18 numbered subs and one special. The routine is one thing: open the Drill tab, tap <b>Start today's session</b>, ten minutes, done. It picks what's due for you and brings back what you miss.</p>
+    <div class="row" style="margin:0 0 14px"><button class="btn" data-today>Start today's session</button></div>
+    <p class="fine">Want to hammer one family instead? These run it in flashcards.</p>
     <ol class="plan-list">
       <li><span class="day">Round 1</span><span>Mike's Way in order (the game is on The line tab) and the Italian ladder: #3, #2, #5, #13.</span><button class="btn small" data-plan="italian">Drill</button></li>
       <li><span class="day">Round 2</span><span>American Classics (#6, #7, #10, #14) and the two clubs (#8, #9).</span><button class="btn small" data-plan="classicsclubs">Drill</button></li>
@@ -411,7 +431,7 @@ body::before{background:var(--navy)}
     </ol>
   </div>
 
-  <div class="card">
+  <div class="card" id="j-case">
     <h2>What's in the case</h2>
     <p class="fine">The colors and textures below match the layer pictures on every sub further down. Tap one to see every sub on your board that uses it.</p>
     <div id="legend" class="legend"><div data-ing="Provolone" role="button" tabindex="0" aria-label="Provolone. Show every sub with it."><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#F2E3AE"></circle><circle cx="20" cy="20" r="18" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="1"></circle></svg><p><b>Provolone</b><span>Pale yellow, mild. The default cheese on cold subs.</span></p><span class="chev" aria-hidden="true">›</span></div><div data-ing="Swiss" role="button" tabindex="0" aria-label="Swiss. Show every sub with it."><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#F6EDC7"></circle><circle cx="20" cy="20" r="18" fill="url(#p-holes)"></circle><circle cx="20" cy="20" r="18" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="1"></circle></svg><p><b>Swiss</b><span>Pale and nutty, the one with holes. Only on #9 and #14.</span></p><span class="chev" aria-hidden="true">›</span></div><div data-ing="White American" role="button" tabindex="0" aria-label="White American. Show every sub with it."><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#FBF5E4"></circle><circle cx="20" cy="20" r="18" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="1"></circle></svg><p><b>White American</b><span>Soft ivory slices made for melting. On every cheesesteak.</span></p><span class="chev" aria-hidden="true">›</span></div><div data-ing="Ham" role="button" tabindex="0" aria-label="Ham. Show every sub with it."><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#EDA4AA"></circle><circle cx="20" cy="20" r="18" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="1"></circle></svg><p><b>Ham</b><span>Plain pink boiled ham.</span></p><span class="chev" aria-hidden="true">›</span></div><div data-ing="Cappacuolo" role="button" tabindex="0" aria-label="Cappacuolo. Show every sub with it."><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#9E2F38"></circle><circle cx="20" cy="20" r="18" fill="url(#p-marble)"></circle><circle cx="20" cy="20" r="18" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="1"></circle></svg><p><b>Cappacuolo</b><span>Dark red, marbled with fat, spice on the outside. The hot one. Say cap-uh-COLE-oh.</span></p><span class="chev" aria-hidden="true">›</span></div><div data-ing="Prosciuttini" role="button" tabindex="0" aria-label="Prosciuttini. Show every sub with it."><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#E59CA6"></circle><circle cx="20" cy="20" r="18" fill="url(#p-pepper)"></circle><circle cx="20" cy="20" r="18" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="1"></circle></svg><p><b>Prosciuttini</b><span>Rosy ham rolled in cracked black pepper, so the rim is dark.</span></p><span class="chev" aria-hidden="true">›</span></div><div data-ing="Salami" role="button" tabindex="0" aria-label="Salami. Show every sub with it."><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#AD3A44"></circle><circle cx="20" cy="20" r="18" fill="url(#p-dots)"></circle><circle cx="20" cy="20" r="18" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="1"></circle></svg><p><b>Salami</b><span>Brick red with white flecks of fat. Mild and a little garlicky.</span></p><span class="chev" aria-hidden="true">›</span></div><div data-ing="Pepperoni" role="button" tabindex="0" aria-label="Pepperoni. Show every sub with it."><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#C4452C"></circle><circle cx="20" cy="20" r="18" fill="url(#p-dark-dots)"></circle><circle cx="20" cy="20" r="18" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="1"></circle></svg><p><b>Pepperoni</b><span>Orange-red, smaller, a little smoky heat. Pizza pepperoni, sliced thin.</span></p><span class="chev" aria-hidden="true">›</span></div><div data-ing="Turkey" role="button" tabindex="0" aria-label="Turkey. Show every sub with it."><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#F1E2D2"></circle><circle cx="20" cy="20" r="18" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="1"></circle></svg><p><b>Turkey</b><span>Almost white. Lean.</span></p><span class="chev" aria-hidden="true">›</span></div><div data-ing="Roast beef" role="button" tabindex="0" aria-label="Roast beef. Show every sub with it."><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#7E4538"></circle><circle cx="20" cy="20" r="18" fill="url(#p-marble-soft)"></circle><circle cx="20" cy="20" r="18" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="1"></circle></svg><p><b>Roast beef</b><span>Dark edge, pink middle. Roasted in the store.</span></p><span class="chev" aria-hidden="true">›</span></div><div data-ing="Bacon" role="button" tabindex="0" aria-label="Bacon. Show every sub with it."><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#A94E38"></circle><circle cx="20" cy="20" r="18" fill="url(#p-stripes)"></circle><circle cx="20" cy="20" r="18" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="1"></circle></svg><p><b>Bacon</b><span>Applewood smoked strips.</span></p><span class="chev" aria-hidden="true">›</span></div><div data-ing="Tuna salad" role="button" tabindex="0" aria-label="Tuna salad. Show every sub with it."><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="#E6D7BE"></circle><circle cx="20" cy="20" r="18" fill="url(#p-flecks)"></circle><circle cx="20" cy="20" r="18" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="1"></circle></svg><p><b>Tuna salad</b><span>Tuna and mayo, mixed in the store.</span></p><span class="chev" aria-hidden="true">›</span></div></div>
@@ -441,7 +461,7 @@ body::before{background:var(--navy)}
   <h2 class="section-title">Hot subs <span class="sub-title">Fresh grilled to order. Tap a sub for details.</span></h2>
   <div id="hot-families" class="view"><div class="card"><h3>Steak and chicken pairs</h3><p class="mastery" data-ids="16,17,42,43,55,56">Not drilled yet. Tap any sub below for details.</p><p class="fine">Base: grilled onions, grilled peppers, white American melted on top. Chicken takes the lower number in every pair.</p><div class="group-label"><b>Philly</b><span>The base, nothing added.</span></div><div class="rows"><div class="row-sub" data-sub="16" role="button" tabindex="0" aria-label="#16 Mike's Chicken Philly. Open details."><span class="tag" aria-label="number 16">16</span><div><p class="name">Mike's Chicken Philly</p><div class="build"><span class="step"><span>Chicken</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Grilled onions</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Grilled peppers</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>White American</span></span></div><svg class="stack" viewBox="0 0 300 144" role="img" aria-label="Mike's Chicken Philly, layers in the order they go on"><path d="M0 20 L0 10 Q0 0 10 0 L290 0 Q300 0 300 10 L300 20 Z" fill="#D9A76A"></path><path d="M0 20 L0 10 Q0 0 10 0 L290 0 Q300 0 300 10 L300 20 Z" fill="url(#p-grain)"></path><text x="10" y="14" font-size="11" fill="#3B2A14" stroke="#D9A76A" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">Top bread</text><rect x="0" y="22" width="300" height="24" rx="3" fill="#FBF5E4"></rect><text x="10" y="38.5" font-size="12.5" fill="#4A3A12" stroke="#FBF5E4" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">4. White American, melted on top</text><rect x="0" y="48" width="300" height="24" rx="3" fill="#7FA85E"></rect><text x="10" y="64.5" font-size="12.5" fill="#10300E" stroke="#7FA85E" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">3. Grilled peppers</text><rect x="0" y="74" width="300" height="24" rx="3" fill="#D6B27C"></rect><rect x="0" y="74" width="300" height="24" rx="3" fill="url(#p-rings)"></rect><text x="10" y="90.5" font-size="12.5" fill="#3A2A12" stroke="#D6B27C" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">2. Grilled onions</text><rect x="0" y="100" width="300" height="24" rx="3" fill="#E8CCA6"></rect><text x="10" y="116.5" font-size="12.5" fill="#3A2A12" stroke="#E8CCA6" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">1. Chicken</text><path d="M0 126 L300 126 L300 134 Q300 144 290 144 L10 144 Q0 144 0 134 Z" fill="#D9A76A"></path><path d="M0 126 L300 126 L300 134 Q300 144 290 144 L10 144 Q0 144 0 134 Z" fill="url(#p-grain)"></path><text x="10" y="139" font-size="11" fill="#3B2A14" stroke="#D9A76A" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">Bread</text></svg></div><span class="chev" aria-hidden="true">›</span></div><div class="row-sub" data-sub="17" role="button" tabindex="0" aria-label="#17 Mike's Famous Philly. Open details."><span class="tag" aria-label="number 17">17</span><div><p class="name">Mike's Famous Philly</p><div class="build"><span class="step"><span>Steak</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Grilled onions</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Grilled peppers</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>White American</span></span></div><svg class="stack" viewBox="0 0 300 144" role="img" aria-label="Mike's Famous Philly, layers in the order they go on"><path d="M0 20 L0 10 Q0 0 10 0 L290 0 Q300 0 300 10 L300 20 Z" fill="#D9A76A"></path><path d="M0 20 L0 10 Q0 0 10 0 L290 0 Q300 0 300 10 L300 20 Z" fill="url(#p-grain)"></path><text x="10" y="14" font-size="11" fill="#3B2A14" stroke="#D9A76A" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">Top bread</text><rect x="0" y="22" width="300" height="24" rx="3" fill="#FBF5E4"></rect><text x="10" y="38.5" font-size="12.5" fill="#4A3A12" stroke="#FBF5E4" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">4. White American, melted on top</text><rect x="0" y="48" width="300" height="24" rx="3" fill="#7FA85E"></rect><text x="10" y="64.5" font-size="12.5" fill="#10300E" stroke="#7FA85E" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">3. Grilled peppers</text><rect x="0" y="74" width="300" height="24" rx="3" fill="#D6B27C"></rect><rect x="0" y="74" width="300" height="24" rx="3" fill="url(#p-rings)"></rect><text x="10" y="90.5" font-size="12.5" fill="#3A2A12" stroke="#D6B27C" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">2. Grilled onions</text><rect x="0" y="100" width="300" height="24" rx="3" fill="#6A3E33"></rect><text x="10" y="116.5" font-size="12.5" fill="#FFF4EC" stroke="#6A3E33" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">1. Steak</text><path d="M0 126 L300 126 L300 134 Q300 144 290 144 L10 144 Q0 144 0 134 Z" fill="#D9A76A"></path><path d="M0 126 L300 126 L300 134 Q300 144 290 144 L10 144 Q0 144 0 134 Z" fill="url(#p-grain)"></path><text x="10" y="139" font-size="11" fill="#3B2A14" stroke="#D9A76A" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">Bread</text></svg></div><span class="chev" aria-hidden="true">›</span></div></div><div class="group-label"><b>Chipotle</b><span>Base plus chipotle mayo.</span></div><div class="rows"><div class="row-sub" data-sub="42" role="button" tabindex="0" aria-label="#42 Chipotle Chicken. Open details."><span class="tag" aria-label="number 42">42</span><div><p class="name">Chipotle Chicken</p><div class="build"><span class="step"><span>Chicken</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Grilled onions</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Grilled peppers</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>White American</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Chipotle mayo</span></span></div><svg class="stack" viewBox="0 0 300 161" role="img" aria-label="Chipotle Chicken, layers in the order they go on"><path d="M0 20 L0 10 Q0 0 10 0 L290 0 Q300 0 300 10 L300 20 Z" fill="#D9A76A"></path><path d="M0 20 L0 10 Q0 0 10 0 L290 0 Q300 0 300 10 L300 20 Z" fill="url(#p-grain)"></path><text x="10" y="14" font-size="11" fill="#3B2A14" stroke="#D9A76A" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">Top bread</text><rect x="0" y="22" width="300" height="15" rx="3" fill="#E9A572"></rect><text x="10" y="33.28" font-size="10.5" fill="#3A1F0A" stroke="#E9A572" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">5. Chipotle mayo</text><rect x="0" y="39" width="300" height="24" rx="3" fill="#FBF5E4"></rect><text x="10" y="55.5" font-size="12.5" fill="#4A3A12" stroke="#FBF5E4" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">4. White American, melted on top</text><rect x="0" y="65" width="300" height="24" rx="3" fill="#7FA85E"></rect><text x="10" y="81.5" font-size="12.5" fill="#10300E" stroke="#7FA85E" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">3. Grilled peppers</text><rect x="0" y="91" width="300" height="24" rx="3" fill="#D6B27C"></rect><rect x="0" y="91" width="300" height="24" rx="3" fill="url(#p-rings)"></rect><text x="10" y="107.5" font-size="12.5" fill="#3A2A12" stroke="#D6B27C" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">2. Grilled onions</text><rect x="0" y="117" width="300" height="24" rx="3" fill="#E8CCA6"></rect><text x="10" y="133.5" font-size="12.5" fill="#3A2A12" stroke="#E8CCA6" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">1. Chicken</text><path d="M0 143 L300 143 L300 151 Q300 161 290 161 L10 161 Q0 161 0 151 Z" fill="#D9A76A"></path><path d="M0 143 L300 143 L300 151 Q300 161 290 161 L10 161 Q0 161 0 151 Z" fill="url(#p-grain)"></path><text x="10" y="156" font-size="11" fill="#3B2A14" stroke="#D9A76A" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">Bread</text></svg></div><span class="chev" aria-hidden="true">›</span></div><div class="row-sub" data-sub="43" role="button" tabindex="0" aria-label="#43 Chipotle. Open details."><span class="tag" aria-label="number 43">43</span><div><p class="name">Chipotle</p><div class="build"><span class="step"><span>Steak</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Grilled onions</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Grilled peppers</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>White American</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Chipotle mayo</span></span></div><svg class="stack" viewBox="0 0 300 161" role="img" aria-label="Chipotle, layers in the order they go on"><path d="M0 20 L0 10 Q0 0 10 0 L290 0 Q300 0 300 10 L300 20 Z" fill="#D9A76A"></path><path d="M0 20 L0 10 Q0 0 10 0 L290 0 Q300 0 300 10 L300 20 Z" fill="url(#p-grain)"></path><text x="10" y="14" font-size="11" fill="#3B2A14" stroke="#D9A76A" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">Top bread</text><rect x="0" y="22" width="300" height="15" rx="3" fill="#E9A572"></rect><text x="10" y="33.28" font-size="10.5" fill="#3A1F0A" stroke="#E9A572" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">5. Chipotle mayo</text><rect x="0" y="39" width="300" height="24" rx="3" fill="#FBF5E4"></rect><text x="10" y="55.5" font-size="12.5" fill="#4A3A12" stroke="#FBF5E4" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">4. White American, melted on top</text><rect x="0" y="65" width="300" height="24" rx="3" fill="#7FA85E"></rect><text x="10" y="81.5" font-size="12.5" fill="#10300E" stroke="#7FA85E" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">3. Grilled peppers</text><rect x="0" y="91" width="300" height="24" rx="3" fill="#D6B27C"></rect><rect x="0" y="91" width="300" height="24" rx="3" fill="url(#p-rings)"></rect><text x="10" y="107.5" font-size="12.5" fill="#3A2A12" stroke="#D6B27C" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">2. Grilled onions</text><rect x="0" y="117" width="300" height="24" rx="3" fill="#6A3E33"></rect><text x="10" y="133.5" font-size="12.5" fill="#FFF4EC" stroke="#6A3E33" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">1. Steak</text><path d="M0 143 L300 143 L300 151 Q300 161 290 161 L10 161 Q0 161 0 151 Z" fill="#D9A76A"></path><path d="M0 143 L300 143 L300 151 Q300 161 290 161 L10 161 Q0 161 0 151 Z" fill="url(#p-grain)"></path><text x="10" y="156" font-size="11" fill="#3B2A14" stroke="#D9A76A" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">Bread</text></svg></div><span class="chev" aria-hidden="true">›</span></div></div><div class="group-label"><b>Big Kahuna</b><span>Base plus mushrooms, jalapeños and extra cheese.</span></div><div class="rows"><div class="row-sub" data-sub="55" role="button" tabindex="0" aria-label="#55 The Big Kahuna Chicken. Open details."><span class="tag" aria-label="number 55">55</span><div><p class="name">The Big Kahuna Chicken</p><div class="build"><span class="step"><span>Chicken</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Grilled onions</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Grilled peppers</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Mushrooms</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Jalapeños</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Extra White American</span></span></div><svg class="stack" viewBox="0 0 300 196" role="img" aria-label="The Big Kahuna Chicken, layers in the order they go on"><path d="M0 20 L0 10 Q0 0 10 0 L290 0 Q300 0 300 10 L300 20 Z" fill="#D9A76A"></path><path d="M0 20 L0 10 Q0 0 10 0 L290 0 Q300 0 300 10 L300 20 Z" fill="url(#p-grain)"></path><text x="10" y="14" font-size="11" fill="#3B2A14" stroke="#D9A76A" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">Top bread</text><rect x="0" y="22" width="300" height="24" rx="3" fill="#FBF5E4"></rect><text x="10" y="38.5" font-size="12.5" fill="#4A3A12" stroke="#FBF5E4" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">6. Extra White American, melted on top</text><rect x="0" y="48" width="300" height="24" rx="3" fill="#4F8B40"></rect><rect x="0" y="48" width="300" height="24" rx="3" fill="url(#p-seeds)"></rect><text x="10" y="64.5" font-size="12.5" fill="#F0FFE8" stroke="#4F8B40" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">5. Jalapeños</text><rect x="0" y="74" width="300" height="24" rx="3" fill="#B3987B"></rect><text x="10" y="90.5" font-size="12.5" fill="#2A1F14" stroke="#B3987B" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">4. Mushrooms</text><rect x="0" y="100" width="300" height="24" rx="3" fill="#7FA85E"></rect><text x="10" y="116.5" font-size="12.5" fill="#10300E" stroke="#7FA85E" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">3. Grilled peppers</text><rect x="0" y="126" width="300" height="24" rx="3" fill="#D6B27C"></rect><rect x="0" y="126" width="300" height="24" rx="3" fill="url(#p-rings)"></rect><text x="10" y="142.5" font-size="12.5" fill="#3A2A12" stroke="#D6B27C" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">2. Grilled onions</text><rect x="0" y="152" width="300" height="24" rx="3" fill="#E8CCA6"></rect><text x="10" y="168.5" font-size="12.5" fill="#3A2A12" stroke="#E8CCA6" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">1. Chicken</text><path d="M0 178 L300 178 L300 186 Q300 196 290 196 L10 196 Q0 196 0 186 Z" fill="#D9A76A"></path><path d="M0 178 L300 178 L300 186 Q300 196 290 196 L10 196 Q0 196 0 186 Z" fill="url(#p-grain)"></path><text x="10" y="191" font-size="11" fill="#3B2A14" stroke="#D9A76A" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">Bread</text></svg></div><span class="chev" aria-hidden="true">›</span></div><div class="row-sub" data-sub="56" role="button" tabindex="0" aria-label="#56 The Big Kahuna. Open details."><span class="tag" aria-label="number 56">56</span><div><p class="name">The Big Kahuna</p><div class="build"><span class="step"><span>Steak</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Grilled onions</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Grilled peppers</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Mushrooms</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Jalapeños</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Extra White American</span></span></div><svg class="stack" viewBox="0 0 300 196" role="img" aria-label="The Big Kahuna, layers in the order they go on"><path d="M0 20 L0 10 Q0 0 10 0 L290 0 Q300 0 300 10 L300 20 Z" fill="#D9A76A"></path><path d="M0 20 L0 10 Q0 0 10 0 L290 0 Q300 0 300 10 L300 20 Z" fill="url(#p-grain)"></path><text x="10" y="14" font-size="11" fill="#3B2A14" stroke="#D9A76A" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">Top bread</text><rect x="0" y="22" width="300" height="24" rx="3" fill="#FBF5E4"></rect><text x="10" y="38.5" font-size="12.5" fill="#4A3A12" stroke="#FBF5E4" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">6. Extra White American, melted on top</text><rect x="0" y="48" width="300" height="24" rx="3" fill="#4F8B40"></rect><rect x="0" y="48" width="300" height="24" rx="3" fill="url(#p-seeds)"></rect><text x="10" y="64.5" font-size="12.5" fill="#F0FFE8" stroke="#4F8B40" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">5. Jalapeños</text><rect x="0" y="74" width="300" height="24" rx="3" fill="#B3987B"></rect><text x="10" y="90.5" font-size="12.5" fill="#2A1F14" stroke="#B3987B" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">4. Mushrooms</text><rect x="0" y="100" width="300" height="24" rx="3" fill="#7FA85E"></rect><text x="10" y="116.5" font-size="12.5" fill="#10300E" stroke="#7FA85E" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">3. Grilled peppers</text><rect x="0" y="126" width="300" height="24" rx="3" fill="#D6B27C"></rect><rect x="0" y="126" width="300" height="24" rx="3" fill="url(#p-rings)"></rect><text x="10" y="142.5" font-size="12.5" fill="#3A2A12" stroke="#D6B27C" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">2. Grilled onions</text><rect x="0" y="152" width="300" height="24" rx="3" fill="#6A3E33"></rect><text x="10" y="168.5" font-size="12.5" fill="#FFF4EC" stroke="#6A3E33" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">1. Steak</text><path d="M0 178 L300 178 L300 186 Q300 196 290 196 L10 196 Q0 196 0 186 Z" fill="#D9A76A"></path><path d="M0 178 L300 178 L300 186 Q300 196 290 196 L10 196 Q0 196 0 186 Z" fill="url(#p-grain)"></path><text x="10" y="191" font-size="11" fill="#3B2A14" stroke="#D9A76A" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">Bread</text></svg></div><span class="chev" aria-hidden="true">›</span></div></div></div><div class="card"><h3>Chicken only</h3><p class="mastery" data-ids="26,44">Not drilled yet. Tap any sub below for details.</p><p class="fine">No grilled onions or peppers. Chicken, white American, lettuce, tomato and a sauce. Ranch is the 26, buffalo is the 44.</p><div class="rows"><div class="row-sub" data-sub="26" role="button" tabindex="0" aria-label="#26 Chicken Bacon Ranch. Open details."><span class="tag" aria-label="number 26">26</span><div><p class="name">Chicken Bacon Ranch</p><div class="build"><span class="step"><span>Chicken</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Bacon</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>White American</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Lettuce</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Tomatoes</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Ranch</span></span></div><svg class="stack" viewBox="0 0 300 187" role="img" aria-label="Chicken Bacon Ranch, layers in the order they go on"><path d="M0 20 L0 10 Q0 0 10 0 L290 0 Q300 0 300 10 L300 20 Z" fill="#D9A76A"></path><path d="M0 20 L0 10 Q0 0 10 0 L290 0 Q300 0 300 10 L300 20 Z" fill="url(#p-grain)"></path><text x="10" y="14" font-size="11" fill="#3B2A14" stroke="#D9A76A" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">Top bread</text><rect x="0" y="22" width="300" height="15" rx="3" fill="#F3F0E4"></rect><text x="10" y="33.28" font-size="10.5" fill="#3A3A2A" stroke="#F3F0E4" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">6. Ranch</text><rect x="0" y="39" width="300" height="24" rx="3" fill="#E05A4E"></rect><rect x="0" y="39" width="300" height="24" rx="3" fill="url(#p-seeds)"></rect><text x="10" y="55.5" font-size="12.5" fill="#FFF4EC" stroke="#E05A4E" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">5. Tomatoes</text><rect x="0" y="65" width="300" height="24" rx="3" fill="#BEE2A0"></rect><rect x="0" y="65" width="300" height="24" rx="3" fill="url(#p-shreds)"></rect><text x="10" y="81.5" font-size="12.5" fill="#1E3A14" stroke="#BEE2A0" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">4. Lettuce</text><rect x="0" y="91" width="300" height="24" rx="3" fill="#FBF5E4"></rect><text x="10" y="107.5" font-size="12.5" fill="#4A3A12" stroke="#FBF5E4" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">3. White American, melted on top</text><rect x="0" y="117" width="300" height="24" rx="3" fill="#A94E38"></rect><rect x="0" y="117" width="300" height="24" rx="3" fill="url(#p-stripes)"></rect><text x="10" y="133.5" font-size="12.5" fill="#FFF4EC" stroke="#A94E38" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">2. Bacon</text><rect x="0" y="143" width="300" height="24" rx="3" fill="#E8CCA6"></rect><text x="10" y="159.5" font-size="12.5" fill="#3A2A12" stroke="#E8CCA6" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">1. Chicken</text><path d="M0 169 L300 169 L300 177 Q300 187 290 187 L10 187 Q0 187 0 177 Z" fill="#D9A76A"></path><path d="M0 169 L300 169 L300 177 Q300 187 290 187 L10 187 Q0 187 0 177 Z" fill="url(#p-grain)"></path><text x="10" y="182" font-size="11" fill="#3B2A14" stroke="#D9A76A" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">Bread</text></svg><p class="delta">Ranch is the 26.</p></div><span class="chev" aria-hidden="true">›</span></div><div class="row-sub" data-sub="44" role="button" tabindex="0" aria-label="#44 Buffalo Chicken. Open details."><span class="tag" aria-label="number 44">44</span><div><p class="name">Buffalo Chicken</p><div class="build"><span class="step"><span>Chicken</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>White American</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Frank's RedHot</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Lettuce</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Tomatoes</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Blue cheese dressing</span></span></div><svg class="stack" viewBox="0 0 300 178" role="img" aria-label="Buffalo Chicken, layers in the order they go on"><path d="M0 20 L0 10 Q0 0 10 0 L290 0 Q300 0 300 10 L300 20 Z" fill="#D9A76A"></path><path d="M0 20 L0 10 Q0 0 10 0 L290 0 Q300 0 300 10 L300 20 Z" fill="url(#p-grain)"></path><text x="10" y="14" font-size="11" fill="#3B2A14" stroke="#D9A76A" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">Top bread</text><rect x="0" y="22" width="300" height="15" rx="3" fill="#ECEEF3"></rect><text x="10" y="33.28" font-size="10.5" fill="#2A2A3A" stroke="#ECEEF3" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">6. Blue cheese dressing</text><rect x="0" y="39" width="300" height="24" rx="3" fill="#E05A4E"></rect><rect x="0" y="39" width="300" height="24" rx="3" fill="url(#p-seeds)"></rect><text x="10" y="55.5" font-size="12.5" fill="#FFF4EC" stroke="#E05A4E" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">5. Tomatoes</text><rect x="0" y="65" width="300" height="24" rx="3" fill="#BEE2A0"></rect><rect x="0" y="65" width="300" height="24" rx="3" fill="url(#p-shreds)"></rect><text x="10" y="81.5" font-size="12.5" fill="#1E3A14" stroke="#BEE2A0" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">4. Lettuce</text><rect x="0" y="91" width="300" height="15" rx="3" fill="#D23A2A"></rect><text x="10" y="102.28" font-size="10.5" fill="#FFF4EC" stroke="#D23A2A" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">3. Frank's RedHot</text><rect x="0" y="108" width="300" height="24" rx="3" fill="#FBF5E4"></rect><text x="10" y="124.5" font-size="12.5" fill="#4A3A12" stroke="#FBF5E4" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">2. White American, melted on top</text><rect x="0" y="134" width="300" height="24" rx="3" fill="#E8CCA6"></rect><text x="10" y="150.5" font-size="12.5" fill="#3A2A12" stroke="#E8CCA6" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">1. Chicken</text><path d="M0 160 L300 160 L300 168 Q300 178 290 178 L10 178 Q0 178 0 168 Z" fill="#D9A76A"></path><path d="M0 160 L300 160 L300 168 Q300 178 290 178 L10 178 Q0 178 0 168 Z" fill="url(#p-grain)"></path><text x="10" y="173" font-size="11" fill="#3B2A14" stroke="#D9A76A" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">Bread</text></svg><p class="delta">Buffalo is the 44: Frank's RedHot and blue cheese dressing.</p></div><span class="chev" aria-hidden="true">›</span></div></div></div><div class="card"><h3>For a limited time</h3><p class="fine">Specials rotate. Learn this one last.</p><div class="rows"><div class="row-sub" data-sub="lto-hotitalian" role="button" tabindex="0" aria-label="Mike's Hot Italian. Open details."><span class="tag lto" aria-label="limited time">LTO</span><div><p class="name">Mike's Hot Italian</p><div class="build"><span class="step"><span>Ham</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Salami</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Pepperoni</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Provolone</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Grilled onions</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Lettuce</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Tomatoes</span></span><span class="step"><span class="arrow" aria-hidden="true">→</span><span>Chopped pepper relish</span></span></div><svg class="stack" viewBox="0 0 300 239" role="img" aria-label="Mike's Hot Italian, layers in the order they go on"><path d="M0 20 L0 10 Q0 0 10 0 L290 0 Q300 0 300 10 L300 20 Z" fill="#D9A76A"></path><path d="M0 20 L0 10 Q0 0 10 0 L290 0 Q300 0 300 10 L300 20 Z" fill="url(#p-grain)"></path><text x="10" y="14" font-size="11" fill="#3B2A14" stroke="#D9A76A" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">Top bread</text><rect x="0" y="22" width="300" height="15" rx="3" fill="#C8432F"></rect><text x="10" y="33.28" font-size="10.5" fill="#FFF4EC" stroke="#C8432F" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">8. Chopped pepper relish</text><rect x="0" y="39" width="300" height="24" rx="3" fill="#E05A4E"></rect><rect x="0" y="39" width="300" height="24" rx="3" fill="url(#p-seeds)"></rect><text x="10" y="55.5" font-size="12.5" fill="#FFF4EC" stroke="#E05A4E" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">7. Tomatoes</text><rect x="0" y="65" width="300" height="24" rx="3" fill="#BEE2A0"></rect><rect x="0" y="65" width="300" height="24" rx="3" fill="url(#p-shreds)"></rect><text x="10" y="81.5" font-size="12.5" fill="#1E3A14" stroke="#BEE2A0" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">6. Lettuce</text><rect x="0" y="91" width="300" height="24" rx="3" fill="#D6B27C"></rect><rect x="0" y="91" width="300" height="24" rx="3" fill="url(#p-rings)"></rect><text x="10" y="107.5" font-size="12.5" fill="#3A2A12" stroke="#D6B27C" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">5. Grilled onions</text><rect x="0" y="117" width="300" height="24" rx="3" fill="#F2E3AE"></rect><text x="10" y="133.5" font-size="12.5" fill="#4A3A12" stroke="#F2E3AE" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">4. Provolone, melted on top</text><rect x="0" y="143" width="300" height="24" rx="3" fill="#C4452C"></rect><rect x="0" y="143" width="300" height="24" rx="3" fill="url(#p-dark-dots)"></rect><text x="10" y="159.5" font-size="12.5" fill="#FFF4EC" stroke="#C4452C" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">3. Pepperoni</text><rect x="0" y="169" width="300" height="24" rx="3" fill="#AD3A44"></rect><rect x="0" y="169" width="300" height="24" rx="3" fill="url(#p-dots)"></rect><text x="10" y="185.5" font-size="12.5" fill="#FFF4EC" stroke="#AD3A44" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">2. Salami</text><rect x="0" y="195" width="300" height="24" rx="3" fill="#EDA4AA"></rect><text x="10" y="211.5" font-size="12.5" fill="#4A1F25" stroke="#EDA4AA" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">1. Ham</text><path d="M0 221 L300 221 L300 229 Q300 239 290 239 L10 239 Q0 239 0 229 Z" fill="#D9A76A"></path><path d="M0 221 L300 221 L300 229 Q300 239 290 239 L10 239 Q0 239 0 229 Z" fill="url(#p-grain)"></path><text x="10" y="234" font-size="11" fill="#3B2A14" stroke="#D9A76A" stroke-width="3.5" stroke-linejoin="round" paint-order="stroke">Bread</text></svg><p class="delta">Ham, salami and pepperoni grilled and chopped, provolone melted on, then grilled onions, lettuce, tomato and pepper relish. Limited time.</p></div><span class="chev" aria-hidden="true">›</span></div></div></div></div>
 
-  <div class="card">
+  <div class="card" id="j-lingo">
     <h2>Sizes, breads, lingo</h2>
     <dl class="dl">
       <dt>Mike's Way</dt><dd>Onions, lettuce, tomatoes, red wine vinegar, olive oil blend, oregano, salt. In that order. Shorthand: <b>O-L-T, juice, shake.</b></dd>
@@ -461,7 +481,7 @@ body::before{background:var(--navy)}
     </dl>
   </div>
 
-  <div class="card">
+  <div class="card" id="j-glance">
     <h2>Everything at a glance</h2>
     <div id="glance" class="glance"><div data-sub="2" role="button" tabindex="0" aria-label="Jersey Shore's Favorite. Open details."><span class="tag" aria-label="number 2">2</span><span>Jersey Shore's Favorite</span></div><div data-sub="3" role="button" tabindex="0" aria-label="Ham and Provolone. Open details."><span class="tag" aria-label="number 3">3</span><span>Ham and Provolone</span></div><div data-sub="5" role="button" tabindex="0" aria-label="The Super Sub. Open details."><span class="tag" aria-label="number 5">5</span><span>The Super Sub</span></div><div data-sub="6" role="button" tabindex="0" aria-label="Roast Beef and Provolone. Open details."><span class="tag" aria-label="number 6">6</span><span>Roast Beef and Provolone</span></div><div data-sub="7" role="button" tabindex="0" aria-label="Turkey and Provolone. Open details."><span class="tag" aria-label="number 7">7</span><span>Turkey and Provolone</span></div><div data-sub="8" role="button" tabindex="0" aria-label="Club Sub. Open details."><span class="tag" aria-label="number 8">8</span><span>Club Sub</span></div><div data-sub="9" role="button" tabindex="0" aria-label="Club Supreme. Open details."><span class="tag" aria-label="number 9">9</span><span>Club Supreme</span></div><div data-sub="10" role="button" tabindex="0" aria-label="Tuna Fish. Open details."><span class="tag" aria-label="number 10">10</span><span>Tuna Fish</span></div><div data-sub="13" role="button" tabindex="0" aria-label="The Original Italian. Open details."><span class="tag" aria-label="number 13">13</span><span>The Original Italian</span></div><div data-sub="14" role="button" tabindex="0" aria-label="The Veggie. Open details."><span class="tag" aria-label="number 14">14</span><span>The Veggie</span></div><div data-sub="16" role="button" tabindex="0" aria-label="Mike's Chicken Philly. Open details."><span class="tag" aria-label="number 16">16</span><span>Mike's Chicken Philly</span></div><div data-sub="17" role="button" tabindex="0" aria-label="Mike's Famous Philly. Open details."><span class="tag" aria-label="number 17">17</span><span>Mike's Famous Philly</span></div><div data-sub="26" role="button" tabindex="0" aria-label="Chicken Bacon Ranch. Open details."><span class="tag" aria-label="number 26">26</span><span>Chicken Bacon Ranch</span></div><div data-sub="42" role="button" tabindex="0" aria-label="Chipotle Chicken. Open details."><span class="tag" aria-label="number 42">42</span><span>Chipotle Chicken</span></div><div data-sub="43" role="button" tabindex="0" aria-label="Chipotle. Open details."><span class="tag" aria-label="number 43">43</span><span>Chipotle</span></div><div data-sub="44" role="button" tabindex="0" aria-label="Buffalo Chicken. Open details."><span class="tag" aria-label="number 44">44</span><span>Buffalo Chicken</span></div><div data-sub="55" role="button" tabindex="0" aria-label="The Big Kahuna Chicken. Open details."><span class="tag" aria-label="number 55">55</span><span>The Big Kahuna Chicken</span></div><div data-sub="56" role="button" tabindex="0" aria-label="The Big Kahuna. Open details."><span class="tag" aria-label="number 56">56</span><span>The Big Kahuna</span></div><div data-sub="lto-hotitalian" role="button" tabindex="0" aria-label="Mike's Hot Italian. Open details."><span class="tag lto" aria-label="limited time">LTO</span><span>Mike's Hot Italian</span></div></div>
   </div>
@@ -606,6 +626,10 @@ body::before{background:var(--navy)}
   <div class="card ready-card">
     <div class="ready-top"><h2>Ready for the floor</h2><span class="ready-pct" id="ready-pct">0%</span></div>
     <div class="bar ready-bar"><i id="ready-bar"></i></div>
+    <div class="ready-two">
+      <div><div class="lbl"><span>The board and sprinkling</span><b id="ready-board"></b></div></div>
+      <div><div class="lbl"><span>Orientation modules</span><b id="ready-orient"></b></div><div class="bar"><i id="ready-orient-bar"></i></div></div>
+    </div>
     <p class="fine" id="ready-line"></p>
     <div class="row"><button class="btn" id="today-btn">Start today's session</button></div>
   </div>
@@ -633,12 +657,27 @@ body::before{background:var(--navy)}
 </section>
 
 <section id="view-orient" class="view" role="tabpanel" aria-labelledby="tab-orient">
+  <nav class="jump" aria-label="Jump to">
+    <a href="#orient" data-jump="o-values">Values</a>
+    <a href="#orient" data-jump="o-food">Food safety</a>
+    <a href="#orient" data-jump="o-uniform">Uniform</a>
+    <a href="#orient" data-jump="o-pl">P&amp;L</a>
+    <a href="#orient" data-jump="o-floor">Floor</a>
+    <a href="#orient" data-jump="o-fifo">FIFO</a>
+    <a href="#orient" data-jump="o-temps">Thermometers</a>
+    <a href="#orient" data-jump="o-sani">Sanitizing</a>
+    <a href="#orient" data-jump="o-produce">Produce</a>
+    <a href="#orient" data-jump="o-cut">Cutting</a>
+    <a href="#orient" data-jump="o-wrap">Wrapping</a>
+    <a href="#orient" data-jump="o-bag">Bagging</a>
+    <a href="#orient" data-jump="o-quiz">Quizzes</a>
+  </nav>
   <div class="card">
     <h2>Orientation cheat sheet</h2>
     <p>The facts from the orientation videos that the quizzes ask about, in the order the videos go.</p>
   </div>
 
-  <div class="card">
+  <div class="card" id="o-values">
     <h2>What they stand for</h2>
     <dl class="dl">
       <dt>The juice</dt><dd>Red wine vinegar and olive oil. In their words, "the active ingredient in a sub above." <b>Bring the juice</b> means the extra and the unexpected, in how you serve guests, support the team and keep the standards.</dd>
@@ -650,7 +689,7 @@ body::before{background:var(--navy)}
     </dl>
   </div>
 
-  <div class="card">
+  <div class="card" id="o-food">
     <h2>Food safety</h2>
     <p class="q-label">Josh's two questions: if you're sick, will you stay home? Will you wash your hands?</p>
     <h3 style="margin-top:10px">Washing your hands</h3>
@@ -692,7 +731,7 @@ body::before{background:var(--navy)}
     <p class="fine" style="margin-top:8px">The numbers from the video: over 48 million cases of foodborne illness and 3,000 deaths in the U.S. every year.</p>
   </div>
 
-  <div class="card">
+  <div class="card" id="o-uniform">
     <h2>Uniform</h2>
     <ul class="plain">
       <li>Logo hat or visor, hair pulled back, nothing over your face, forehead or ears.</li>
@@ -707,7 +746,7 @@ body::before{background:var(--navy)}
     </ul>
   </div>
 
-  <div class="card">
+  <div class="card" id="o-pl">
     <h2>Business basics: the P&amp;L</h2>
     <p>A profit and loss statement shows, every month, whether the store made or lost money. Picture one dollar of sales getting torn up:</p>
     <svg class="bar-pl" viewBox="0 0 340 96" role="img" aria-label="One dollar of sales: 30 cents cost of goods used, 20 cents labor, 30 cents fixed expenses, 20 cents profit goal.">
@@ -736,7 +775,7 @@ body::before{background:var(--navy)}
     </dl>
   </div>
 
-  <div class="card">
+  <div class="card" id="o-floor">
     <h2>On the floor</h2>
     <dl class="dl">
       <dt>Banter</dt><dd>Conversation beyond the order. Their three words: <b>share your life.</b> Be natural, smile, eye contact, match the guest's mood.</dd>
@@ -757,7 +796,7 @@ body::before{background:var(--navy)}
     </ul>
   </div>
 
-  <div class="card">
+  <div class="card" id="o-fifo">
     <h2>FIFO: first in, first out</h2>
     <p>Oldest product gets used first. That's the whole idea, and it runs through every storage area in the store.</p>
     <svg class="stations" viewBox="0 0 340 118" role="img" aria-label="Restocking a pan: new product goes in a fresh pan on the bottom, existing product goes on top.">
@@ -783,7 +822,7 @@ body::before{background:var(--navy)}
     </ul>
   </div>
 
-  <div class="card">
+  <div class="card" id="o-temps">
     <h2>Thermometers</h2>
     <p>Temps get taken <b>3 times a day</b> and logged on the daily checklist. Logs are kept <b>3 months</b>, which is what protects the store if anyone ever claims they got sick.</p>
     <dl class="dl">
@@ -810,7 +849,7 @@ body::before{background:var(--navy)}
     </ul>
   </div>
 
-  <div class="card">
+  <div class="card" id="o-sani">
     <h2>Cleaning and sanitizing</h2>
     <p><b>Cleaning</b> removes food and dirt. <b>Sanitizing</b> brings germs down to safe levels. Two different things, always in that order.</p>
     <ul class="plain">
@@ -853,7 +892,7 @@ body::before{background:var(--navy)}
     </ul>
   </div>
 
-  <div class="card">
+  <div class="card" id="o-produce">
     <h2>Washing produce</h2>
     <p>Produce isn't cooked, so washing is the only thing that removes shigella. Prep and rinse onions, lettuce and tomatoes the day before they're sliced.</p>
     <dl class="dl">
@@ -865,7 +904,7 @@ body::before{background:var(--navy)}
     </dl>
   </div>
 
-  <div class="card">
+  <div class="card" id="o-cut">
     <h2>Cutting the sub</h2>
     <p>Knife in your dominant hand. Clean it when needed, and always after tuna or a sub with mayo. <b>Cup, up, down:</b> cup your hand with all five fingers over the blade, bring the knife up to your hand, then down on the sub. Press the lid gently and saw. Don't cut the paper; if you do, finish wrapping and wrap it again with a second sheet.</p>
     <dl class="dl">
@@ -877,7 +916,7 @@ body::before{background:var(--navy)}
     <p class="fine" style="margin-top:8px">Thumb and pinky get cut most. Keep all five over the blade.</p>
   </div>
 
-  <div class="card">
+  <div class="card" id="o-wrap">
     <h2>Wrapping the sub</h2>
     <p>The paper: tear from the edge of the roll with your dominant hand, other hand on the counter. One sheet at a time, logo side down. <b>Mini 12 inches, regular 15, giant 21.</b></p>
     <ol class="steps">
@@ -902,7 +941,7 @@ body::before{background:var(--navy)}
     <div id="wrap-fb" class="fb" hidden></div>
   </div>
 
-  <div class="card">
+  <div class="card" id="o-bag">
     <h2>Bagging the sub</h2>
     <ol class="steps">
       <li>Wrapped sub in your dominant hand, top of the sub in your palm.</li>
@@ -925,7 +964,7 @@ body::before{background:var(--navy)}
     </ul>
   </div>
 
-  <div class="card">
+  <div class="card" id="o-quiz">
     <h2>Quiz yourself</h2>
     <p>Three decks, multiple choice. Each one ends with what you missed and why.</p>
     <div class="row">
@@ -1455,6 +1494,8 @@ function fillSub(sub){
   }
   draw();
   sheetBody.appendChild(listBox);
+  var sbtn = sayButton(sayText(sub));
+  if (sbtn) sheetBody.appendChild(h("div", {class:"row", style:"margin-top:6px"}, [sbtn]));
   sheetBody.appendChild(stackSVG(sub, false, true));
   sheetBody.appendChild(h("p", {class:"fine", style:"margin-top:6px", text:"Tap a meat or cheese in the picture to see every sub that uses it."}));
   if (!sub.lto){
@@ -1491,7 +1532,10 @@ document.addEventListener("click", function(e){
   var s = t.closest("[data-sub]");
   if (s){ openSheet({type:"sub", id:s.getAttribute("data-sub")}); return; }
   var bank = t.closest("[data-bank]");
-  if (bank){ go("drill"); startRun(null, bank.getAttribute("data-bank")); }
+  if (bank){ go("drill"); startRun(null, bank.getAttribute("data-bank")); return; }
+  if (t.closest("[data-today]")){ go("drill"); startRun(null, "today"); toQuestion(); return; }
+  var j = t.closest("[data-jump]");
+  if (j){ e.preventDefault(); var el = document.getElementById(j.getAttribute("data-jump")); if (el){ try { el.scrollIntoView({behavior:"smooth", block:"start"}); } catch(err){ el.scrollIntoView(); } } }
 });
 document.addEventListener("keydown", function(e){
   if (e.key === "Escape" && !sheet.hidden){ closeSheet(); return; }
@@ -1691,18 +1735,33 @@ function schedUpdate(id, ok){
   e.due = Date.now() + (ok ? e.iv * DAY : 10 * 60000);
   saveSched();
 }
+var WRAP_STEPS = ["Four fingers under, thumbs on top","Center it on the paper, then cut","Pinch, pull over, punch","Grab, pull back","Quarter turn","Fold it in, fold it in","Roll: bottom, side, top","Finish in your dominant hand"];
+var SEQS = {
+  mw:{title:"Mike's Way, in order", steps:MW, hint:"Tap the seven in the order they go on.", recap:"Onions, lettuce, tomatoes, red wine vinegar, olive oil blend, oregano, salt. Vegetables, then the juice, then the shake.", board:true},
+  wrap:{title:"The wrap, in order", steps:WRAP_STEPS, hint:"Tap the eight steps in order.", recap:"Four fingers under, thumbs on top. Center, cut. Pinch, pull over, punch. Grab, pull back. Quarter turn. Fold it in, fold it in. Roll bottom, side, top. Finish in your dominant hand.", board:false}
+};
 function universe(){
-  var u = numbered.map(function(s){ return {kind:"sub", id:s.id, key:String(s.id)}; });
-  Object.keys(BANKS).forEach(function(b){ BANKS[b].forEach(function(q){ u.push({kind:"q", bank:b, id:q.id, key:"q:" + q.id}); }); });
+  var u = numbered.map(function(s){ return {kind:"sub", id:s.id, key:String(s.id), board:true}; });
+  Object.keys(SEQS).forEach(function(k){ u.push({kind:"seq", id:k, key:"seq:" + k, board:SEQS[k].board}); });
+  Object.keys(BANKS).forEach(function(b){ BANKS[b].forEach(function(q){ u.push({kind:"q", bank:b, id:q.id, key:"q:" + q.id, board:b === "amounts"}); }); });
   return u;
 }
 function readiness(){
-  var u = universe(), known = 0, due = 0, now = Date.now();
-  u.forEach(function(it){ var e = sched[it.key]; if (e && e.iv >= 2) known++; if (!e || e.due <= now) due++; });
-  return {known:known, total:u.length, due:due, pct:Math.round(known / u.length * 100)};
+  var u = universe(), now = Date.now();
+  var r = {board:{known:0,total:0}, orient:{known:0,total:0}, due:0};
+  u.forEach(function(it){
+    var e = sched[it.key], g = it.board ? r.board : r.orient;
+    g.total++; if (e && e.iv >= 2) g.known++;
+    if (!e || e.due <= now) r.due++;
+  });
+  r.board.pct = Math.round(r.board.known / r.board.total * 100);
+  r.orient.pct = Math.round(r.orient.known / r.orient.total * 100);
+  r.known = r.board.known + r.orient.known; r.total = r.board.total + r.orient.total;
+  return r;
 }
 function modeFor(key){
   var e = sched[key]; var iv = e ? e.iv : 0;
+  if (!e) return "teach";
   if (iv === 0) return "num";
   if (iv <= 1) return "what";
   if (iv <= 3) return "build";
@@ -1714,7 +1773,8 @@ function todayQueue(){
   var fresh = u.filter(function(it){ return !sched[it.key]; });
   overdue.sort(function(a, b){ return sched[a.key].due - sched[b.key].due; });
   var picks = overdue.slice(0, 14);
-  var freshSubs = shuffle(fresh.filter(function(it){ return it.kind === "sub"; }));
+  var freshSubs = shuffle(fresh.filter(function(it){ return it.kind === "sub" || it.kind === "seq"; }));
+  freshSubs.sort(function(a, b){ return (a.kind === "seq" ? 0 : 1) - (b.kind === "seq" ? 0 : 1); });
   var freshQs = shuffle(fresh.filter(function(it){ return it.kind === "q"; }));
   while (picks.length < 16 && (freshSubs.length || freshQs.length)){
     if (freshSubs.length) picks.push(freshSubs.shift());
@@ -1729,10 +1789,14 @@ function todayQueue(){
 function renderReady(){
   var r = readiness();
   var pctEl = document.getElementById("ready-pct"); if (!pctEl) return;
-  pctEl.textContent = r.pct + "%";
-  document.getElementById("ready-bar").style.width = r.pct + "%";
-  document.getElementById("ready-line").textContent = r.known + " of " + r.total + " things locked in (right twice, days apart). " +
-    (r.due ? r.due + " due now. Ten minutes a day keeps it moving." : "Nothing due right now. Come back tomorrow.");
+  pctEl.textContent = r.board.pct + "%";
+  document.getElementById("ready-bar").style.width = r.board.pct + "%";
+  document.getElementById("ready-board").textContent = r.board.known + " of " + r.board.total;
+  document.getElementById("ready-orient").textContent = r.orient.known + " of " + r.orient.total + " (" + r.orient.pct + "%)";
+  document.getElementById("ready-orient-bar").style.width = r.orient.pct + "%";
+  document.getElementById("ready-line").textContent = "Locked in means right twice, days apart. " +
+    (r.due ? r.due + " due now. Ten minutes a day keeps it moving." : "Nothing due right now. Come back tomorrow.") +
+    (r.board.pct >= 70 ? " The board is in good shape; the rest is for the quizzes, not the counter." : "");
 }
 function deckIds(key){
   var d = deckObj(key);
@@ -1805,7 +1869,7 @@ function tally(id, ok){
   schedUpdate(id, ok);
   renderReady();
   buzz(ok);
-  if (ok){ D.right++; D.streak++; } else { D.wrong++; D.streak = 0; D.missed.push(D.mixed && String(id).indexOf("q:") !== 0 ? {kind:"sub", id:id, mode:"build"} : id); }
+  if (ok){ D.right++; D.streak++; } else { D.wrong++; D.streak = 0; D.missed.push(D.mixed && String(id).indexOf("q:") !== 0 && String(id).indexOf("seq:") !== 0 ? {kind:"sub", id:id, mode:"build"} : (D.mixed && String(id).indexOf("seq:") === 0 ? {kind:"seq", id:String(id).slice(4)} : id)); }
 }
 function renderQuestion(){
   qArea.innerHTML = "";
@@ -1822,6 +1886,7 @@ function renderQuestion(){
   var entry = D.queue[D.pos], mode = D.mode;
   if (D.mixed && entry && typeof entry === "object"){
     if (entry.kind === "q"){ renderBank(bankQ(entry.bank, entry.id), card, entry.bank); qArea.appendChild(card); return; }
+    if (entry.kind === "seq"){ renderSeq(entry.id, card); qArea.appendChild(card); return; }
     mode = entry.mode || "num"; entry = entry.id;
   } else if (D.bank){
     renderBank(bankQ(D.bank, entry), card, D.bank);
@@ -1829,7 +1894,8 @@ function renderQuestion(){
     return;
   }
   var sub = byId(entry);
-  if (mode === "flash") renderFlash(sub, card);
+  if (mode === "teach") renderTeach(sub, card);
+  else if (mode === "flash") renderFlash(sub, card);
   else if (mode === "num") renderMC(sub, card, "num");
   else if (mode === "what") renderMC(sub, card, "what");
   else if (mode === "order") renderOrder(sub, card);
@@ -1850,6 +1916,7 @@ function renderSummary(){
     var rows2 = h("div", {class:"rows"}), ul2 = h("ul", {class:"plain"});
     D.missed.forEach(function(m){
       if (m.kind === "q"){ var q2 = bankQ(m.bank, m.id); if (q2) ul2.appendChild(h("li", {}, [h("b", {text:q2.q + " "}), h("span", {text:q2.a + ". " + q2.why})])); }
+      else if (m.kind === "seq"){ ul2.appendChild(h("li", {}, [h("b", {text:SEQS[m.id].title + ". "}), h("span", {text:SEQS[m.id].recap})])); }
       else rows2.appendChild(subRow(byId(m.id), false));
     });
     card.appendChild(h("p", {class:"fine", text:"Missed. They'll be back in ten minutes, and again tomorrow:"}));
@@ -1883,6 +1950,102 @@ function renderSummary(){
   qArea.appendChild(card);
 }
 
+/* read it to me (the phone's own voice, free, works offline) */
+var speaking = null;
+function canSpeak(){ return typeof window.speechSynthesis !== "undefined" && typeof window.SpeechSynthesisUtterance !== "undefined"; }
+function sayText(sub){
+  var parts = [];
+  if (sub.lto) parts.push(sub.name + "."); else parts.push("Number " + sub.n + ". " + sub.name + ".");
+  if (sub.type === "cold"){
+    var core = sub.cheese.concat(sub.meats, sub.fixed);
+    if (core.length) parts.push(core.join(", ") + ".");
+    if (sub.mw) parts.push("Then Mike's Way: onions, lettuce, tomatoes, red wine vinegar, olive oil, oregano, salt.");
+    if (sub.lid && sub.lid.length) parts.push(sub.lid.join(" and ") + " on the lid.");
+  } else {
+    parts.push("On the grill: " + (sub.protein ? sub.protein + ", " : "") + sub.grill.join(", ") + ". " + sub.cheese.join(", ") + " on top.");
+    if (sub.after.length) parts.push("After: " + sub.after.join(", ") + ".");
+  }
+  if (sub.delta) parts.push(sub.delta);
+  return parts.join(" ").replace(/Cappacuolo/g, "capicola").replace(/Prosciuttini/g, "pro shoo tee nee").replace(/#/g, "number ");
+}
+function sayButton(text){
+  if (!canSpeak()) return null;
+  var b = h("button", {class:"say-btn", type:"button", "aria-pressed":"false"}, [h("span", {"aria-hidden":"true", text:"\u25B6"}), h("span", {text:"Read it to me"})]);
+  b.addEventListener("click", function(){
+    try {
+      if (speaking && speaking.btn === b){ window.speechSynthesis.cancel(); speaking = null; b.setAttribute("aria-pressed", "false"); return; }
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.rate = 0.9; u.lang = "en-US";
+      var voices = window.speechSynthesis.getVoices() || [];
+      var pick = voices.filter(function(v){ return /en-US/i.test(v.lang) && !/compact/i.test(v.name); })[0];
+      if (pick) u.voice = pick;
+      u.onend = u.onerror = function(){ if (speaking && speaking.btn === b){ speaking = null; b.setAttribute("aria-pressed", "false"); } };
+      speaking = {btn:b, u:u};
+      b.setAttribute("aria-pressed", "true");
+      window.speechSynthesis.speak(u);
+    } catch(e){ b.disabled = true; }
+  });
+  return b;
+}
+document.addEventListener("visibilitychange", function(){ if (document.hidden && canSpeak()){ try { window.speechSynthesis.cancel(); } catch(e){} } });
+
+/* first meeting: teach it, then ask */
+function renderTeach(sub, card){
+  card.appendChild(h("p", {class:"teach-note", text:"New one. Read it, hear it if you want, then you'll get asked."}));
+  var right = h("div", {}, [h("p", {class:"name", text:sub.name}), buildLine(sub, false), stackSVG(sub, false), breakdown(sub)]);
+  if (sub.delta) right.appendChild(h("p", {class:"delta", text:sub.delta}));
+  card.appendChild(h("div", {class:"row-sub"}, [tagEl(sub), right]));
+  var sb = sayButton(sayText(sub));
+  var quizBox = h("div", {hidden:true});
+  var row = h("div", {class:"row"}, [sb, h("button", {class:"btn", text:"Got it, ask me", onclick:function(){
+    row.hidden = true;
+    var inner = h("div", {});
+    renderMC(sub, inner, "num");
+    quizBox.appendChild(inner);
+    quizBox.hidden = false;
+    try { quizBox.scrollIntoView({behavior:"smooth", block:"start"}); } catch(e){}
+  }})]);
+  card.appendChild(row);
+  card.appendChild(quizBox);
+}
+
+/* sequences inside Today */
+function renderSeq(key, card){
+  var sq = SEQS[key];
+  card.appendChild(h("p", {class:"q-label", text:sq.hint}));
+  card.appendChild(h("h3", {class:"q-name", text:sq.title}));
+  var pool = shuffle(sq.steps), seq = [], checked = false;
+  var tray = h("div", {class:"tray"}), poolEl = h("div", {class:"pool"}), fb = h("div", {class:"fb", hidden:true});
+  var undo = h("button", {class:"btn ghost", text:"Undo", onclick:function(){ if (checked) return; seq.pop(); draw(); }});
+  var check = h("button", {class:"btn", text:"Check", onclick:doCheck});
+  var next = h("button", {class:"btn", text:"Next", hidden:true, onclick:function(){ D.pos++; renderQuestion(); }});
+  function draw(statuses){
+    tray.innerHTML = "";
+    if (!seq.length) tray.appendChild(h("span", {class:"empty", text:"Tap what comes first."}));
+    seq.forEach(function(it, i){ tray.appendChild(h("span", {class:"chip" + (statuses ? " " + statuses[i] : "")}, [h("span", {class:"idx", text:(i+1) + "."}), it])); });
+    poolEl.innerHTML = "";
+    pool.forEach(function(it){ poolEl.appendChild(h("button", {class:"chip", text:it, disabled:checked || seq.indexOf(it) >= 0, onclick:function(){ if (checked) return; seq.push(it); draw(); }})); });
+    undo.disabled = checked || !seq.length; check.disabled = checked || !seq.length;
+  }
+  function doCheck(){
+    if (checked || !seq.length) return;
+    checked = true;
+    var statuses = seq.map(function(it, i){ return sq.steps[i] === it ? "ok" : "bad"; });
+    var ok = seq.length === sq.steps.length && statuses.every(function(x){ return x === "ok"; });
+    draw(statuses);
+    fb.className = "fb " + (ok ? "ok" : "bad"); fb.innerHTML = "";
+    fb.appendChild(h("b", {text:ok ? "That's it." : "Not yet."}));
+    fb.appendChild(h("span", {text:sq.recap}));
+    fb.hidden = false; next.hidden = false;
+    tally("seq:" + key, ok);
+  }
+  card.appendChild(tray); card.appendChild(poolEl);
+  card.appendChild(h("div", {class:"row"}, [undo, check, next]));
+  card.appendChild(fb);
+  draw();
+}
+
 /* flashcards */
 function renderFlash(sub, card){
   var back = h("div", {class:"fc-back", hidden:true});
@@ -1895,6 +2058,7 @@ function renderFlash(sub, card){
   if (sub.delta) right.appendChild(h("p", {class:"delta", text:sub.delta}));
   back.appendChild(h("div", {class:"row-sub"}, [tagEl(sub), right]));
   back.appendChild(h("div", {class:"row"}, [
+    sayButton(sayText(sub)),
     h("button", {class:"btn ghost", text:"Missed it", onclick:function(){ answer(sub, false); }}),
     h("button", {class:"btn", text:"Got it", onclick:function(){ answer(sub, true); }})
   ]));
@@ -2307,7 +2471,6 @@ function renderOrder(sub, card){
 }
 
 /* ---------- Mike's Way sequencer (The line) ---------- */
-var WRAP_STEPS = ["Four fingers under, thumbs on top","Center it on the paper, then cut","Pinch, pull over, punch","Grab, pull back","Quarter turn","Fold it in, fold it in","Roll: bottom, side, top","Finish in your dominant hand"];
 function initWrapGame(){
   var tray = document.getElementById("wrap-tray");
   if (!tray) return;
