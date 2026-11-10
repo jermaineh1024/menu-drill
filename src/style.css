@@ -740,3 +740,17 @@ ul.ticks.live li[aria-checked="true"]::after{content:"";position:absolute;left:2
 .voice-tips summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:600;color:var(--title)}
 .voice-tips p{margin:4px 0 0}
 @media (prefers-reduced-motion: reduce){ .vrow{transition:none} }
+
+/* ---------- run the shift, notes, backup, the short landing ---------- */
+.shift-list{display:grid;gap:8px;margin-top:10px}
+.srow{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-height:52px;padding:9px 12px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);font:600 16px var(--body);text-align:left;cursor:pointer}
+.srow span{font:500 13px var(--body);color:var(--muted)}
+.srow.done{border-color:var(--ok);background:var(--ok-soft)}
+.srow:hover{border-color:var(--navy-2)}
+.shift-say{font-size:17px;line-height:1.5}
+.shift-q{margin-top:6px}
+.mynote{display:grid;gap:6px;margin-top:14px;padding:12px;border-radius:12px;background:var(--soft)}
+.note-ta{width:100%;min-height:52px;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);font:500 16px var(--body);resize:vertical}
+.note-ta.code{font:500 16px ui-monospace,Menlo,Consolas,monospace;word-break:break-all;margin-top:8px}
+.note-pill{margin-left:8px;vertical-align:middle}
+.path-mini p{margin:0 0 10px}

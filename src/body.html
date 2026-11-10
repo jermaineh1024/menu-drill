@@ -256,13 +256,14 @@
 
 <section id="view-drill" class="view" role="tabpanel" aria-labelledby="tab-drill" hidden>
   <div class="card ready-card">
-    <div class="ready-top"><h2>Ready for the floor</h2><span class="ready-pct" id="ready-pct">0%</span></div>
+    <div class="ready-top"><h2>Knowledge practice</h2><span class="ready-pct" id="ready-pct">0%</span></div>
     <div class="bar ready-bar"><b id="ready-once"></b><i id="ready-bar"></i></div>
     <div class="ready-two">
       <div><div class="lbl"><span>Subs and sprinkling</span><b id="ready-board"></b></div></div>
       <div><div class="lbl"><span id="ready-orient-label">Training facts</span><b id="ready-orient"></b></div><div class="bar"><b id="ready-orient-once"></b><i id="ready-orient-bar"></i></div></div>
     </div>
     <p class="fine" id="ready-line"></p>
+    <p class="fine needs-js" id="ready-hands"></p>
     <div class="row"><button type="button" class="btn light" id="today-btn">Start today's session</button></div>
   </div>
   <div id="q-area"></div>
@@ -297,16 +298,23 @@
 <section id="view-orient" class="view" role="tabpanel" aria-labelledby="tab-orient" hidden>
   <div class="card path-card" id="path-card">
     <h2>Training: crew to manager</h2>
+    <div class="path-mini needs-js" id="path-mini" hidden>
+      <p id="path-mini-line" aria-live="polite"></p>
+      <div class="row"><button type="button" class="btn light" id="path-continue">Continue</button><button type="button" class="btn light small" id="path-change">Change level</button></div>
+    </div>
+    <div id="path-full">
     <p>Three levels. Each one is a job you can do without help. Open a card, read it, then quiz it. A card is locked in once you've had every question in it right on two different days.</p>
     <div class="path needs-js" id="path" role="group" aria-label="Pick a level"></div>
     <p class="path-now needs-js" id="path-now" aria-live="polite"></p>
     <div class="row needs-js"><button type="button" class="btn light small" id="path-all" aria-pressed="false">Show every level</button></div>
+    </div>
   </div>
   <details class="card ease-card needs-js" id="ease-card">
     <summary><h2>Set it up your way</h2><span class="fold-x" aria-hidden="true"></span></summary>
     <label class="switch"><input type="checkbox" id="focus-toggle" checked> One card open at a time</label>
     <label class="switch"><input type="checkbox" id="motion-toggle" checked> Moving pictures and background motion</label>
     <div class="row" id="voice-row"><button type="button" class="btn ghost small" data-voice-open>Voice</button></div>
+    <div class="row"><button type="button" class="btn ghost small" id="backup-open">Back up or restore my progress</button></div>
     <p class="fine mt-s"><span id="listen-note"></span>Your progress and your ticks are saved on this device only. Nothing is sent anywhere.</p>
   </details>
 
@@ -642,6 +650,12 @@
   <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="check" data-label="Quiz all of the checks">Quiz all of the checks</button></div>
 <!--#include train-check-->
   <div class="level-head" id="lv-2" data-level-head="2"><span class="lv-n" aria-hidden="true">2</span><h2>Shift lead</h2><p>Run a shift.</p></div>
+  <div class="card shift-card needs-js" id="shift-card">
+    <h2>Run the shift</h2>
+    <p>Knowing the rule is one thing. Using it while the line is out the door is another. Each of these puts you in a spot, asks for a call, then changes the situation and asks again. Every answer is something the training says outright.</p>
+    <div class="shift-list" id="shift-list"></div>
+    <p class="fine" id="shift-count" aria-live="polite"></p>
+  </div>
   <h2 class="section-title grp" id="g-lead">Lead the shift <span class="sub-title">The day by the clock, the mid-day checklist, training someone new.</span></h2>
   <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="lead" data-label="Quiz all of leading the shift">Quiz all of leading the shift</button></div>
 <!--#include train-lead-->

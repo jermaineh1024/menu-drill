@@ -30,6 +30,8 @@ function openSheet(entry, push){
   if (entry.type === "sub") fillSub(byId(entry.id), true);
   else if (entry.type === "walk") fillWalk(entry);
   else if (entry.type === "voice") fillVoice();
+  else if (entry.type === "shift") fillShift(entry);
+  else if (entry.type === "backup") fillBackup();
   else fillIng(entry.name);
   sheetPanel.scrollTop = 0;
   try { sheetPanel.focus({preventScroll:true}); } catch(e){ sheetPanel.focus(); }

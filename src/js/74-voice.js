@@ -108,6 +108,7 @@ function allSpoken(){
   Object.keys(HOWTO_NAME).forEach(function(k){ howtoSteps(k).forEach(function(st){ add("step", k + "-" + st.num, walkSay(st)); }); });
   Object.keys(SEQS).forEach(function(k){ add("game", k, seqSay(SEQS[k])); });
   Object.keys(BANKS).forEach(function(b){ BANKS[b].forEach(function(q){ add("lesson", q.id, lessonSay(q)); }); });
+  SHIFTS.forEach(function(s){ s.steps.forEach(function(st, i){ add("shift", s.id + "-" + (i + 1), shiftSay(st)); add("shiftwhy", s.id + "-" + (i + 1), shiftWhy(st)); }); });
   add("sample", "voice", speakable(VOICE_SAMPLE));
   return out;
 }

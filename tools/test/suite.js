@@ -23,7 +23,7 @@ const HAS_KEY = new Set(AUDIO_KEYS);
 // (every file named 1x-*.js is data: the board, the stations, then the crew, shift lead and manager courses, in page order)
 const DATA_FILES = fs.readdirSync(path.resolve(ROOT, 'src/js')).filter(f => /^1\d[a-z]?-[\w-]+\.js$/.test(f)).sort();
 const DATA = new Function(DATA_FILES.map(f => fs.readFileSync(path.resolve(ROOT, 'src/js', f), 'utf8')).join('\n') +
-  '; return {SUBS, MW, TOP_EXTRAS, LID_ORDER, numbered, BANKS, MODS, SEQS, DECKS, MODES, hotOrder, HOT_AMT, GROUPS, HOWTO_NAME, LEVELS, BANK_LABEL};')();
+  '; return {SUBS, MW, TOP_EXTRAS, LID_ORDER, numbered, BANKS, MODS, SEQS, DECKS, MODES, hotOrder, HOT_AMT, GROUPS, HOWTO_NAME, LEVELS, BANK_LABEL, SHIFTS};')();
 const subByN = n => DATA.numbered.find(s => String(s.n) === String(n));
 const subByName = name => DATA.SUBS.find(s => s.name === name);
 const itemsOf = s => s.type === 'cold' ? s.cheese.concat(s.meats, s.fixed, s.mw ? DATA.MW : [], s.lid || []) : DATA.hotOrder(s);
@@ -266,7 +266,10 @@ const showAllTraining = async p => {
 };
 const pickLevel = async (p, n) => {
   if (n === 'all') await p.evaluate(() => { const all = document.getElementById('path-all'); if (all.getAttribute('aria-pressed') !== 'true') all.click(); });
-  else await p.click(`#path .lv[data-level="${n}"]`);
+  else {
+    if (await vis(p, '#path-mini')) { await p.click('#path-change'); await p.waitForTimeout(80); }   // a returning visitor's levels are folded into one line
+    await p.click(`#path .lv[data-level="${n}"]`);
+  }
   await p.waitForTimeout(120);
 };
 const startRun = async (p, mode, deck) => { await tab(p, 'drill'); if (deck) await p.click(`#deck-seg button[data-deck="${deck}"]`); if (mode) await p.click(`#mode-seg [data-mode="${mode}"]`); };
@@ -1462,6 +1465,240 @@ async function engineSuite(name) {
     }
   }
 
+  // ---------- 7e. Run the shift: a situation, a call, then the situation changes ----------
+  S('run the shift');
+  {
+    const SH = DATA.SHIFTS;
+    const p = await open(browser, { hash: '#orient' });
+    await pickLevel(p, 2);
+    const rowsNow = () => p.evaluate(() => [...document.querySelectorAll('#shift-list .srow')].map(b => ({ id: b.getAttribute('data-shift'), t: b.querySelector('b').textContent, s: b.querySelector('span').textContent, on: b.getClientRects().length > 0, done: b.classList.contains('done') })));
+    let rows = await rowsNow();
+    check('Run the shift lists every situation, all new', rows.length === SH.length && rows.every((r, i) => r.id === SH[i].id && r.t === SH[i].title && r.on && /New$/.test(r.s)) && (await txt(p, '#shift-count')) === `0 of ${SH.length} handled with every call right.`, JSON.stringify(rows).slice(0, 200));
+    check('twelve situations or more, two calls each, three choices, one right', SH.length >= 12 && SH.every(s => s.steps.length === 2 && s.steps.every(st => st.opts.length === 3 && st.opts.filter(o => o.ok).length === 1 && st.opts.every(o => o.t && o.why))));
+    const longest = SH.reduce((n, s) => n + s.steps.filter(st => { const r = st.opts.find(o => o.ok); return st.opts.every(o => o === r || o.t.length < r.t.length); }).length, 0);
+    check('the right call is not given away by being the longest choice', longest <= SH.length / 2, longest + ' of ' + SH.length * 2);
+    const lost = await p.evaluate(ids => ids.filter(id => { const d = document.getElementById(id); return !d || d.tagName !== 'DETAILS'; }), SH.map(s => s.card));
+    check('every situation names a real training card', lost.length === 0, lost.join());
+    const sheet = () => p.evaluate(() => {
+      const s = document.getElementById('sheet'), q = sel => s.querySelector(sel), shown = e => !!e && e.getClientRects().length > 0, T = e => e ? e.textContent : null;
+      return { title: T(q('#sheet-title')), pill: T(q('.sheet-head .pill')), say: T(q('.shift-say')), q: T(q('.shift-q')),
+        opts: [...s.querySelectorAll('.opts .opt')].map(b => ({ t: b.textContent, off: b.disabled, ok: b.classList.contains('ok'), bad: b.classList.contains('bad') })),
+        fb: shown(q('.fb')) ? q('.fb').className + ' :: ' + q('.fb').textContent : null, btns: [...s.querySelectorAll('button')].filter(shown).map(b => b.textContent.replace(/\s+/g, ' ').trim()) };
+    });
+    const openShift = async id => { await p.click(`#shift-list .srow[data-shift="${id}"]`); await p.waitForTimeout(350); };
+    const choose = async k => { await p.click(`#sheet .opts .opt:nth-child(${k + 1})`); await p.waitForTimeout(200); };
+    const s0 = SH[0], a0 = s0.steps[0], a1 = s0.steps[1], r0 = a0.opts.findIndex(o => o.ok), w0 = a0.opts.findIndex(o => !o.ok), r1 = a1.opts.findIndex(o => o.ok);
+    await openShift(s0.id);
+    let st = await sheet();
+    check('a situation opens with its story, its question and three calls', st.title === s0.title && st.pill === 'Run the shift, part 1 of 2' && st.say === a0.say && st.q === a0.q && st.opts.map(o => o.t).join('|') === a0.opts.map(o => o.t).join('|') && st.opts.every(o => !o.off), JSON.stringify(st).slice(0, 300));
+    check('no answer and no way forward shows before you make the call', st.fb === null && !st.btns.includes('Then this happens') && !st.btns.includes('See how it went'), JSON.stringify(st.btns));
+    let ov = await overflow(p); check('situation sheet has no sideways scroll', ov <= 0, ov);
+    let bad = await p.evaluate(TAP_AUDIT); check('situation sheet tap targets are 44px', bad.length === 0, bad.slice(0, 6).join(' | '));
+    await p.evaluate(() => { window.__spoken.length = 0; window.__fast = true; });
+    await clickBtn(p, 'Read it to me', '#sheet'); await p.waitForTimeout(400);
+    let heardAll = (await p.evaluate(() => window.__spoken.join(' '))).replace(/\s+/g, ' ');
+    check('Read it to me reads the question and numbers the three calls', heardAll.includes(a0.q) && /One\./.test(heardAll) && /Two\./.test(heardAll) && /Three\./.test(heardAll), heardAll.slice(0, 200));
+    await p.evaluate(() => { window.__fast = false; });
+    await choose(w0);
+    st = await sheet();
+    check('a wrong call is marked, the right one is shown, and the choices lock', st.opts.every(o => o.off) && st.opts[w0].bad && st.opts[r0].ok && st.opts.filter(o => o.ok).length === 1, JSON.stringify(st.opts));
+    check('it says why that call is wrong and what the training does instead', !!st.fb && st.fb.startsWith('fb bad') && st.fb.includes('Not that one.') && st.fb.includes(a0.opts[w0].why) && st.fb.includes("The training's answer: " + a0.opts[r0].t + '.') && st.fb.includes(a0.opts[r0].why), st.fb);
+    check('then the situation can move on', st.btns.includes('Then this happens') && st.btns.includes('Read the answer to me') && st.btns.includes('Open the card this comes from'), JSON.stringify(st.btns));
+    bad = await p.evaluate(TAP_AUDIT); check('answered situation tap targets are 44px', bad.length === 0, bad.slice(0, 6).join(' | '));
+    await p.evaluate(() => { window.__spoken.length = 0; window.__fast = true; });
+    await clickBtn(p, 'Read the answer to me', '#sheet'); await p.waitForTimeout(400);
+    heardAll = (await p.evaluate(() => window.__spoken.join(' '))).replace(/\s+/g, ' ');
+    check('Read the answer to me reads the training\'s answer', heardAll.startsWith("The training's answer:") && heardAll.includes(a0.opts[r0].why.split('. ')[0].slice(0, 30)), heardAll.slice(0, 200));
+    await p.evaluate(() => { window.__fast = false; });
+    await clickBtn(p, 'Then this happens', '#sheet'); await p.waitForTimeout(350);
+    st = await sheet();
+    check('the situation changes and asks again', st.pill === 'Run the shift, part 2 of 2' && st.say === a1.say && st.q === a1.q && st.fb === null && st.opts.every(o => !o.off), JSON.stringify(st).slice(0, 300));
+    await choose(r1);
+    st = await sheet();
+    check('a right call is marked right', !!st.fb && st.fb.startsWith('fb ok') && st.fb.includes("That's the call.") && st.fb.includes(a1.opts[r1].why) && st.opts[r1].ok && !st.opts.some(o => o.bad) && st.btns.includes('See how it went'), JSON.stringify(st).slice(0, 300));
+    await clickBtn(p, 'See how it went', '#sheet'); await p.waitForTimeout(350);
+    let end = await p.evaluate(() => ({ t: document.getElementById('sheet').textContent, store: localStorage.getItem('jm-shift-v1') }));
+    st = await sheet();
+    check('the end says how many calls were right and offers the next one', end.t.includes('1 of 2 calls right.') && st.btns.includes('Next: ' + SH[1].title) && st.btns.includes('Run this one again') && st.btns.includes('Done'), end.t.slice(0, 200) + JSON.stringify(st.btns));
+    check('the best try is kept on this device', end.store === JSON.stringify({ [s0.id]: { best: 1, n: 1 } }), end.store);
+    rows = await rowsNow();
+    check('the list shows the best try, and does not call it handled', rows[0].s === '1 of 2 right, best try' && !rows[0].done, JSON.stringify(rows[0]));
+    await clickBtn(p, 'Run this one again', '#sheet'); await p.waitForTimeout(350);
+    await choose(r0); await clickBtn(p, 'Then this happens', '#sheet'); await p.waitForTimeout(300); await choose(r1); await clickBtn(p, 'See how it went', '#sheet'); await p.waitForTimeout(300);
+    end = await p.evaluate(() => document.getElementById('sheet').textContent);
+    rows = await rowsNow();
+    check('both calls right handles the situation', end.includes('Both calls right.') && rows[0].done && rows[0].s === '2 of 2 right, best try' && (await txt(p, '#shift-count')) === `1 of ${SH.length} handled with every call right.`, end.slice(0, 120) + JSON.stringify(rows[0]));
+    await clickBtn(p, 'Done', '#sheet'); await p.waitForTimeout(300);
+    check('Done closes the sheet', !(await vis(p, '#sheet .opts')) && !(await vis(p, '#sheet-title')));
+    // the card behind a call, at this level and at another
+    for (const s of [SH[1], SH.find(x => x.lv === 3)]) {
+      await pickLevel(p, 2); await openShift(s.id); await choose(0); await clickBtn(p, 'Open the card this comes from', '#sheet'); await p.waitForTimeout(500);
+      const c = await p.evaluate(id => { const d = document.getElementById(id), r = d.getBoundingClientRect(); return { open: d.open, on: d.getClientRects().length > 0, top: Math.round(r.top), sheet: !!document.querySelector('#sheet .opts') && document.querySelector('#sheet .opts').getClientRects().length > 0, view: document.getElementById('view-orient').getClientRects().length > 0 }; }, s.card);
+      check(`${s.id}: Open the card this comes from shows that card, open`, c.open && c.on && !c.sheet && c.view && c.top > -40 && c.top < 400, JSON.stringify(c));
+    }
+    await tab(p, 'drill');
+    check('the Drill tab counts handled situations apart from quiz facts', (await txt(p, '#ready-hands')).endsWith(`Run the shift: 1 of ${SH.length} handled.`), await txt(p, '#ready-hands'));
+    await p.reload(); await p.waitForTimeout(300); await tab(p, 'orient'); await pickLevel(p, 2);
+    rows = await rowsNow(); check('handled situations are still handled after a reload', rows[0].done && rows.filter(r => r.done).length === 1, JSON.stringify(rows.slice(0, 2)));
+    // every situation, both calls right, checked against the source
+    const todo = QUICK ? SH.slice(1, 3) : SH.slice(1);
+    const wrongText = [];
+    for (const s of todo) {
+      await openShift(s.id);
+      for (let i = 0; i < 2; i++) {
+        const x = await sheet(), d = s.steps[i];
+        if (x.title !== s.title || x.say !== d.say || x.q !== d.q || x.opts.map(o => o.t).join('|') !== d.opts.map(o => o.t).join('|')) wrongText.push(s.id + ' part ' + (i + 1));
+        const r = d.opts.findIndex(o => o.ok); await choose(r);
+        const y = await sheet(); if (!y.fb || !y.fb.startsWith('fb ok') || !y.fb.includes(d.opts[r].why)) wrongText.push(s.id + ' part ' + (i + 1) + ' not marked right');
+        await clickBtn(p, i ? 'See how it went' : 'Then this happens', '#sheet'); await p.waitForTimeout(250);
+      }
+      if (!(await p.evaluate(() => document.getElementById('sheet').textContent)).includes('Both calls right.')) wrongText.push(s.id + ' end');
+      await clickBtn(p, 'Done', '#sheet'); await p.waitForTimeout(200);
+    }
+    check('every situation plays through with the training\'s answers marked right', wrongText.length === 0, wrongText.join(' | '));
+    if (!QUICK) {
+      check('with all of them handled the count says so', (await txt(p, '#shift-count')) === `${SH.length} of ${SH.length} handled with every call right.`, await txt(p, '#shift-count'));
+      await openShift(SH[0].id); await choose(r0); await clickBtn(p, 'Then this happens', '#sheet'); await p.waitForTimeout(250); await choose(r1); await clickBtn(p, 'See how it went', '#sheet'); await p.waitForTimeout(250);
+      st = await sheet(); check('and the end offers no next one', !st.btns.some(b => b.startsWith('Next:')) && st.btns.includes('Done'), JSON.stringify(st.btns));
+      await clickBtn(p, 'Done', '#sheet');
+    }
+    ov = await overflow(p); check('training has no sideways scroll after the situations', ov <= 0, ov);
+    check('no script errors', p.__errs.length === 0, p.__errs.join(' | '));
+    await p.__close();
+    // in the recorded voice
+    if (AUDIO_KEYS.length) {
+      const r = await open(browser, { recorded: true, hash: '#orient' });
+      await pickLevel(r, 2); await r.click(`#shift-list .srow[data-shift="${s0.id}"]`); await r.waitForTimeout(350);
+      await clickBtn(r, 'Read it to me', '#sheet'); await r.waitForTimeout(300);
+      const lg = await r.evaluate(() => window.__speechLog[window.__speechLog.length - 1] || null);
+      check('a situation is read in the recorded voice', (!!lg && lg.recorded === true && HAS_KEY.has(lg.key)) || (ALLOW_UNRECORDED && !!lg), JSON.stringify(lg).slice(0, 200));
+      await r.__close();
+    }
+  }
+
+  // ---------- 7f. your own notes, the backup code, the short landing, the honest label ----------
+  S('notes');
+  {
+    const p = await open(browser, { hash: '#orient' });
+    const n = await p.evaluate(() => { const ds = [...document.querySelectorAll('#view-orient > details.mod')]; return { cards: ds.length, boxes: ds.filter(d => d.querySelectorAll(':scope > .mynote textarea.note-ta').length === 1).length, flagged: ds.filter(d => /training's examples/.test((d.querySelector('.mynote') || {}).textContent || '')).map(d => d.getAttribute('data-mod')) }; });
+    check('every training card has a place for your store\'s way', n.cards === DATA.MODS.length && n.boxes === n.cards, JSON.stringify(n).slice(0, 200));
+    check('cards whose times and amounts are examples say so, and only those', n.flagged.length >= 10 && n.flagged.length < n.cards / 2 && n.flagged.includes('dayclock') && !n.flagged.includes('words'), n.flagged.join());
+    await pickLevel(p, 2); await p.click('#o-dayclock summary'); await p.waitForTimeout(200);
+    const N = () => p.evaluate(() => { const d = document.getElementById('o-dayclock'), pill = d.querySelector('summary .note-pill'), ta = d.querySelector('.note-ta'); return { pill: pill.getClientRects().length > 0, v: ta.value, store: localStorage.getItem('jm-notes-v1'), size: parseFloat(getComputedStyle(ta).fontSize) }; });
+    let s = await N(); check('a card starts with no note', !s.pill && s.v === '' && s.store === null, JSON.stringify(s));
+    check('the note box is set in 16px type, so a phone does not zoom in on it', s.size >= 16, s.size);
+    await p.fill('#o-dayclock .note-ta', 'We open at 10.');
+    s = await N(); check('a note is kept on this device and marks the card', s.pill && s.store === '{"dayclock":"We open at 10."}', JSON.stringify(s));
+    await p.evaluate(() => { window.__spoken.length = 0; window.__fast = true; });
+    await p.click('#o-dayclock .say-btn'); await p.waitForTimeout(600);
+    const read = await p.evaluate(() => window.__spoken.join(' '));
+    check('the voice reads the card and leaves your note and its box out', read.length > 200 && !read.includes('We open at 10') && !read.includes("Your store's way") && !read.includes('Stays on this device'), read.slice(-200));
+    await p.reload(); await p.waitForTimeout(300); await p.evaluate(() => { document.getElementById('o-dayclock').open = true; }); await p.waitForTimeout(150);
+    s = await N(); check('the note is still there after a reload', s.pill && s.v === 'We open at 10.', JSON.stringify(s));
+    await p.fill('#o-dayclock .note-ta', '  ');
+    s = await N(); check('emptying a note takes its mark off', !s.pill && s.store === '{}', JSON.stringify(s));
+    check('no script errors', p.__errs.length === 0, p.__errs.join(' | '));
+    await p.__close();
+  }
+
+  S('backup');
+  {
+    const KEPT = { 'jm-ticks-v1': '{"sprinkler":[0,2]}', 'jm-notes-v1': '{"dayclock":"We open at 10. Café side first."}', 'jm-level': '2' };
+    const p = await open(browser, { hash: '#orient', store: KEPT });
+    const openBackup = async q => { await q.evaluate(() => { document.getElementById('ease-card').open = true; }); await q.click('#backup-open'); await q.waitForTimeout(350); };
+    const B = q => q.evaluate(() => { const s = document.getElementById('sheet'), shown = e => !!e && e.getClientRects().length > 0; return { title: (s.querySelector('#sheet-title') || {}).textContent, code: (s.querySelector('textarea[readonly]') || {}).value, btns: [...s.querySelectorAll('button')].filter(shown).map(b => b.textContent), fine: [...s.querySelectorAll('p.fine')].map(e => e.textContent).join(' ') }; });
+    await openBackup(p);
+    let b = await B(p);
+    let decoded = null; try { decoded = JSON.parse(Buffer.from(b.code.slice(4), 'base64').toString('utf8')); } catch (e) {}
+    check('the backup sheet shows one code that starts with MD1.', b.title === 'Back up your progress' && /^MD1\.[A-Za-z0-9+/=]+$/.test(b.code), JSON.stringify(b).slice(0, 200));
+    check('the code holds everything the page remembers, and nothing else', !!decoded && Object.keys(KEPT).every(k => decoded[k] === KEPT[k]) && Object.keys(decoded).every(k => k.startsWith('jm-')), JSON.stringify(decoded).slice(0, 300));
+    check('nothing offers to replace your progress before a code is checked', !b.btns.includes('Replace my progress with it') && b.btns.includes('Copy the code') && b.btns.includes('Check this code'), JSON.stringify(b.btns));
+    let ov = await overflow(p); check('backup sheet has no sideways scroll', ov <= 0, ov);
+    let bad = await p.evaluate(TAP_AUDIT); check('backup sheet tap targets are 44px', bad.length === 0, bad.slice(0, 6).join(' | '));
+    const sizes = await p.evaluate(() => [...document.querySelectorAll('#sheet textarea')].map(t => parseFloat(getComputedStyle(t).fontSize)));
+    check('the code boxes are set in 16px type', sizes.length === 2 && sizes.every(x => x >= 16), sizes.join());
+    await clickBtn(p, 'Copy the code', '#sheet'); await p.waitForTimeout(400);
+    b = await B(p); check('Copy the code says what happened', /Copied\. Paste it somewhere safe\.|Selected\. Now use Copy from your phone's menu\./.test(b.fine), b.fine);
+    for (const [what, code] of [['a word', 'hello'], ['half a code', b.code.slice(0, 20) + '!'], ['a code that carries something that is not this page\'s', 'MD1.' + Buffer.from('{"other":"x"}').toString('base64')], ['an empty code', 'MD1.' + Buffer.from('{}').toString('base64')]]) {
+      await p.fill('#sheet textarea:not([readonly])', code); await clickBtn(p, 'Check this code', '#sheet'); await p.waitForTimeout(150);
+      const x = await B(p); check(`${what} is refused`, x.fine.includes("That isn't a backup code from this page.") && !x.btns.includes('Replace my progress with it'), x.fine);
+    }
+    check('no script errors', p.__errs.length === 0, p.__errs.join(' | '));
+    await p.__close();
+    // another phone: nothing remembered, the code pasted in with a line break a notes app added
+    const q = await open(browser, { hash: '#orient' });
+    await openBackup(q);
+    await q.fill('#sheet textarea:not([readonly])', ' ' + b.code.slice(0, 30) + '\n' + b.code.slice(30) + ' \n'); await clickBtn(q, 'Check this code', '#sheet'); await q.waitForTimeout(150);
+    let x = await B(q); check('a good code is recognised, and restoring asks first', x.fine.includes('This code is good.') && x.fine.includes("can't be undone") && x.btns.includes('Replace my progress with it') && x.btns.includes('Cancel'), x.fine + JSON.stringify(x.btns));
+    bad = await q.evaluate(TAP_AUDIT); check('restore buttons are 44px', bad.length === 0, bad.slice(0, 6).join(' | '));
+    await clickBtn(q, 'Cancel', '#sheet'); await q.waitForTimeout(150);
+    x = await B(q); check('Cancel backs out and changes nothing', !x.btns.includes('Replace my progress with it') && (await q.evaluate(() => localStorage.getItem('jm-notes-v1'))) === null, JSON.stringify(x.btns));
+    await clickBtn(q, 'Check this code', '#sheet'); await q.waitForTimeout(150);
+    await Promise.all([q.waitForNavigation({ timeout: 8000 }).catch(() => {}), clickBtn(q, 'Replace my progress with it', '#sheet')]); await q.waitForTimeout(400);
+    const got = await q.evaluate(keys => keys.map(k => localStorage.getItem(k)), Object.keys(KEPT));
+    check('restoring puts every kept thing back', got.join('\n') === Object.values(KEPT).join('\n'), JSON.stringify(got));
+    await tab(q, 'orient');
+    const after = await q.evaluate(() => { const d = document.getElementById('o-dayclock'); const ul = document.querySelector('ul.ticks[data-check="sprinkler"]'); return { note: d.querySelector('.note-ta').value, ticks: ul.nextElementSibling.querySelector('.ticks-n').textContent, level: document.getElementById('view-orient').getAttribute('data-show') }; });
+    check('and the page shows it: the note, the ticks, the level', after.note === JSON.parse(KEPT['jm-notes-v1']).dayclock && after.ticks === '2 of 11 ticked' && after.level === '2', JSON.stringify(after));
+    check('no script errors', q.__errs.length === 0, q.__errs.join(' | '));
+    await q.__close();
+  }
+
+  S('short landing');
+  {
+    const p = await open(browser, { hash: '#orient' });
+    const L = () => p.evaluate(() => { const on = id => document.getElementById(id).getClientRects().length > 0; return { full: on('path-full'), mini: on('path-mini'), line: document.getElementById('path-mini-line').textContent, go: on('path-continue'), h: Math.round(document.getElementById('path-card').getBoundingClientRect().height) }; });
+    let s = await L(); const tall = s.h;
+    check('on a first visit the three levels are laid out to pick from', s.full && !s.mini, JSON.stringify(s));
+    await pickLevel(p, 2);
+    s = await L(); check('picking a level does not fold them away under your finger', s.full && !s.mini, JSON.stringify(s));
+    await p.reload(); await p.waitForTimeout(300); await tab(p, 'orient');
+    s = await L();
+    const first = await p.evaluate(() => { const d = document.querySelector('#view-orient > details.mod[data-lv="2"]'); return { id: d.id, t: d.querySelector('summary h2').textContent.replace(/\s+/g, ' ').trim() }; });
+    check('on the next visit the levels fold into one line with your path and what is next', !s.full && s.mini && s.go && s.line === `Your path: level 2, ${DATA.LEVELS[1].title}. 0 of ${modsAt(2).length} cards locked in. Next up: ${first.t}.`, JSON.stringify(s));
+    check('the folded card is less than half as tall', s.h < tall / 2, s.h + ' was ' + tall);
+    let bad = await p.evaluate(TAP_AUDIT); check('folded landing tap targets are 44px', bad.length === 0, bad.slice(0, 6).join(' | '));
+    let ov = await overflow(p); check('folded landing has no sideways scroll', ov <= 0, ov);
+    await p.click('#path-continue'); await p.waitForTimeout(1100);
+    const c = await p.evaluate(id => { const d = document.getElementById(id), r = d.getBoundingClientRect(); return { open: d.open, top: Math.round(r.top) }; }, first.id);
+    check('Continue opens the next card and brings it up', c.open && c.top > -10 && c.top < 300, JSON.stringify(c));
+    await p.evaluate(() => window.scrollTo(0, 0)); await p.click('#path-change'); await p.waitForTimeout(200);
+    s = await L();
+    check('Change level lays the three levels out again', s.full && !s.mini && (await p.evaluate(() => !!document.activeElement && document.activeElement.classList.contains('lv'))), JSON.stringify(s));
+    await pickLevel(p, 3); check('and a level can be picked from there', (await p.evaluate(() => document.getElementById('view-orient').getAttribute('data-show'))) === '3');
+    check('no script errors', p.__errs.length === 0, p.__errs.join(' | '));
+    await p.__close();
+    const a = await open(browser, { hash: '#orient', store: { 'jm-level': 'all' } });
+    check('with every level showing the folded line says so', (await a.evaluate(() => document.getElementById('path-mini-line').textContent)).startsWith('Showing every level.') && await vis(a, '#path-mini'));
+    await a.__close();
+  }
+
+  S('honest label');
+  {
+    const p = await open(browser, { hash: '#drill' });
+    const t = await p.evaluate(() => ({ h: document.querySelector('.ready-card h2').textContent, all: document.body.textContent.includes('Ready for the floor'), hands: document.getElementById('ready-hands').textContent, on: document.getElementById('ready-hands').getClientRects().length > 0 }));
+    const steps = await p.evaluate(() => [...document.querySelectorAll('ul.ticks[data-check]')].reduce((n, u) => n + u.children.length, 0));
+    check('the progress meter is called Knowledge practice, and nothing says Ready for the floor', t.h === 'Knowledge practice' && !t.all, t.h);
+    check('hands-on ticks are counted apart and said for what they are', t.on && t.hands === `Hands-on lists: 0 of ${steps} steps ticked. A tick is your own note that you did it, not a trainer signing off. Run the shift: 0 of ${DATA.SHIFTS.length} handled.`, t.hands);
+    await tab(p, 'orient'); await p.click('#o-cksprk summary'); await p.waitForTimeout(150); await p.click('ul.ticks[data-check="sprinkler"] li:nth-child(1)'); await tab(p, 'drill');
+    check('a tick moves the hands-on count and leaves the knowledge meter alone', (await txt(p, '#ready-hands')).startsWith(`Hands-on lists: 1 of ${steps} steps ticked.`) && (await txt(p, '#ready-pct')) === '0%', await txt(p, '#ready-hands'));
+    await p.__close();
+  }
+
+  S('screen stays on');
+  {
+    const p = await open(browser, { hash: '#orient' });
+    await pickLevel(p, 3); await p.click('#o-words summary'); await p.waitForTimeout(150);
+    await p.evaluate(() => { window.__slow = true; });
+    await p.click('#o-words .say-btn');
+    check('reading a card asks the phone to keep its screen on', await p.waitForFunction(() => window.__wl >= 1, null, { timeout: 2000 }).then(() => true, () => false));
+    await p.waitForTimeout(500);
+    check('and holds it while the card is being read', (await p.evaluate(() => window.__wlr)) === 0 && (await txt(p, '#o-words .say-btn')) === 'Stop');
+    await p.click('#o-words .say-btn'); await p.waitForTimeout(250);
+    check('Stop lets the screen sleep again', (await p.evaluate(() => window.__wlr)) >= 1, await p.evaluate(() => window.__wl + ' asked, ' + window.__wlr + ' let go'));
+    await p.__close();
+  }
+
   // ---------- 8. the bad days: no voice, no storage, no motion, no script ----------
   S('no voice');
   {
@@ -1557,6 +1794,16 @@ async function engineSuite(name) {
       await p.evaluate(() => { document.querySelector('#sheet .voice-tips summary').click(); }); await p.waitForTimeout(300);
       bad = await p.evaluate(CONTRAST_AUDIT); check('voice tips contrast', bad.length === 0, bad.slice(0, 5).join(' | '));
       await p.keyboard.press('Escape'); await p.waitForTimeout(300);
+      await p.click('#backup-open'); await p.waitForTimeout(900);
+      await p.fill('#sheet textarea:not([readonly])', await p.evaluate(() => document.querySelector('#sheet textarea[readonly]').value)); await clickBtn(p, 'Check this code', '#sheet'); await p.waitForTimeout(300);
+      bad = await p.evaluate(CONTRAST_AUDIT); check('backup sheet contrast', bad.length === 0, bad.slice(0, 5).join(' | '));
+      await p.keyboard.press('Escape'); await p.waitForTimeout(300);
+      for (const pickRight of [false, true]) {
+        const sh = DATA.SHIFTS[0], k = sh.steps[0].opts.findIndex(o => !!o.ok === pickRight);
+        await pickLevel(p, 2); await p.click(`#shift-list .srow[data-shift="${sh.id}"]`); await p.waitForTimeout(400); await p.click(`#sheet .opts .opt:nth-child(${k + 1})`); await p.waitForTimeout(900);
+        bad = await p.evaluate(CONTRAST_AUDIT); check('situation sheet contrast, ' + (pickRight ? 'right' : 'wrong') + ' call', bad.length === 0, bad.slice(0, 5).join(' | '));
+        await p.keyboard.press('Escape'); await p.waitForTimeout(300);
+      }
       const bg = await p.evaluate(() => getComputedStyle(document.body).backgroundColor);
       check('body paints its own background', !/rgba\(0, 0, 0, 0\)|transparent/.test(bg), bg);
       await p.__close();

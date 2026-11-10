@@ -260,7 +260,11 @@ function seqSay(sq){ return sayable(fullStop(sq.title) + " " + sq.steps.map(full
 function walkSay(st){ return sayable((/^start$/i.test(st.num) ? "Before you start. " : "Step " + st.num + ". ") + st.title + ". " + st.text); }
 var SPEAKER_ICON = "M3 9v6h4l5 4V5L7 9H3zm11.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM12 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z";
 var saying = null;   /* the button that is talking right now */
-function sayReset(){ if (saying){ saying.setAttribute("aria-pressed", "false"); saying.lastChild.textContent = saying.getAttribute("data-label"); saying = null; } }
+function sayReset(){
+  if (!saying) return;
+  saying.setAttribute("aria-pressed", "false"); saying.lastChild.textContent = saying.getAttribute("data-label"); saying = null;
+  if (!listenRun && !(walk && walk.entry && walk.entry.hands)) Awake.off();   /* the screen may sleep again, unless something hands-free is still going */
+}
 function sayButton(text, label){
   label = label || "Read it to me";
   if (!Voice.ok) return null;
@@ -270,6 +274,7 @@ function sayButton(text, label){
     if (saying === b){ Voice.stop(); sayReset(); return; }
     sayReset(); stopListen(); walkPause();
     saying = b; b.setAttribute("aria-pressed", "true"); b.lastChild.textContent = "Stop";
+    Awake.on();   /* a long card takes three minutes to read: the screen stays on, or the phone locks and the reading stops */
     Voice.speak(typeof text === "function" ? text() : text, {
       onend:function(){ if (saying === b) sayReset(); },
       onfail:function(kind){
@@ -282,7 +287,7 @@ function sayButton(text, label){
   return b;
 }
 
-/* keep the screen on while something hands-free is running */
+/* keep the screen on while something is being read or is running hands-free */
 var Awake = {
   lock:null, want:false,
   on:function(){ this.want = true; this.ask(); },

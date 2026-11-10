@@ -985,6 +985,8 @@ function renderReady(){
   if (once) parts.push(once + " right once so far (the lighter part of the bar).");
   if (r.due) parts.push(r.due + " ready to review now.");
   if (r.fresh) parts.push(r.fresh + " you haven't met yet.");
+  drawHands();
+  if (typeof renderPathMini === "function" && $("path-mini") && !$("path-mini").hidden) renderPathMini();
   $("ready-line").textContent = "Locked in means you got it right on two different days. " + (r.seen ? parts.join(" ") : "Start a session to meet your first ones.") +
     (r.board.pct >= 70 ? " The board is in good shape; the rest is for the quizzes, not the counter." : "");
 }

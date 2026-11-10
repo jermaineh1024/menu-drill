@@ -18,7 +18,7 @@ sys.path.insert(0, HERE)
 import say, g2p   # noqa: E402
 
 SR = 24000
-ORDER = ['sample', 'sub', 'ask', 'tell', 'step', 'game', 'card', 'lesson']
+ORDER = ['sample', 'sub', 'ask', 'tell', 'step', 'game', 'shift', 'shiftwhy', 'card', 'lesson']
 CAP, HARD = 300, 480          # sounds given to the voice at once: aim for CAP, never more than HARD (the model's limit is 510)
 GAP, LEAD, TAIL = 0.45, 0.12, 0.25   # seconds of quiet between passages (the voice's own pause between sentences), and at each end
 
@@ -51,6 +51,10 @@ def passages(ps, cap=CAP, hard=HARD):
             cur = (cur + ' ' + p) if cur else p
     if cur:
         out.append(cur)
+    # a short last sentence on its own comes out rushed (found Nov 10: "Tell them the grill is closed for the night." at 21.7
+    # sounds a second), so it rides with the passage before it whenever the two together still fit
+    if len(out) > 1 and len(out[-1]) < 80 and len(out[-2]) + 1 + len(out[-1]) <= hard:
+        out[-2:] = [out[-2] + ' ' + out[-1]]
     return out
 
 

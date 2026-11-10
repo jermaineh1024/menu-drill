@@ -123,12 +123,12 @@ function initTicks(){
       function flip(){
         var got = (ticks[key] || []).slice(), at = got.indexOf(i);
         if (at >= 0) got.splice(at, 1); else got.push(i);
-        ticks[key] = got; store(TICKS_KEY, ticks); draw();
+        ticks[key] = got; store(TICKS_KEY, ticks); draw(); drawHands();
       }
       li.addEventListener("click", flip);
       li.addEventListener("keydown", function(e){ if (e.key === " " || e.key === "Enter"){ e.preventDefault(); flip(); } });
     });
-    clearB.addEventListener("click", function(){ delete ticks[key]; store(TICKS_KEY, ticks); draw(); });
+    clearB.addEventListener("click", function(){ delete ticks[key]; store(TICKS_KEY, ticks); draw(); drawHands(); });
     ul.classList.add("live");
     ul.parentNode.insertBefore(h("div", {class:"ticks-foot"}, [count, clearB]), ul.nextSibling);
     draw();

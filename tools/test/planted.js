@@ -1,4 +1,4 @@
-// node tools/test/planted.js  -> proves the suite can fail: breaks a copy of the site twenty-one ways and expects each to be caught
+// node tools/test/planted.js  -> proves the suite can fail: breaks a copy of the site twenty-eight ways and expects each to be caught
 // Each broken copy gets its own folder and its own quick run of the suite, two at a time.
 const fs = require('fs'); const path = require('path'); const { spawn } = require('child_process');
 const ROOT = path.resolve(__dirname, '../..'); const SRC = path.join(ROOT, 'dist/site');
@@ -27,7 +27,15 @@ const plants = [
   ['recordings filed under the wrong fingerprint', s => s.replace('a = Math.imul(a ^ c, 0x01000193);', 'a = Math.imul(a ^ c, 0x01000195);'), 'every fixed thing the page says has a recording'],
   ['a missing recording that leaves you in silence', s => s.replace('if (synth) speakDevice(text, opt); else if (opt.onfail) opt.onfail("silent");', 'if (opt.onfail) opt.onfail("silent");'), "when a recording does not arrive, the device's voice reads the same words"],
   ['a Slower button the recorded voice ignores', s => s.replace('player.defaultPlaybackRate = player.playbackRate = slow ? 0.85 : 1;', 'player.defaultPlaybackRate = player.playbackRate = 1;'), 'its sample is the recording, and Slower plays it slower'],
-  ['a phone with no signal left waiting for a recording', s => s.replace('if (navigator.onLine === false) return false;', 'if (navigator.onLine === 7) return false;'), "with no signal the device's voice reads it at once"]
+  ['a phone with no signal left waiting for a recording', s => s.replace('if (navigator.onLine === false) return false;', 'if (navigator.onLine === 7) return false;'), "with no signal the device's voice reads it at once"],
+  // run the shift, notes, backup, the short landing
+  ['a situation that marks the wrong call right', s => s.replace('{t:"Best people in their best spots, and run the line", ok:1,', '{t:"Best people in their best spots, and run the line",').replace('{t:"Start extra prep now, so nothing runs out later",', '{t:"Start extra prep now, so nothing runs out later", ok:1,'), 'a wrong call is marked, the right one is shown, and the choices lock'],
+  ['an answer on show before the call is made', s => s.replace('{class:"opts single"}), fb = h("div", {class:"fb", hidden:true,', '{class:"opts single"}), fb = h("div", {class:"fb", hidden:"",'), 'no answer and no way forward shows before you make the call'],
+  ['a backup that leaves your notes behind', s => s.replace('if (k && k.indexOf("jm-") === 0) all[k] = localStorage.getItem(k);', 'if (k && k.indexOf("jm-") === 0 && k !== "jm-notes-v1") all[k] = localStorage.getItem(k);'), 'the code holds everything the page remembers, and nothing else'],
+  ['a restore that takes a code carrying anything', s => s.replace('if (k.indexOf("jm-") !== 0 || typeof all[k] !== "string") return null;', ''), "a code that carries something that is not this page's is refused"],
+  ['a landing that never folds', s => s.replace('fold(loadRaw(LEVEL_KEY) !== null);', 'fold(false);'), 'on the next visit the levels fold into one line with your path and what is next'],
+  ['a card reading that lets the phone lock', s => s.replace('Awake.on();   /* a long card', '/* a long card'), 'reading a card asks the phone to keep its screen on'],
+  ['the old label back on the meter', s => s.replace('<h2>Knowledge practice</h2>', '<h2>Ready for the floor</h2>'), 'the progress meter is called Knowledge practice, and nothing says Ready for the floor']
 ];
 
 // a broken copy is thrown away when its run is over; the link to the recordings goes first, so nothing can reach through it
