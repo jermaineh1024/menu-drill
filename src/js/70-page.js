@@ -153,6 +153,19 @@ function renderMods(){
   });
 }
 function modById(id){ for (var i = 0; i < MODS.length; i++){ if (MODS[i].id === id) return MODS[i]; } return null; }
+/* the Training tab: each station's quiz button says how many questions it holds, and the hot sub pictures are drawn into their module */
+function initTraining(){
+  each(document.querySelectorAll(".grp-row [data-bank]"), function(b){
+    b.textContent = b.getAttribute("data-label") + " (" + BANKS[b.getAttribute("data-bank")].length + ")";
+  });
+  each(document.querySelectorAll("[data-subpics]"), function(box){
+    box.getAttribute("data-subpics").split(",").forEach(function(id){
+      var sub = byId(id);
+      if (!sub) return;
+      box.appendChild(h("div", {class:"sub-card"}, [h("div", {class:"sub-head"}, [tagEl(sub), h("p", {class:"name", text:sub.name})]), stackSVG(sub, {brackets:true})]));
+    });
+  });
+}
 
 /* ---------- how-to pictures: tap one to open it full size; they move only while they're on screen ---------- */
 var MOTION_KEY = "jm-motion";

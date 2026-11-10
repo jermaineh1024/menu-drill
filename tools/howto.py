@@ -1,8 +1,8 @@
-"""The how-to pictures: wrapping, cutting, bagging.
+"""The how-to pictures: wrapping, cutting, bagging, and a #17 on the grill.
 
     python3 tools/howto.py
 
-writes src/include/howto-{wrap,cut,bag}.html, src/include/howto-defs.html, src/howto.css and proof/howto.html
+writes src/include/howto-{wrap,cut,bag,steak}.html, src/include/howto-defs.html, src/howto.css and proof/howto.html
 (every picture as a still and frozen at four moments of its loop).
 
 Wording follows the orientation videos' own words (transcripts pasted Nov 2 and Nov 4, 2026). Where a picture has to
@@ -343,6 +343,191 @@ BAG.append(("Twist it, mark it",
             svg(b, "A regular's bag with its end twisted, a giant's bag left flat, and a bag marked with a sub number and a name")))
 
 
+# =============================================================== a #17 on the grill
+# Looking down at the flat top, you at the bottom. The grill is the dark plate on the left, the counter with the paper is
+# on the right. The video gives the order, the amounts and the counts; where things sit on the plate is one way to show it.
+STEAK = []
+GRILL, GRILL_HI = "#3F4753", "#5B6470"
+G_X0, G_Y0, G_X1, G_Y1 = 10, 10, 214, 166
+BUN_G = (34, 24, 190, 50)                  # the loaf, warming at the back of the plate
+ONION_C, ONION_LN_C, PEPPER_C, PEPPER_LN_C = "#E8DFF2", "#9C86B8", "#7FA85E", "#4E7A3A"
+STEAK_C, STEAK_LN_C, CHEESE_C, CHEESE_LN_C = "#7A4A3C", "#3A1F17", "#FBF5E4", "#B9AE8C"
+STEEL_C, STEEL_LN_C = "#D3DAE2", "#6F7B88"
+
+
+def plate():
+    return (f'<rect x="{G_X0}" y="{G_Y0}" width="{G_X1 - G_X0}" height="{G_Y1 - G_Y0}" rx="9" fill="{GRILL}" stroke="{GRILL_HI}" stroke-width="2"/>'
+            f'<path d="M{G_X0 + 10} {G_Y1 - 8} H{G_X1 - 10}" stroke="{GRILL_HI}" stroke-width="1.5" stroke-linecap="round" opacity=".7"/>')
+
+
+def glabel(x, y, t, anchor="start", size=12):
+    """Words that sit on the dark plate."""
+    return label(x, y, t, anchor, size, "#FFFFFF", 700, halo=GRILL)
+
+
+def sheet(cheese=3, cls=None):
+    """The paper on the counter, with the cheese laid out on it."""
+    s_ = f'<rect x="226" y="16" width="84" height="150" fill="{PAPER}" stroke="{PAPER_LN}" stroke-width="1.4"/>'
+    for i in range(cheese):
+        c = f' class="{cls[i]}"' if cls else ""
+        s_ += f'<rect{c} x="236" y="{26 + i * 44}" width="64" height="38" rx="3" fill="{CHEESE_C}" stroke="{CHEESE_LN_C}" stroke-width="1.2"/>'
+    return s_
+
+
+def strip(y, h, fill, ln, rings=False):
+    x0, x1 = BUN_G[0], BUN_G[2]
+    s_ = f'<rect x="{x0}" y="{y}" width="{x1 - x0}" height="{h}" rx="{h / 2}" fill="{fill}" stroke="{ln}" stroke-width="1.2"/>'
+    if rings:
+        for cx in range(x0 + 14, x1 - 6, 19):
+            s_ += f'<circle cx="{cx}" cy="{y + h / 2}" r="{h / 2 - 3.2}" fill="none" stroke="{ln}" stroke-width="1"/>'
+    return s_
+
+
+def veg(y=70):
+    return strip(y, 18, ONION_C, ONION_LN_C, rings=True) + strip(y + 3, 12, PEPPER_C, PEPPER_LN_C)
+
+
+def meat(x=58, y=104, w=110, h=40, broken=False, mixed=False):
+    s_ = f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="12" fill="{STEAK_C}" stroke="{STEAK_LN_C}" stroke-width="1.4"/>'
+    if broken:
+        s_ += f'<path d="M{x + 22} {y + 6} V{y + h - 6} M{x + 44} {y + 6} V{y + h - 6} M{x + 66} {y + 6} V{y + h - 6} M{x + 88} {y + 6} V{y + h - 6}" stroke="{STEAK_LN_C}" stroke-width="1.6" stroke-linecap="round"/>'
+    if mixed:
+        for i, (dx, dy) in enumerate(((14, 10), (34, 26), (52, 12), (72, 28), (92, 14), (24, 30), (62, 20), (84, 32), (44, 34), (100, 26))):
+            s_ += f'<rect x="{x + dx - 5}" y="{y + dy - 3}" width="10" height="6" rx="3" fill="{PEPPER_C if i % 2 else ONION_C}" stroke="{PEPPER_LN_C if i % 2 else ONION_LN_C}" stroke-width=".8"/>'
+    return s_
+
+
+def tool(x, y, kind, rot=0):
+    """A red-handled tool lying on the plate: tongs, spatula or dough cutter."""
+    if kind == "tongs":
+        b_ = (f'<path d="M0 0 L46 -9 M0 0 L46 9" stroke="{STEEL_LN_C}" stroke-width="3.2" stroke-linecap="round" fill="none"/>'
+              f'<path d="M-20 0 H2" stroke="{RED}" stroke-width="9" stroke-linecap="round"/>')
+    elif kind == "spatula":
+        b_ = (f'<path d="M0 -13 H30 V13 H0 Z" fill="{STEEL_C}" stroke="{STEEL_LN_C}" stroke-width="1.2"/>'
+              f'<path d="M-30 0 H0" stroke="{RED}" stroke-width="8" stroke-linecap="round"/>')
+    else:
+        b_ = (f'<rect x="0" y="-16" width="9" height="32" rx="2" fill="{STEEL_C}" stroke="{STEEL_LN_C}" stroke-width="1.2"/>'
+              f'<rect x="-9" y="-16" width="9" height="32" rx="4" fill="{RED}"/>')
+    return g(b_, tr=f"translate({f(x)} {f(y)}) rotate({f(rot)})")
+
+
+# ---- 1: temper the bread
+b = plate() + sheet(0)
+b += loop(g(sub_top(*BUN_G), cls="hw-mv-ab", frm="translate(0px,26px)"))
+b += arrow("M196 62 A22 22 0 1 1 196 18", w=2.6)
+b += glabel(112, 84, "bottom side down", "middle", 13)
+b += glabel(112, 102, "turn it often", "middle", 13)
+b += label(268, 96, "paper", "middle", 11.5, MUTED, 600, halo=PAPER)
+b += label(112, 190, "warm, not toasted", "middle", 13, RED)
+b += label(112, 206, "open and close the loaf first", "middle", 11.5, INK, 700)
+STEAK.append(("Bread on the grill to temper",
+              "The pre-cut loaf goes on the grill bottom side down, to warm it, not toast it. Open and close it first so the heat can reach the middle. Keep turning it through the whole cook, and leave it on as long as you can.",
+              svg(b, "A pocket-cut loaf warming at the back of the grill, bottom side down")))
+
+# ---- 2: paper and cheese
+b = plate() + sub_top(*BUN_G)
+b += loop(sheet(3, cls=("hw-on-a", "hw-on-b", "hw-on-c")))
+b += glabel(112, 100, "bread keeps warming", "middle", 12)
+b += label(268, 186, "3 slices", "middle", 13, RED)
+b += label(268, 204, "15 in of paper", "middle", 11.5, INK, 700)
+b += label(112, 196, "a Big Kahuna gets 4 slices", "middle", 11.5, MUTED, 600)
+STEAK.append(("Paper torn, cheese laid out",
+              "Tear the paper: 15 inches for a regular. Lay out the cheese: 3 slices. A Big Kahuna gets 4.",
+              svg(b, "A sheet of paper on the counter beside the grill with three slices of cheese laid out on it")))
+
+# ---- 3: onions
+b = plate() + sheet(3) + sub_top(*BUN_G)
+b += f'<path d="M{BUN_G[0]} 54 V96 M{BUN_G[2]} 54 V96" stroke="{RED}" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round"/>'
+b += loop(about(BUN_G[0], 79, strip(70, 18, ONION_C, ONION_LN_C, rings=True), "hw-mv-ab", "scale(.04,1)"))
+b += glabel(112, 118, "as long as the bread", "middle", 13)
+b += label(112, 190, "1.25 oz of onions", "middle", 13, RED)
+b += label(112, 206, "spread to the length of the loaf", "middle", 11.5, INK, 700)
+STEAK.append(("Onions down, as long as the bread",
+              "Using the length of the bread on the grill as your guide, spread out 1.25 ounces of onions.",
+              svg(b, "A line of onions on the grill, the same length as the loaf warming behind it")))
+
+# ---- 4: peppers on top
+b = plate() + sheet(3) + sub_top(*BUN_G)
+b += strip(70, 18, ONION_C, ONION_LN_C, rings=True)
+b += loop(about(BUN_G[0], 79, strip(73, 12, PEPPER_C, PEPPER_LN_C), "hw-mv-ab", "scale(.04,1)"))
+b += glabel(112, 118, "peppers ride on the onions", "middle", 12.5)
+b += label(112, 190, "0.75 oz of peppers, on top", "middle", 13, RED)
+b += label(112, 206, "they help cook and marinate the onions", "middle", 11, INK, 700)
+STEAK.append(("Peppers on top of the onions",
+              "Spread 0.75 ounces of peppers to the same length, on top of the onions. The peppers help cook and marinate the onions.",
+              svg(b, "Green peppers laid on top of the line of onions")))
+
+# ---- 5: steak on, flip, salt
+b = plate() + sheet(3) + sub_top(*BUN_G) + veg()
+mv = g(meat() + tool(170, 124, "tongs", rot=180), cls="hw-mv-a", frm="translate(0px,34px)")
+mv += g("".join(f'<circle cx="{74 + i * 13}" cy="{112 + (i % 3) * 9}" r="1.5" fill="#FFFFFF"/>' for i in range(7)), cls="hw-on-c")
+mv += g(arrow("M40 146 A20 20 0 0 1 40 104", w=2.4), cls="hw-on-b")
+b += loop(mv)
+b += label(112, 190, "red tongs, flip, light salt", "middle", 13, RED)
+b += label(112, 206, "don't touch the raw meat", "middle", 11.5, INK, 700)
+STEAK.append(("Steak on, flipped, lightly salted",
+              "Place the steak on the grill with the red-handled tongs, and avoid touching the raw meat. Once it's on, flip it and lightly salt it. A good moment to turn the bread.",
+              svg(b, "A steak on the grill in front of the onions and peppers, held with red-handled tongs and salted")))
+
+# ---- 6: break 4, together, 4
+b = plate() + sheet(3) + sub_top(*BUN_G) + veg()
+mv = meat(broken=True)
+mv += g(tool(36, 124, "cutter"), cls="hw-saw-a") + g(tool(176, 124, "spatula", rot=180), cls="hw-saw-b")
+b += loop(mv)
+b += glabel(113, 160, "4, bring it together, 4 more", "middle", 12)
+b += label(112, 190, "break it with the red tools", "middle", 13, RED)
+b += label(112, 206, "spatula and dough cutter", "middle", 11.5, INK, 700)
+STEAK.append(("Break 4, bring together, break 4",
+              "With the red spatula and the red dough cutter, break the steak 4 times. Bring it together and break it 4 more.",
+              svg(b, "The steak chopped on the grill between a red dough cutter and a red spatula")))
+
+# ---- 7: veg on top, 8 more
+b = plate() + sheet(3) + sub_top(*BUN_G)
+b += f'<rect x="{BUN_G[0]}" y="70" width="{BUN_G[2] - BUN_G[0]}" height="18" rx="9" fill="none" stroke="{GRILL_HI}" stroke-width="1.4" stroke-dasharray="4 4"/>'
+mv = meat(broken=True) + g(meat(mixed=True), cls="hw-on-b")
+mv += g(arrow("M112 90 V104", w=2.6), cls="hw-on-a")
+b += loop(mv)
+b += glabel(113, 160, "8 more: 16 in all", "middle", 12.5)
+b += label(112, 190, "onions and peppers on top", "middle", 13, RED)
+b += label(112, 206, "then break it 8 more times", "middle", 11.5, INK, 700)
+STEAK.append(("Onions and peppers on top, break 8 more",
+              "Put the peppers and onions on top of the steak and break it 8 more times, the same 4 and 4 as before. That's 16 in all.",
+              svg(b, "The onions and peppers moved onto the chopped steak and broken in with it")))
+
+# ---- 8: cheese on top
+b = plate() + sheet(0) + sub_top(*BUN_G) + meat(mixed=True)
+mv = ""
+for i, k in enumerate("abc"):
+    x = 62 + i * 34
+    sl = f'<rect x="{x}" y="106" width="34" height="36" rx="3" fill="{CHEESE_C}" stroke="{CHEESE_LN_C}" stroke-width="1.2"/>'
+    sl += f'<path d="M{x + 9} 116 V132 M{x + 17} 113 V129 M{x + 25} 117 V133" stroke="{CHEESE_LN_C}" stroke-width="1.5" stroke-linecap="round"/>'
+    mv += g(sl, cls=f"hw-on-{k}")
+b += loop(mv)
+b += glabel(113, 160, "don't overcook it waiting", "middle", 12)
+b += label(112, 190, "cheese on top, a few slits", "middle", 13, RED)
+b += label(112, 206, "the slits help it melt faster", "middle", 11.5, INK, 700)
+STEAK.append(("Cheese on top, a few slits",
+              "Lay the slices of cheese on top of the steak to melt, and cut a few slits in the cheese so it melts faster. Don't overcook the steak while you wait for it.",
+              svg(b, "Three slices of cheese laid over the chopped steak, each with a few slits")))
+
+# ---- 9: onto the bread
+b = plate() + sheet(0) + sub_top(*BUN_G)
+pile = f'<rect x="58" y="104" width="110" height="40" rx="12" fill="{CHEESE_C}" stroke="{CHEESE_LN_C}" stroke-width="1.4"/>'
+pile += f'<path d="M70 144 q10 6 20 0 M104 144 q10 6 20 0 M138 144 q8 5 16 0" fill="none" stroke="{STEAK_LN_C}" stroke-width="2" stroke-linecap="round"/>'
+mv = g(pile, cls="hw-off-b")
+filled = f'<rect x="{BUN_G[0] + 14}" y="{BUN_G[1] + 6}" width="{BUN_G[2] - BUN_G[0] - 28}" height="14" rx="7" fill="{CHEESE_C}" stroke="{CHEESE_LN_C}" stroke-width="1.2"/>'
+mv += g(filled, cls="hw-on-b")
+mv += g(tool(30, 124, "cutter") + tool(196, 124, "spatula", rot=180), cls="hw-off-b")
+b += loop(mv)
+b += arrow("M112 100 V58")
+b += glabel(113, 160, "scrape the loose bits on too", "middle", 12)
+b += label(112, 190, "onto the bread", "middle", 13, RED)
+b += label(112, 206, "dough cutter pushes it onto the spatula", "middle", 11, INK, 700)
+STEAK.append(("Onto the bread, loose bits scraped on",
+              "Use the dough cutter to get all of the steak onto the spatula, and place it onto the bread. Scrape the loose bits off the grill and onto the sub.",
+              svg(b, "The cheesesteak lifted off the grill and into the pocket of the loaf")))
+
+
 # =============================================================== output
 def howto(steps, key, before=False):
     out = [f'<ol class="howto" data-howto="{key}">']
@@ -364,12 +549,13 @@ if __name__ == "__main__":
     (inc / "howto-wrap.html").write_text(howto(WRAP, "wrap", before=True), encoding="utf-8")
     (inc / "howto-cut.html").write_text(howto(CUT, "cut"), encoding="utf-8")
     (inc / "howto-bag.html").write_text(howto(BAG, "bag"), encoding="utf-8")
+    (inc / "howto-steak.html").write_text(howto(STEAK, "steak"), encoding="utf-8")
     (inc / "howto-defs.html").write_text(DEFS, encoding="utf-8")
     (ROOT / "src" / "howto.css").write_text(keyframes_css(), encoding="utf-8")
     # proof: every picture as a still, then frozen at four moments of its loop
     times = [("still", None), ("0.3 s", .3), ("1.9 s", 1.9), ("2.9 s", 2.9), ("4.2 s", 4.2)]
     cells = []
-    for name, steps in (("WRAP", WRAP), ("CUT", CUT), ("BAG", BAG)):
+    for name, steps in (("WRAP", WRAP), ("CUT", CUT), ("BAG", BAG), ("STEAK", STEAK)):
         for i, (title, text, pic) in enumerate(steps):
             row = f'<div class="cap">{name} {i}: {title}</div>'
             for tname, t in times:
@@ -383,4 +569,4 @@ if __name__ == "__main__":
             "<svg width=0 height=0 style='position:absolute'><defs>" + DEFS + "</defs></svg>" + "".join(cells))
     (ROOT / "proof").mkdir(exist_ok=True)
     (ROOT / "proof" / "howto.html").write_text(page, encoding="utf-8")
-    print("frames", len(WRAP), len(CUT), len(BAG))
+    print("frames", len(WRAP), len(CUT), len(BAG), len(STEAK))

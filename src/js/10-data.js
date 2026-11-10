@@ -31,33 +31,47 @@ var SUBS = [
   {id:14, n:14, name:"The Veggie", type:"cold", cheese:["Swiss","Provolone"], meats:[], fixed:["Green bell peppers"], mw:true, fam:"classic",
    delta:"Two cheeses and green peppers, no meat. Mike's Way is what puts the onions, lettuce and tomatoes on it."},
 
-  {id:16, n:16, name:"Mike's Chicken Philly", type:"hot", protein:"Chicken", grill:["Grilled onions","Grilled peppers"], cheese:["White American"], after:[], fam:"philly",
+  /* Hot subs, the way the grill video builds them. lid: goes on the inside of the lid BEFORE the meat hits the grill, in this order.
+     grill: goes down on the grill ahead of the meat and gets chopped in. sauce: goes on the cooked meat, before the cheese.
+     finish: goes on last, once the meat is on the bread. */
+  {id:16, n:16, name:"Mike's Chicken Philly", type:"hot", protein:"Chicken", grill:["Grilled onions","Grilled peppers"], cheese:["White American"], fam:"philly",
    delta:"The cheesesteak base: grilled onions, grilled peppers, white American melted on top. Nothing added."},
-  {id:17, n:17, name:"Mike's Famous Philly", type:"hot", protein:"Steak", grill:["Grilled onions","Grilled peppers"], cheese:["White American"], after:[], fam:"philly",
+  {id:17, n:17, name:"Mike's Famous Philly", type:"hot", protein:"Steak", grill:["Grilled onions","Grilled peppers"], cheese:["White American"], fam:"philly",
    delta:"The cheesesteak base: grilled onions, grilled peppers, white American melted on top. Nothing added."},
-  {id:26, n:26, name:"Chicken Bacon Ranch", type:"hot", protein:"Chicken", grill:["Bacon"], cheese:["White American"], after:["Lettuce","Tomatoes","Ranch"], fam:"chickenonly",
-   delta:"Chicken with bacon, then lettuce, tomato and ranch. Ranch is the 26."},
-  {id:31, n:31, name:"California Chicken Cheese Steak", type:"hot", offBoard:true, protein:"Chicken", grill:[], cheese:["White American"], after:["Lettuce","Tomatoes","Mayo"], fam:"chickenonly",
-   delta:"Plus mayo."},
-  {id:42, n:42, name:"Chipotle Chicken", type:"hot", protein:"Chicken", grill:["Grilled onions","Grilled peppers"], cheese:["White American"], after:["Chipotle mayo"], fam:"philly",
-   delta:"The cheesesteak base (grilled onions, grilled peppers, white American) plus chipotle mayo."},
-  {id:43, n:43, name:"Chipotle", type:"hot", protein:"Steak", grill:["Grilled onions","Grilled peppers"], cheese:["White American"], after:["Chipotle mayo"], fam:"philly",
-   delta:"The cheesesteak base (grilled onions, grilled peppers, white American) plus chipotle mayo."},
-  {id:44, n:44, name:"Buffalo Chicken", type:"hot", protein:"Chicken", grill:[], cheese:["White American"], after:["Frank's RedHot","Lettuce","Tomatoes","Blue cheese dressing"], fam:"chickenonly",
-   delta:"Buffalo is the 44: Frank's RedHot and blue cheese dressing."},
-  {id:55, n:55, name:"The Big Kahuna Chicken", type:"hot", protein:"Chicken", grill:["Grilled onions","Grilled peppers","Mushrooms","Jalapeños"], cheese:["Extra White American"], after:[], fam:"philly",
-   delta:"The cheesesteak base (grilled onions, grilled peppers, white American) plus mushrooms, jalapeños and extra cheese."},
-  {id:56, n:56, name:"The Big Kahuna", type:"hot", protein:"Steak", grill:["Grilled onions","Grilled peppers","Mushrooms","Jalapeños"], cheese:["Extra White American"], after:[], fam:"philly",
-   delta:"The cheesesteak base (grilled onions, grilled peppers, white American) plus mushrooms, jalapeños and extra cheese."},
-  {id:64, n:64, name:"Grilled Portabella Mushroom & Swiss", type:"hot", offBoard:true, protein:null, grill:["Portabella mushrooms","Grilled peppers","Grilled onions"], cheese:["Swiss"], after:[], fam:"philly",
+  {id:26, n:26, name:"Chicken Bacon Ranch", type:"hot", protein:"Chicken", lid:["Ranch","Bacon","Tomatoes"], grill:[], cheese:["White American"], finish:["Lettuce"], fam:"chickenonly",
+   delta:"Ranch is the 26. Ranch, bacon and tomatoes go on the lid first. Chicken and cheese come off the grill, and lettuce finishes it."},
+  {id:31, n:31, name:"California Chicken Cheese Steak", type:"hot", offBoard:true, protein:"Chicken", lid:["Mayo","Tomatoes"], grill:[], cheese:["White American"], finish:["Lettuce"], fam:"chickenonly",
+   delta:"Mayo and tomatoes on the lid first, lettuce to finish."},
+  {id:42, n:42, name:"Chipotle Chicken", type:"hot", protein:"Chicken", lid:["Chipotle mayo"], grill:["Grilled onions","Grilled peppers"], cheese:["White American"], fam:"philly",
+   delta:"The cheesesteak base, with chipotle mayo on the lid before the meat hits the grill."},
+  {id:43, n:43, name:"Chipotle", type:"hot", protein:"Steak", lid:["Chipotle mayo"], grill:["Grilled onions","Grilled peppers"], cheese:["White American"], fam:"philly",
+   delta:"The cheesesteak base, with chipotle mayo on the lid before the meat hits the grill."},
+  {id:44, n:44, name:"Buffalo Chicken", type:"hot", protein:"Chicken", lid:["Blue cheese dressing","Tomatoes"], grill:[], sauce:["Frank's RedHot"], cheese:["White American"], finish:["Lettuce"], fam:"chickenonly",
+   delta:"Buffalo is the 44. Blue cheese dressing and tomatoes go on the lid first. Frank's RedHot goes on the cooked chicken, then the cheese. Lettuce finishes it."},
+  {id:55, n:55, name:"The Big Kahuna Chicken", type:"hot", protein:"Chicken", grill:["Grilled onions","Grilled peppers","Mushrooms","Jalapeños"], cheese:["Extra White American"], fam:"philly",
+   delta:"The cheesesteak base plus mushrooms, jalapeños and extra cheese: 4 slices on a regular, not 3."},
+  {id:56, n:56, name:"The Big Kahuna", type:"hot", protein:"Steak", grill:["Grilled onions","Grilled peppers","Mushrooms","Jalapeños"], cheese:["Extra White American"], fam:"philly",
+   delta:"The cheesesteak base plus mushrooms, jalapeños and extra cheese: 4 slices on a regular, not 3."},
+  {id:64, n:64, name:"Grilled Portabella Mushroom & Swiss", type:"hot", offBoard:true, protein:null, grill:["Portabella mushrooms","Grilled peppers","Grilled onions"], cheese:["Swiss"], fam:"philly",
    delta:"No steak, no chicken."},
-  {id:65, n:65, name:"Portabella Chicken Cheese Steak", type:"hot", offBoard:true, protein:"Chicken", grill:["Portabella mushrooms","Grilled peppers","Grilled onions"], cheese:["White American"], after:[], fam:"philly",
+  {id:65, n:65, name:"Portabella Chicken Cheese Steak", type:"hot", offBoard:true, protein:"Chicken", grill:["Portabella mushrooms","Grilled peppers","Grilled onions"], cheese:["White American"], fam:"philly",
    delta:"The cheesesteak base plus portabella mushrooms."},
-  {id:66, n:66, name:"Portabella Cheese Steak", type:"hot", offBoard:true, protein:"Steak", grill:["Portabella mushrooms","Grilled peppers","Grilled onions"], cheese:["White American"], after:[], fam:"philly",
+  {id:66, n:66, name:"Portabella Cheese Steak", type:"hot", offBoard:true, protein:"Steak", grill:["Portabella mushrooms","Grilled peppers","Grilled onions"], cheese:["White American"], fam:"philly",
    delta:"The cheesesteak base plus portabella mushrooms."},
-  {id:"lto-hotitalian", n:"LTO", name:"Mike's Hot Italian", type:"hot", lto:true, protein:null, grill:["Ham","Salami","Pepperoni"], cheese:["Provolone"], after:["Grilled onions","Lettuce","Tomatoes","Chopped pepper relish"], fam:"lto",
-   delta:"Ham, salami and pepperoni grilled and chopped, provolone melted on, then grilled onions, lettuce, tomato and pepper relish. Limited time."}
+  {id:"lto-hotitalian", n:"LTO", name:"Mike's Hot Italian", type:"hot", lto:true, protein:null, grill:["Ham","Salami","Pepperoni"], cheese:["Provolone"], finish:["Grilled onions","Lettuce","Tomatoes","Chopped pepper relish"], finishLabel:"After", fam:"lto",
+   delta:"Ham, salami and pepperoni grilled and chopped, provolone melted on, then grilled onions, lettuce, tomato and pepper relish. Limited time, and not in the grill video, so ask your trainer what goes on the lid."}
 ];
+
+SUBS.forEach(function(s){ if (s.type === "hot"){ s.lid = s.lid || []; s.sauce = s.sauce || []; s.finish = s.finish || []; } });
+/* a hot sub in the order it is made: the lid, what goes on the grill, the meat, any sauce on the meat, the cheese, the finish */
+function hotOrder(s){ return s.lid.concat(s.grill, s.protein ? [s.protein] : [], s.sauce, s.cheese, s.finish); }
+/* what the grill video gives for a regular and a giant (it gives no mini). Giants double the regular. */
+var HOT_AMT = {
+  regular:{"Grilled onions":"1.25 oz", "Grilled peppers":"0.75 oz", "Mushrooms":"0.75 oz", "Jalapeños":"4 to 5", "White American":"3 slices", "Extra White American":"4 slices", "Bacon":"2 slices", "Tomatoes":"3 slices", "Lettuce":"2 soufflé cups"},
+  giant:{"Grilled onions":"2.5 oz", "Grilled peppers":"1.5 oz", "Mushrooms":"1.5 oz", "Jalapeños":"8 to 10", "White American":"6 slices", "Extra White American":"8 slices", "Bacon":"4 slices", "Tomatoes":"5 slices", "Lettuce":"4 soufflé cups"}
+};
+var HOT_ANY = {"Chipotle mayo":"3 lines", "Ranch":"3 lines", "Blue cheese dressing":"3 lines", "Mayo":"spread", "Frank's RedHot":"3 full rows"};
+var HOT_AMT_IDS = [16, 17, 26, 31, 42, 43, 44, 55, 56];
 
 var COLD_FAMS = [
   {title:"Italian Favorites: the ladder", note:"Four subs, and each one only adds meat to the one before. No swaps. It starts from the 3, which sits under American Classics on the board.", ids:[3,2,5,13]},
@@ -68,10 +82,10 @@ var COLD_FAMS = [
 var HOT_FAMS = [
   {title:"Steak and chicken pairs", note:"Base: grilled onions, grilled peppers, white American melted on top. Chicken takes the lower number in every pair.", groups:[
     {label:"Philly", delta:"The base, nothing added.", ids:[16,17]},
-    {label:"Chipotle", delta:"Base plus chipotle mayo.", ids:[42,43]},
+    {label:"Chipotle", delta:"Base, with chipotle mayo on the lid first.", ids:[42,43]},
     {label:"Big Kahuna", delta:"Base plus mushrooms, jalapeños and extra cheese.", ids:[55,56]}
   ]},
-  {title:"Chicken only", note:"No grilled onions or peppers. Chicken, white American, lettuce, tomato and a sauce. Ranch is the 26, buffalo is the 44.", groups:[
+  {title:"Chicken only", note:"No grilled onions or peppers. The sauce and tomatoes go on the lid first, then chicken and white American off the grill, and lettuce last. Ranch is the 26, buffalo is the 44.", groups:[
     {label:"", delta:"", ids:[26,44], showDelta:true}
   ]},
   {title:"For a limited time", note:"Specials rotate. Learn this one last.", groups:[

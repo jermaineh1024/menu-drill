@@ -91,10 +91,10 @@ sheet.addEventListener("keydown", function(e){
   handle.addEventListener("pointercancel", end);
 })();
 
-function sizePicker(onPick){
+function sizePicker(onPick, sizes, cur){
   var wrap = h("div", {class:"sizes", role:"group", "aria-label":"Sub size"});
-  SIZES.forEach(function(s){
-    wrap.appendChild(h("button", {"aria-pressed":s === curSize ? "true" : "false", text:SIZE_LABEL[s], onclick:function(){
+  (sizes || SIZES).forEach(function(s){
+    wrap.appendChild(h("button", {"aria-pressed":s === (cur || curSize) ? "true" : "false", text:SIZE_LABEL[s], onclick:function(){
       curSize = s; store(SIZE_KEY, s);
       onPick();
     }}));
@@ -118,19 +118,24 @@ function fillSub(sub, animate){
   function draw(build){
     clear(pic);
     sayQ.textContent = sayBack(sub, curSize, "white");
-    var withAmounts = isCold && sub.mw;
+    var withAmounts = isCold && sub.mw, hotAmounts = !isCold && HOT_AMT_IDS.indexOf(sub.id) >= 0;
+    var hotSize = curSize === "giant" ? "giant" : "regular";   /* the grill video gives regular and giant, no mini */
     if (withAmounts) pic.appendChild(sizePicker(function(){ draw(false); }));
-    var s = subLayers(sub, {size:withAmounts ? curSize : null, brackets:true});
+    if (hotAmounts) pic.appendChild(sizePicker(function(){ draw(false); }, ["regular", "giant"], hotSize));
+    var s = subLayers(sub, {size:withAmounts ? curSize : (hotAmounts ? hotSize : null), brackets:true});
     var svg = drawStack(s.layers, {brackets:s.brackets, tappable:true, build:build && !reducedMotion, label:sub.name + ", layers in the order they go on"});
     pic.appendChild(svg);
     /* the same thing as a list, for a screen reader */
     var ol = h("ol", {class:"sr"});
-    s.layers.forEach(function(l){ ol.appendChild(h("li", {text:(l.label || l.k) + (l.amt ? ", " + l.amt : "")})); });
+    /* a hot sub is read out in the order it is made, which is the order of the numbers, not bottom to top */
+    var read = isCold ? s.layers : s.layers.slice().sort(function(a, b){ return a.num - b.num; });
+    read.forEach(function(l){ ol.appendChild(h("li", {text:(l.label || l.k) + (l.amt ? ", " + l.amt : "") + (!isCold && sub.lid.indexOf(l.k) >= 0 ? ", on the lid" : "")})); });
     pic.appendChild(ol);
   }
   draw(animate);
   sheetBody.appendChild(pic);
   if (isCold && sub.mw) sheetBody.appendChild(h("p", {class:"fine mt-s", text:"Every topping starts at the end closest to the guest and covers both ends."}));
+  if (!isCold && HOT_AMT_IDS.indexOf(sub.id) >= 0) sheetBody.appendChild(h("p", {class:"fine mt-s", text:"The numbers are the order it's made in." + (sub.lid.length ? " The lid gets dressed first, before the meat hits the grill." : "") + " Amounts are from the grill video, which gives regular and giant. A giant doubles the regular and cooks as two regular portions."}));
   /* the meats and cheeses again as full-size buttons: the bands in the picture are tappable too, but they are thin */
   var seen = {}, known = itemsOf(sub).map(function(k){ return k.replace(/^Extra /, ""); }).filter(function(k){ var ok = LAYERS[k] && LAYERS[k].cue && !seen[k]; seen[k] = true; return ok; });
   if (known.length){
@@ -150,7 +155,7 @@ function fillSub(sub, animate){
 function subsWith(name){
   return SUBS.filter(function(s){
     if (s.offBoard) return false;
-    var all = s.type === "cold" ? s.cheese.concat(s.meats, s.fixed, s.lid || []) : [s.protein].concat(s.grill, s.cheese, s.after);
+    var all = s.type === "cold" ? s.cheese.concat(s.meats, s.fixed, s.lid || []) : hotOrder(s);
     return all.some(function(x){ return x === name || x === "Extra " + name; });
   });
 }

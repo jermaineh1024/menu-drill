@@ -238,7 +238,7 @@ function renderTeachSeq(key, card){
   var sq = SEQS[key], ol = h("ol", {class:"plain"});
   sq.steps.forEach(function(st){ ol.appendChild(h("li", {text:st})); });
   var lesson = [h("h3", {class:"q-name", text:sq.title}), ol];
-  if (key === "wrap") lesson.push(h("p", {class:"fine mt-s", text:"The pictures for each step are on the Orientation tab, under Wrapping the sub."}));
+  if (sq.where) lesson.push(h("p", {class:"fine mt-s", text:"More on each step is on the Training tab, under " + sq.where + "."}));
   teachThen(card, lesson, function(){ return speakable(sq.title + ". " + sq.steps.join(". ") + "."); }, function(box){ renderSeq(key, box); });
 }
 
@@ -300,7 +300,7 @@ function renderMC(sub, card, kind){
         fb.appendChild(h("b", {text:"No. That's #" + sub.n + ", " + theName(sub) + "."}));
         fb.appendChild(h("span", {text:"You tapped #" + o.n + ", " + theName(o) + ", which is: " + coreItems(o).join(", ").toLowerCase() + "."}));
       }
-      fb.appendChild(fullOrderLine(itemsOf(sub)));
+      fb.appendChild(sub.type === "cold" ? fullOrderLine(itemsOf(sub)) : buildLine(sub));
       fb.hidden = false;
       next.hidden = false;
       tally(sub.id, ok);
@@ -323,6 +323,7 @@ function renderMC(sub, card, kind){
    o.check(seq)    -> {ok, status:["ok"|"bad", ...], issues:[...]}
    o.feedback(box, result), o.done(result)
    o.next          {label, fn}: a button that appears after checking. Without it you get Shuffle again.
+   o.layout(seq, {statuses, closed, justAdded})  draws the sandwich its own way (hot subs: the lid's toppings hang under the lid)
    On a phone the sandwich sits in a window sized so the chips and Check stay on screen with it. Once the
    sandwich outgrows the window, the window follows the top of it. Check opens the whole thing. */
 function stuckBottom(){
@@ -356,13 +357,30 @@ function orderGame(host, o){
     win.style.setProperty("--full", Math.ceil(fullUnits * 1.02 + 20) + "px");
     show.appendChild(win);
   }
+  var packed = false;
   function makePool(){
-    pool = shuffle(o.pool); btns = {}; clear(poolEl);
+    pool = shuffle(o.pool); btns = {}; clear(poolEl); packed = false;
     pool.forEach(function(it){
       var b = o.visual ? ingChip(it, {}) : h("button", {class:"chip step", "aria-pressed":"false"}, [h("span", {class:"idx", "aria-hidden":"true"}), h("span", {text:it})]);
       b.addEventListener("click", function(){ tap(it); });
       btns[it] = b; poolEl.appendChild(b);
     });
+  }
+  /* The chips are shuffled, and some orders wrap into one more row than others. On a small screen that extra row pushes Check
+     below the fold (the #13's 15 chips did it in about 1 open in 100). So the first time the chips are on screen, try a few
+     more orders and keep the one that packs tightest. The order still says nothing about the build. */
+  function pack(){
+    if (packed || !o.visual || seq.length || !poolEl.offsetHeight) return;
+    packed = true;
+    var best = pool, bestH = poolEl.offsetHeight;
+    for (var t = 0; t < 6; t++){
+      var order = shuffle(pool);
+      order.forEach(function(it){ poolEl.appendChild(btns[it]); });
+      var hgt = poolEl.offsetHeight;
+      if (hgt < bestH){ best = order; bestH = hgt; }
+    }
+    best.forEach(function(it){ poolEl.appendChild(btns[it]); });
+    pool = best;
   }
   function tap(it){
     if (checked) return;
@@ -384,6 +402,7 @@ function orderGame(host, o){
     if (!o.visual) return;
     var svg = win.querySelector("svg"), w = svg ? svg.getBoundingClientRect().width : 0;
     if (!w) return;   /* not on screen yet; the observer below calls back when it is */
+    pack();
     win.style.setProperty("--full", Math.ceil(fullUnits * (w / 300) + 20) + "px");
     var chrome = stuckBottom() + 10 + (o.head ? o.head.offsetHeight : 0) + (poolEl.hidden ? 0 : poolEl.offsetHeight + 12) + rowEl.offsetHeight + 14 + 12;
     win.style.setProperty("--chrome", Math.round(chrome) + "px");
@@ -395,7 +414,8 @@ function orderGame(host, o){
       if (old) win.removeChild(old);
       hint.classList.toggle("off", checked || seq.length > 0);
       win.classList.toggle("open", checked);
-      win.appendChild(liveStack(seq, {statuses:statuses, closed:checked, base:o.base, justAdded:justAdded}));
+      var lo = {statuses:statuses, closed:checked, base:o.base, justAdded:justAdded};
+      win.appendChild(o.layout ? o.layout(seq, lo) : liveStack(seq, lo));
     }
     pool.forEach(function(it){
       var at = seq.indexOf(it), picked = at >= 0, b = btns[it];
@@ -507,17 +527,53 @@ function checkCold(sub, seq){
   if (missing.length) add("Missing: " + missing.join(", ") + ".");
   return {ok:issues.length === 0, status:status, issues:issues};
 }
+/* A hot sub is made in stages: the lid is dressed first, then everything that cooks, any sauce on the cooked meat, the cheese
+   on top, and the finish once it is on the bread. Inside the grill stage the order is free: it all gets chopped together. */
+/* the nine hot subs the grill video walks through: on those the order on the grill is known too (vegetables down first, onions before peppers, then the meat) */
+function hotKnown(sub){ return HOT_AMT_IDS.indexOf(sub.id) >= 0; }
+function vegWords(sub){
+  var w = sub.grill.map(function(x){ return x.replace(/^Grilled /, "").toLowerCase(); });
+  return w.length > 1 ? w.slice(0, -1).join(", ") + " and " + w[w.length - 1] : w.join("");
+}
+function hotStage(sub, it){
+  if (sub.lid.indexOf(it) >= 0) return 0;
+  if (sub.grill.indexOf(it) >= 0) return 1;
+  if (it === sub.protein) return hotKnown(sub) && sub.grill.length ? 1.5 : 1;
+  if (sub.sauce.indexOf(it) >= 0) return 2;
+  if (sub.cheese.indexOf(it) >= 0) return 3;
+  if (sub.finish.indexOf(it) >= 0) return 4;
+  return -1;
+}
 function checkHot(sub, seq){
-  var correct = itemsOf(sub), status = [], issues = [];
+  var correct = itemsOf(sub), status = [], issues = [], maxStage = -1, maxLid = -1, seen = {};
+  function add(m){ if (issues.indexOf(m) < 0) issues.push(m); }
   seq.forEach(function(it){
-    var ok = correct.indexOf(it) >= 0;
-    status.push(ok ? "ok" : "bad");
-    if (!ok) issues.push(it + " is not on a #" + sub.n + ".");
+    var sg = hotStage(sub, it), st = "ok";
+    if (sg < 0){ status.push("bad"); add(it + " is not on a #" + sub.n + "."); return; }
+    if (sg < maxStage){
+      st = "bad";
+      var meat = (sub.protein || "meat").toLowerCase();
+      if (sg === 0) add("The lid comes first on a hot sub: " + sub.lid.join(", ").toLowerCase() + " on the inside of the lid, before the " + meat + " hits the grill.");
+      else if (maxStage === 4) add(sub.finish.join(", ") + " goes on last, once the " + meat + " and cheese are on the bread.");
+      else if (sg === 2 || maxStage === 2) add(sub.sauce.join(", ") + " goes on once the " + meat + " is cooked, right before the cheese.");
+      else if (sg === 1 && maxStage === 1.5) add("On the grill, the " + vegWords(sub) + " go down first, then the " + meat + ".");
+      else add("Cheese goes on top after everything on the grill is cooked.");
+    }
+    if (sg === 1 && hotKnown(sub) && it === "Grilled onions" && seen["Grilled peppers"]){ st = "bad"; add("Onions go down first. The peppers go on top of them."); }
+    seen[it] = true;
+    if (sg === 0){
+      var li = sub.lid.indexOf(it);
+      if (li < maxLid){ st = "bad"; add("On the lid, in order: " + sub.lid.join(", then ").toLowerCase() + "."); }
+      maxLid = Math.max(maxLid, li);
+    }
+    maxStage = Math.max(maxStage, sg);
+    status.push(st);
   });
   var missing = correct.filter(function(it){ return seq.indexOf(it) < 0; });
-  if (missing.length) issues.push("Missing: " + missing.join(", ") + ".");
+  if (missing.length) add("Missing: " + missing.join(", ") + ".");
   return {ok:issues.length === 0, status:status, issues:issues};
 }
+function hotHint(sub){ return sub.lid.length ? "Tap it in the order it's made. On this one the lid comes first." : "Tap it in the order it's made: what goes on the grill, then the cheese."; }
 
 /* the heading that rides on the sandwich: its number and name, or on an order with changes, its number and the changes */
 function plateHead(sub, label, mods){
@@ -528,15 +584,15 @@ function renderBuild(sub, card){
   var isCold = sub.type === "cold";
   var correct = itemsOf(sub);
   D.game = orderGame(card, {
-    visual:true, ordered:isCold, pool:correct.concat(distractors(sub, correct.length >= 12 ? 2 : 3)), reserve:stackHeightFor(correct) + 26,
-    head:plateHead(sub, sub.name),
-    hint:isCold ? (sub.mw ? "Build it Mike's Way. Tap what goes on the bread first." : "Tap what goes on the bread first.") : "Tap everything that belongs on it. Order doesn't matter on the hot side.",
+    visual:true, ordered:true, pool:correct.concat(distractors(sub, correct.length >= 12 ? 2 : 3)), reserve:stackHeightFor(correct) + 26,
+    head:plateHead(sub, sub.name), layout:isCold ? null : hotLive(sub),
+    hint:isCold ? (sub.mw ? "Build it Mike's Way. Tap what goes on the bread first." : "Tap what goes on the bread first.") : hotHint(sub),
     check:function(seq){ return isCold ? checkCold(sub, seq) : checkHot(sub, seq); },
     feedback:function(fb, r){
-      fb.appendChild(h("b", {text:r.ok ? (isCold ? "Clean build." : "That's everything.") : "Not yet."}));
+      fb.appendChild(h("b", {text:r.ok ? (isCold ? "Clean build." : "That's how it's made.") : "Not yet."}));
       if (!r.ok){
         issueList(fb, r.issues);
-        fb.appendChild(h("p", {class:"delta mt-s", text:isCold ? "The right build, bottom to top:" : "What belongs on it:"}));
+        fb.appendChild(h("p", {class:"delta mt-s", text:isCold ? "The right build, bottom to top:" : "The right build. The numbers are the order it's made in:"}));
         fb.appendChild(stackSVG(sub, {brackets:true}));
       } else if (!isCold) fb.appendChild(breakdown(sub));
     },
@@ -753,9 +809,9 @@ function renderOrder(sub, card){
   o.add.forEach(function(a){ mods.push(h("span", {class:"add", text:"Add " + a.toLowerCase()})); });
   stage2.appendChild(h("p", {class:"stepper", text:"Step 2 of 2. Build it"}));
   D.game = orderGame(stage2, {
-    visual:true, ordered:isCold, pool:expect.concat(extraPool.filter(function(x){ return expect.indexOf(x) < 0; })), reserve:stackHeightFor(expect) + 26,
-    head:plateHead(sub, sub.name, mods),
-    hint:isCold ? "Tap everything in the order it goes on, lid last." : "Tap everything that belongs on it. Order doesn't matter on the hot side.",
+    visual:true, ordered:true, pool:expect.concat(extraPool.filter(function(x){ return expect.indexOf(x) < 0; })), reserve:stackHeightFor(expect) + 26,
+    head:plateHead(sub, sub.name, mods), layout:isCold ? null : hotLive(sub),
+    hint:isCold ? "Tap everything in the order it goes on, lid last." : hotHint(sub),
     check:function(seq){ return isCold ? checkOrder(sub, o, seq) : checkHot(sub, seq); },
     feedback:function(fb, r){
       var ok = r.ok && readOk;
@@ -766,8 +822,8 @@ function renderOrder(sub, card){
         issueList(fb, r.issues);
       }
       if (!r.ok){
-        fb.appendChild(h("p", {class:"delta mt-s", text:"This order, bottom to top:"}));
-        fb.appendChild(drawStack(expect.map(function(k){ return {k:k}; }), {label:"The right build for this order"}));
+        fb.appendChild(h("p", {class:"delta mt-s", text:isCold ? "This order, bottom to top:" : "The right build. The numbers are the order it's made in:"}));
+        fb.appendChild(isCold ? drawStack(expect.map(function(k){ return {k:k}; }), {label:"The right build for this order"}) : stackSVG(sub, {brackets:true}));
       }
       if (isCold && sub.mw){
         var a = AMT[o.size];
@@ -809,7 +865,9 @@ function renderListen(card){
     if (!LP.nameFirst || revealed) face.appendChild(tagEl(s, "big"));
     if (LP.nameFirst || revealed) face.appendChild(h("p", {class:"name", text:s.name}));
     ans.className = "listen-ans" + (revealed ? "" : " wait");
-    ans.textContent = revealed ? coreItems(s).join(", ") + (s.type === "cold" && s.mw ? ", then Mike's Way" : "") + (s.lid && s.lid.length ? ", " + s.lid.join(" and ").toLowerCase() + " on the lid" : "") + "."
+    ans.textContent = revealed ? (s.type === "cold"
+        ? coreItems(s).join(", ") + (s.mw ? ", then Mike's Way" : "") + (s.lid && s.lid.length ? ", " + s.lid.join(" and ").toLowerCase() + " on the lid" : "") + "."
+        : hotParts(s).map(function(p){ return p.label + ": " + p.items.join(", ").toLowerCase() + "."; }).join(" "))
       : (playing ? "Say it out loud." : "Tap Play. Answer out loud before it tells you.");
   }
   function bar(ms){

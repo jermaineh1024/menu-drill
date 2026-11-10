@@ -51,7 +51,17 @@ function tagEl(sub, extra){
 }
 function coreItems(sub){
   if (sub.type === "cold") return sub.cheese.concat(sub.meats, sub.fixed);
-  return (sub.protein ? [sub.protein] : []).concat(sub.grill, sub.cheese, sub.after);
+  return hotOrder(sub);
+}
+/* a hot sub in words, the way it is made: what goes on the lid first, what cooks, the cheese, what finishes it */
+function hotParts(sub){
+  var parts = [];
+  if (sub.lid.length) parts.push({label:"On the lid first", items:sub.lid});
+  parts.push({label:"On the grill", items:sub.grill.concat(sub.protein ? [sub.protein] : [])});
+  if (sub.sauce.length) parts.push({label:"On the cooked " + (sub.protein || "meat").toLowerCase(), items:sub.sauce});
+  parts.push({label:"Cheese on top", items:sub.cheese});
+  if (sub.finish.length) parts.push({label:sub.finishLabel === "After" ? "After the grill" : "To finish", items:sub.finish});
+  return parts;
 }
 function itemsOf(sub){
   if (sub.type === "cold") return coreItems(sub).concat(sub.mw ? MW : [], sub.lid || []);
@@ -65,8 +75,14 @@ function step(text, cls, first){
   return s;
 }
 function buildLine(sub, noMW){
-  var items = coreItems(sub);
   var wrap = h("div", {class:"build"});
+  if (sub.type !== "cold"){
+    /* the lid is one step: it is dressed before anything goes on the grill */
+    var hs = (sub.lid.length ? [sub.lid.join(", ") + " on the lid first"] : []).concat(hotOrder(sub).slice(sub.lid.length));
+    hs.forEach(function(t, k){ wrap.appendChild(step(t, null, k === 0)); });
+    return wrap;
+  }
+  var items = coreItems(sub);
   for (var i=0;i<items.length;i++){ wrap.appendChild(step(items[i], null, i === 0)); }
   if (sub.type === "cold" && sub.mw && !noMW){ wrap.appendChild(step("Mike's Way", "mwb", items.length === 0)); }
   if (sub.lid && sub.lid.length){ wrap.appendChild(step(sub.lid.join(" and ") + " on the lid", null, false)); }
@@ -82,12 +98,7 @@ function breakdown(sub){
     if (!sub.mw) return h("p", {class:"delta", text:"Not a Mike's Way sub unless the guest asks for it."});
     return h("p", {class:"delta", text:"Mike's Way after the meat: " + MW.join(", ").toLowerCase() + "."});
   }
-  var parts = [];
-  var grill = (sub.protein ? [sub.protein] : []).concat(sub.grill);
-  parts.push("On the grill: " + grill.join(", ").toLowerCase() + ".");
-  parts.push("Cheese on top: " + sub.cheese.join(", ") + ".");
-  if (sub.after.length) parts.push("After the grill: " + sub.after.join(", ") + ".");
-  return h("p", {class:"delta", text:parts.join(" ")});
+  return h("p", {class:"delta", text:hotParts(sub).map(function(p){ return p.label + ": " + p.items.join(", ").toLowerCase().replace("white american", "White American").replace("frank's redhot", "Frank's RedHot") + "."; }).join(" ")});
 }
 function subRow(sub, showDelta, withStack){
   var head = h("div", {class:"head"}, [h("p", {class:"name", text:sub.name})]);
@@ -111,7 +122,13 @@ function subCard(sub, build){
 }
 
 /* ---------- amounts ---------- */
+function hotAmountFor(item, size, sub){
+  if (HOT_AMT_IDS.indexOf(sub.id) < 0) return "";
+  if (item === "Mayo" && sub.lid.indexOf("Mayo") >= 0) return "spread evenly";
+  return HOT_AMT[size === "giant" ? "giant" : "regular"][item] || HOT_ANY[item] || "";
+}
 function amountFor(item, size, sub){
+  if (sub && sub.type === "hot") return hotAmountFor(item, size, sub);
   var a = AMT[size];
   if (a[item]) return a[item];
   if (item === "Red wine vinegar") return "2 rows (" + a.juice + ")";
@@ -215,7 +232,7 @@ function todayQueue(){
   var picks = shuffle(due.slice(0, 10));
   var newBoard = teachOrder().filter(function(k){ return byKey[k] && !sched[k]; }).map(function(k){ return byKey[k]; });
   var newFacts = u.filter(function(it){ return !sched[it.key] && it.kind === "q"; });   /* sprinkling amounts, then the videos in order */
-  if (byKey["seq:wrap"] && !sched["seq:wrap"]) newFacts.push(byKey["seq:wrap"]);          /* the wrap order comes after the wrapping facts */
+  u.forEach(function(it){ if (it.kind === "seq" && !it.board && !sched[it.key]) newFacts.push(it); });   /* the put-in-order games come after the facts they rest on */
   var a = newBoard.slice(0, 5), f = newFacts.slice(0, 5);
   while ((a.length || f.length) && picks.length < 16){
     if (a.length) picks.push(a.shift());

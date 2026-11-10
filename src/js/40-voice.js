@@ -89,8 +89,11 @@ function sayContents(sub){
     if (sub.mw) parts.push("Then Mike's Way.");
     if (sub.lid && sub.lid.length) parts.push(sub.lid.join(" and ") + " on the lid.");
   } else {
-    parts.push("On the grill: " + (sub.protein ? [sub.protein] : []).concat(sub.grill).join(", ") + ". " + sub.cheese.join(", ") + " melted on top.");
-    if (sub.after.length) parts.push("Then " + sub.after.join(", ") + ".");
+    hotParts(sub).forEach(function(p){
+      if (p.label === "Cheese on top") parts.push(p.items.join(", ") + " melted on top.");
+      else if (p.label === "To finish") parts.push(p.items.join(", ") + " to finish.");
+      else parts.push(p.label + ": " + p.items.join(", ") + ".");
+    });
   }
   return parts.join(" ");
 }

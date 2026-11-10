@@ -314,6 +314,23 @@ table.amt tr.sep td{border-top:2px solid var(--line)}
 .stations .temp-box{fill:var(--warn-soft);stroke:var(--line)}
 .temp-big{font:800 24px var(--display);fill:var(--ink)}
 .stations .sink.wash{fill:var(--warn-soft)}.stations .sink.rinse{fill:var(--soft)}.stations .sink.sani{fill:var(--ok-soft)}
+/* training diagrams, drawn by tools/pics.py: page colours for boxes, lines and words; food keeps its own colour */
+.pic{color:var(--ink)}
+.pic .tk{font:600 12.5px var(--body);fill:var(--ink)}
+.pic .ts{font:500 11px var(--body);fill:var(--muted)}
+.pic .mid{font:800 18px var(--display);fill:var(--ink);letter-spacing:.03em}
+.pic .num{font:800 12px var(--body);fill:#FFFFFF}
+.pic .dk{font:700 11.5px var(--body);fill:#1B2B44}
+.pic .lt{font:700 11.5px var(--body);fill:#FFFFFF}
+.pic .disc{fill:var(--num);stroke:none}
+.pic .okb{fill:var(--ok-soft)}.pic .warnb{fill:var(--warn-soft)}.pic .badb{fill:var(--bad-soft)}
+.pic .ln{fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pic .lnm{fill:none;stroke:var(--muted);stroke-width:1.5;stroke-linecap:round}
+.pic .dash{fill:none;stroke:var(--num);stroke-width:2.2;stroke-dasharray:5 4;stroke-linecap:round}
+.pic .tick{fill:none;stroke:var(--num);stroke-width:2.2;stroke-linecap:round}
+.pic .red{fill:none;stroke:var(--num);stroke-width:2.4;stroke-linecap:round;marker-end:url(#hw-ah)}
+.pic .ghost{fill:none;stroke:var(--muted);stroke-width:1.2;stroke-dasharray:4 3}
+.pic .shoe{fill:var(--ink);stroke:none}
 
 /* ---- drill: the meter ---- */
 .ready-card{padding:16px 16px 18px}
@@ -546,6 +563,22 @@ body::before{background:var(--grad-head)}
   #j-hot{background-image:linear-gradient(90deg,var(--hot-a),var(--hot-b) 62%)}
   .section-title .sub-title{-webkit-text-fill-color:var(--muted)}
 }
+
+/* the Training tab: one heading per station with its quiz button right under it; the grill reads warm like the hot half of the board */
+.section-title.grp{font-size:clamp(28px,7.6vw,36px);margin-top:20px;color:var(--cold-a)}
+.grp-row{margin-top:-2px}
+#g-grill{color:var(--hot-a)}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  .section-title.grp{-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;background-image:linear-gradient(90deg,var(--cold-a),var(--cold-b) 62%)}
+  #g-grill{background-image:linear-gradient(90deg,var(--hot-a),var(--hot-b) 62%)}
+}
+.sub-pics{display:grid;gap:16px;margin-top:14px}
+.sub-pics .sub-card{min-width:0}
+@media (min-width:700px){.sub-pics{grid-template-columns:1fr 1fr}}
+.lidmap dt{display:flex;align-items:center;gap:10px}
+.lidmap .tag{flex:none}
+details.card > h3{margin-top:18px}
+details.card > summary + h3{margin-top:4px}
 
 /* a tab opening: its cards arrive one after another */
 .view.enter > *{animation:cardIn .36s ease both}

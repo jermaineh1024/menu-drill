@@ -1,4 +1,4 @@
-// node tools/test/planted.js  -> proves the suite can fail: breaks a copy of the site six ways and expects each to be caught
+// node tools/test/planted.js  -> proves the suite can fail: breaks a copy of the site ten ways and expects each to be caught
 const fs = require('fs'); const path = require('path'); const { spawnSync } = require('child_process');
 const ROOT = path.resolve(__dirname, '../..'); const SRC = path.join(ROOT, 'dist/site');
 const TMP = path.join(ROOT, 'dist/planted');
@@ -9,7 +9,11 @@ const plants = [
   ['Mike\'s Way in the wrong order', s => s.replace("var MW = ['Onions','Lettuce','Tomatoes'", "var MW = ['Lettuce','Onions','Tomatoes'"), 'right build is accepted'],
   ['buttons too small to tap', s => s.replace('</style>', '.btn{min-height:30px!important;padding:2px 8px!important}</style>'), 'tap targets are 44px'],
   ['grey text too pale to read', s => s.replace('--muted:#4F6076', '--muted:#B4BEC8'), 'text contrast'],
-  ['a script error on tap', s => s.replace('</body>', '<script>document.addEventListener("click",function(){throw new Error("planted")})</script></body>'), 'no script errors']
+  ['a script error on tap', s => s.replace('</body>', '<script>document.addEventListener("click",function(){throw new Error("planted")})</script></body>'), 'no script errors'],
+  ['a hot sub that accepts any order', s => s.replace('if (sg < maxStage){', 'if (sg < -9){'), 'the lid dressed after the meat is caught'],
+  ['a quiz with the wrong answer keyed', s => s.replace('a:"Coins, then bills"', 'a:"Bills, then coins"'), 'quiz feedback matches the answer'],
+  ['a training module with no quiz behind it', s => s.replace('{id:"regsafe", bank:"wrap"', '{id:"regsaf", bank:"wrap"'), 'module regsafe offers its quiz'],
+  ['a picture label pushed past its picture\'s edge', s => s.replace('<text x="4" y="14" class="pl-s">Top line', '<text x="-6" y="14" class="pl-s">Top line'), 'no picture label is cut by its picture']
 ];
 let caught = 0;
 for (const [name, mutate, expect] of plants) {

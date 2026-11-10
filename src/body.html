@@ -9,7 +9,7 @@
     <button type="button" class="tab" role="tab" id="tab-study" data-view="study" aria-selected="true" aria-controls="view-study">Study</button>
     <button type="button" class="tab" role="tab" id="tab-line" data-view="line" aria-selected="false" aria-controls="view-line" tabindex="-1">The line</button>
     <button type="button" class="tab" role="tab" id="tab-drill" data-view="drill" aria-selected="false" aria-controls="view-drill" tabindex="-1">Drill</button>
-    <button type="button" class="tab" role="tab" id="tab-orient" data-view="orient" aria-selected="false" aria-controls="view-orient" tabindex="-1">Orientation</button>
+    <button type="button" class="tab" role="tab" id="tab-orient" data-view="orient" aria-selected="false" aria-controls="view-orient" tabindex="-1">Training</button>
   </div>
 </nav>
 
@@ -58,7 +58,7 @@
       </li>
       <li>
         <span class="iv"><svg viewBox="0 0 56 44" aria-hidden="true"><path d="M8 30 Q8 10 28 10 Q48 10 48 30" fill="none" class="ear-arc" stroke-width="4" stroke-linecap="round"/><rect x="3" y="26" width="11" height="15" rx="4" class="ear-pad"/><rect x="42" y="26" width="11" height="15" rx="4" class="ear-pad"/></svg></span>
-        <p><b>Your job is to hear a number and know what goes on it, in what order.</b> That is all this page trains. Prices, the register and the grill timing come from your trainer.</p>
+        <p><b>Your job is to hear a number and know what goes on it, in what order.</b> That comes first, and it's what Study and Drill train. The Training tab then goes station by station: register, prep, bread, the grill, the slicer.</p>
       </li>
     </ul>
   </details>
@@ -102,12 +102,13 @@
       <dt>Cheeses</dt><dd>Provolone, Swiss, white American.</dd>
       <dt>Extras</dt><dd>Only if the guest asks. Never offer them. Pickles, banana peppers, jalapeños, mayo, mustard, cherry pepper relish, bacon.</dd>
       <dt>Positions</dt><dd>Slicer, sprinkler, wrapper. Two people topping one sub together is the <b>sprinkle dance</b>.</dd>
-      <dt>"Tables"</dt><dd>Someone, usually the slicer, wants the dining room checked. More on the Orientation tab.</dd>
+      <dt>"Tables"</dt><dd>Someone, usually the slicer, wants the dining room checked. More on the Training tab.</dd>
       <dt>Cappacuolo</dt><dd>Say cap-uh-COLE-oh. Spicy cured pork shoulder. Jersey people call it gabagool.</dd>
       <dt>Prosciuttini</dt><dd>Say pro-shoo-TEE-nee. Ham with a black pepper crust.</dd>
-      <dt>The slicer</dt><dd>The station and the person. Eighteen and over only on the meat slicer. Meat is sliced onto the scale, and the weight per size comes from the store's chart, so learn the chart from your trainer rather than counting slices.</dd>
+      <dt>The slicer</dt><dd>The station and the person. Eighteen and over only on the meat slicer. Cheese and meat are sliced straight onto the sub, in the order the store's slice guide lists them. Thickness is set on the scale every morning, and subs get weighed through the day as a check.</dd>
+      <dt>Slice guide</dt><dd>The store's chart of how many slices of each thing go on each sub, in order. A guide, not a rule: if a slice comes out as half a slice, add another.</dd>
       <dt>LTO</dt><dd>Limited time offer. The specials on the board that rotate in and out.</dd>
-      <dt>Shore Points</dt><dd>The rewards app. Points come from the size of the sub, not the price.</dd>
+      <dt>Shore Points</dt><dd>The points in the rewards program, MyMike's Rewards. They come from the size of the sub, not the price. Ask every guest at the register if they're a member.</dd>
     </dl>
   </div>
 
@@ -122,7 +123,7 @@
     <p class="mt-s">#1 BLT. #4 The Number Four. #11 Stickball Special. #12 Cancro Special. #31 California Chicken. #64, #65, #66 the portabella subs.</p>
   </div>
 
-  <p class="fine foot">Matched to your store's menu board on November 2, 2026, and to the orientation videos for amounts. Your trainer wins on anything that reads differently.</p>
+  <p class="fine foot">Matched to your store's menu board on November 2, 2026, and to the orientation and training videos for amounts and order. Your trainer wins on anything that reads differently.</p>
 </section>
 
 <section id="view-line" class="view" role="tabpanel" aria-labelledby="tab-line" hidden>
@@ -152,10 +153,10 @@
     <h3 class="mt">Cold sub, start to finish</h3>
     <p>The slicer puts the cheese and the meat on the bread. The sprinkler puts everything else on. The navy numbers are the seven Mike's Way steps.</p>
     <ol class="steps">
-      <li><b>Take the order:</b> size, number, bread. Then ask "Mike's Way?"</li>
-      <li><b>Bread</b> comes out and gets sliced open at the slicer.</li>
+      <li><b>Take the order:</b> size and number. Don't ask about bread: it's white unless the guest says otherwise. Then ask "Mike's Way?"</li>
+      <li><b>Bread</b> gets cut open at the slicer, into equal halves, starting at the round end closest to the guest. A few loaves are pre-cut before the rush.</li>
       <li><b>Cheese</b> goes on first, straight onto the bread. Provolone unless the sub says Swiss.</li>
-      <li><b>Meats</b> are sliced to order onto the scale, then onto the cheese. The store's chart gives the weight for each size.</li>
+      <li><b>Meats</b> are sliced to order straight onto the sub, in the order the slice guide lists them, covering it end to end.</li>
       <li><b>Slide it to the sprinkler.</b></li>
       <li class="mw">Onions</li>
       <li class="mw">Lettuce</li>
@@ -220,15 +221,22 @@
 
   <div class="card">
     <h2>Hot sub, start to finish</h2>
+    <p class="fine">The order the grill video builds them in. The lid gets dressed before the meat ever hits the grill, and lettuce goes on last.</p>
     <ol class="steps">
-      <li><b>Take the order:</b> size, number, bread. Hot subs don't get Mike's Way unless the guest insists, and most regulars know not to.</li>
-      <li><b>Grill</b> the steak or chicken with whatever that number grills: onions and peppers for the pairs, mushrooms and jalapeños added on the Big Kahunas.</li>
-      <li><b>Cheese on top</b> of the meat while it's on the grill, so it melts. White American. The Big Kahunas get extra.</li>
-      <li><b>Into the bread</b> in one flip.</li>
-      <li><b>Toppings and sauce after:</b> lettuce, tomato and the sauce on #26 and #44; chipotle mayo on #42 and #43; grilled onions, lettuce, tomato and chopped pepper relish on Mike's Hot Italian.</li>
-      <li><b>Cut it, wrap it.</b></li>
+      <li><b>Take the order:</b> size and number. Don't ask about peppers and onions; a guest who wants it changed will say so. Hot subs don't get Mike's Way unless the guest asks for it.</li>
+      <li><b>Bread on the grill.</b> It's pre-cut into a pocket. Bottom side down, turned often: warm, not toasted.</li>
+      <li><b>Paper and cheese ready.</b> 15 inches of paper for a regular, 21 for a giant. Lay out 3 slices of white American, 4 for a Big Kahuna.</li>
+      <li><b>The lid first, if the sub has one.</b> 3 lines of sauce on the inside of the lid: chipotle mayo on #42 and #43, ranch on #26, blue cheese dressing on #44. Then bacon on the #26, then tomatoes on #26 and #44. Set the bread aside.</li>
+      <li><b>On the grill.</b> On the pairs: onions, peppers on top of them, then the steak or chicken. Mushrooms and jalapeños go down too on the Big Kahunas. #26 and #44 are chicken alone.</li>
+      <li><b>Break it:</b> 4 times, bring it together, 4 more, onions and peppers on top, 8 more.</li>
+      <li><b>Sauce on the meat, on one sub:</b> the #44 gets 3 full rows of Frank's RedHot on the cooked chicken.</li>
+      <li><b>Cheese on top</b> to melt, with a few slits cut in it.</li>
+      <li><b>Onto the bread,</b> pushed onto the spatula with the dough cutter. Scrape the loose bits on.</li>
+      <li><b>Lettuce to finish</b> on #26 and #44: 2 soufflé cups on a regular, 4 on a giant.</li>
+      <li><b>Wrap it loosely in the hot sub wrap,</b> standing on its side. Giants are cut in half. Regulars aren't cut.</li>
     </ol>
-    <p class="fine mt-s">The grill has its own timing that your trainer shows you in person. What this page gets you is knowing what belongs on each number before you ever stand at the flat top.</p>
+    <p class="fine mt-s">Every step is on the Training tab, under The grill, with pictures and amounts. Mike's Hot Italian isn't in the grill video, so ask your trainer where its toppings go.</p>
+    <div class="row needs-js"><button type="button" class="btn" data-bank="grill">Quiz me on the grill</button></div>
   </div>
 
   <div class="card">
@@ -240,7 +248,8 @@
       <li>"The Italian" is the #13. "The Philly" is the #17. "A club" needs a follow-up: #8 or #9?</li>
       <li>"In a bowl" or "in a tub" means no bread. "Make it a wrap" means the same fillings in a wrap.</li>
       <li>Never ask if they want extras. Listen, and they'll tell you.</li>
-      <li>"Mini, regular, giant." Ask size first, because the slicer weighs by size.</li>
+      <li>"Mini, regular, giant." Get the size first: the portion and the paper both depend on it.</li>
+      <li>No bread named means white. No changes named on a hot sub means it comes the way the board lists it.</li>
     </ul>
   </div>
 </section>
@@ -251,7 +260,7 @@
     <div class="bar ready-bar"><b id="ready-once"></b><i id="ready-bar"></i></div>
     <div class="ready-two">
       <div><div class="lbl"><span>Subs and sprinkling</span><b id="ready-board"></b></div></div>
-      <div><div class="lbl"><span>Orientation facts</span><b id="ready-orient"></b></div><div class="bar"><b id="ready-orient-once"></b><i id="ready-orient-bar"></i></div></div>
+      <div><div class="lbl"><span>Training facts</span><b id="ready-orient"></b></div><div class="bar"><b id="ready-orient-once"></b><i id="ready-orient-bar"></i></div></div>
     </div>
     <p class="fine" id="ready-line"></p>
     <div class="row"><button type="button" class="btn light" id="today-btn">Start today's session</button></div>
@@ -271,7 +280,7 @@
   </div>
   <div class="card" id="quiz-card">
     <h2>Quizzes</h2>
-    <p class="fine">Multiple choice, from the sprinkling and orientation videos. Each one ends with what you missed and why.</p>
+    <p class="fine">Multiple choice, from the sprinkling, orientation and training videos. Each one ends with what you missed and why.</p>
     <div id="quiz-list" class="quiz-list"></div>
   </div>
   <div class="card">
@@ -287,13 +296,25 @@
 
 <section id="view-orient" class="view" role="tabpanel" aria-labelledby="tab-orient" hidden>
   <div class="card">
-    <h2>Orientation, module by module</h2>
-    <p>The facts from the orientation videos that the quizzes ask about, in the order the videos go. Open a module, read it, then quiz it. A module counts as locked in once you've had every question in it right on two different days.</p>
+    <h2>Training, station by station</h2>
+    <p>The facts from the orientation and training videos that the quizzes ask about, grouped by where you'll use them. Open a module, read it, then quiz it. A module counts as locked in once you've had every question in it right on two different days.</p>
     <div class="row needs-js">
       <label class="switch inline"><input type="checkbox" id="motion-toggle" checked> Moving pictures and background motion</label>
     </div>
   </div>
 
+  <nav class="jump" aria-label="Jump to a station">
+    <a href="#orient" data-jump="g-orient">Orientation</a>
+    <a href="#orient" data-jump="g-kitchen">Food safety</a>
+    <a href="#orient" data-jump="g-wrapper">Wrapper and register</a>
+    <a href="#orient" data-jump="g-prep">Prep</a>
+    <a href="#orient" data-jump="g-bread">Bread</a>
+    <a href="#orient" data-jump="g-grill">The grill</a>
+    <a href="#orient" data-jump="g-slicer">The slicer</a>
+  </nav>
+
+  <h2 class="section-title grp" id="g-orient">Orientation <span class="sub-title">Who they are, how you look, how the store makes money.</span></h2>
+  <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="orient" data-label="Quiz all of Orientation">Quiz all of Orientation</button></div>
   <details class="card mod" id="o-values" data-mod="values">
     <summary><h2>What they stand for</h2><span class="mod-p" aria-hidden="true"></span><span class="fold-x" aria-hidden="true"></span></summary>
     <dl class="dl">
@@ -379,7 +400,7 @@
       <text x="136" y="80" text-anchor="middle" class="pl-s">Labor</text>
       <text x="221" y="80" text-anchor="middle" class="pl-s">Expenses</text>
       <text x="306" y="80" text-anchor="middle" class="pl-s">Profit goal</text>
-      <text x="0" y="14" class="pl-s">Top line: sales = 100%</text>
+      <text x="4" y="14" class="pl-s">Top line: sales = 100%</text>
     </svg>
     <dl class="dl">
       <dt>Top line</dt><dd>Sales, 100%.</dd>
@@ -413,10 +434,12 @@
     </ul>
   </details>
 
+  <h2 class="section-title grp" id="g-kitchen">Kitchen and food safety <span class="sub-title">What keeps the food safe behind the line.</span></h2>
+  <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="kitchen" data-label="Quiz all of food safety">Quiz all of food safety</button></div>
   <details class="card mod" id="o-fifo" data-mod="fifo">
     <summary><h2>FIFO: first in, first out</h2><span class="mod-p" aria-hidden="true"></span><span class="fold-x" aria-hidden="true"></span></summary>
     <p>Oldest product gets used first. That's the whole idea, and it runs through every storage area in the store.</p>
-    <svg class="stations" viewBox="0 0 340 118" role="img" aria-label="Restocking a pan: new product goes in a fresh pan on the bottom, existing product goes on top.">
+    <svg class="stations" viewBox="0 0 340 122" role="img" aria-label="Restocking a pan: new product goes in a fresh pan on the bottom, existing product goes on top.">
       <rect x="20" y="22" width="130" height="78" rx="8" class="fifo-pan"/>
       <rect x="28" y="62" width="114" height="30" rx="4" class="fifo-new"/>
       <rect x="28" y="30" width="114" height="30" rx="4" class="fifo-old"/>
@@ -463,6 +486,20 @@
       <li>Aim for the center or thickest part, and get the whole sensing area in.</li>
       <li>Air temp and the equipment thermostat are not product temp. Only temp the actual food.</li>
       <li>The log lives on the behind-the-counter site (the staff website), under Food Safety.</li>
+    </ul>
+  </details>
+
+  <details class="card mod" id="o-timetemp" data-mod="timetemp">
+    <summary><h2>Hot, cold and cooling</h2><span class="mod-p" aria-hidden="true"></span><span class="fold-x" aria-hidden="true"></span></summary>
+    <p>Bacteria grow fast between 41°F and 135°F. The whole game is how little time food spends there: keep hot foods hot and cold foods cold.</p>
+<!--#include pic-cool-->
+    <ul class="plain">
+      <li><b>4 hours is the limit.</b> Food that has spent 4 hours or more, in total, in the danger zone gets thrown out.</li>
+      <li><b>Heating:</b> meatballs, tomato sauce and soups are heated, and reheated, to 165°F inside for 15 seconds.</li>
+      <li><b>Holding hot:</b> once heated, they hold at 135°F or higher in the steam table.</li>
+      <li><b>Roast beef</b> follows its own video and chart. The key: it holds 140°F for 12 minutes.</li>
+      <li><b>Holding cold:</b> 41°F or below.</li>
+      <li><b>Cooling</b> (roast beef, meatballs, tomato sauce, soups): from 135°F down to 70°F or below within 2 hours, then from 70°F down to 41°F or below within the next 4. Six hours in all.</li>
     </ul>
   </details>
 
@@ -521,9 +558,12 @@
     </dl>
   </details>
 
+  <h2 class="section-title grp" id="g-wrapper">Wrapper and register <span class="sub-title">Cut, wrap, bag, ring up, thank.</span></h2>
+  <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="wrap" data-label="Quiz all of wrapper and register">Quiz all of wrapper and register</button></div>
   <details class="card mod" id="o-cut" data-mod="cut">
     <summary><h2>Cutting the sub</h2><span class="mod-p" aria-hidden="true"></span><span class="fold-x" aria-hidden="true"></span></summary>
     <p>Knife in your dominant hand. Clean it when needed, and always after tuna or a sub with mayo. If you cut the paper, finish wrapping and wrap it again with a second sheet.</p>
+    <p class="fine">This is the cold sub cut. Hot subs are different: giants in half, regulars not cut at all. See Wrapping hot subs, under The grill.</p>
     <div class="row needs-js"><button type="button" class="btn" data-walk="cut">Walk me through it</button></div>
 <!--#include howto-cut-->
   </details>
@@ -536,7 +576,7 @@
     <div class="needs-js">
       <h3 class="mt">Put the wrap in order</h3>
       <p class="q-label">Tap the steps in order.</p>
-      <div id="wrap-game"></div>
+      <div id="wrap-game" data-seq="wrap"></div>
     </div>
   </details>
 
@@ -558,15 +598,23 @@
     </ul>
   </details>
 
-  <div class="card needs-js" id="o-quiz">
-    <h2>Quiz a whole section</h2>
-    <p class="fine">Three decks, multiple choice. Each one ends with what you missed and why.</p>
-    <div class="row">
-      <button type="button" class="btn" data-bank="orient">Orientation</button>
-      <button type="button" class="btn" data-bank="kitchen">Kitchen and food safety</button>
-      <button type="button" class="btn" data-bank="wrap">Cut, wrap, bag</button>
-    </div>
-  </div>
+<!--#include train-register-->
+
+  <h2 class="section-title grp" id="g-prep">Prep <span class="sub-title">Produce, tuna, meats and cheeses, and how much to make.</span></h2>
+  <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="prep" data-label="Quiz all of prep">Quiz all of prep</button></div>
+<!--#include train-prep-->
+
+  <h2 class="section-title grp" id="g-bread">Bread <span class="sub-title">Pan it tonight, proof and bake it in the morning.</span></h2>
+  <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="bread" data-label="Quiz all of bread">Quiz all of bread</button></div>
+<!--#include train-bread-->
+
+  <h2 class="section-title grp" id="g-grill">The grill <span class="sub-title">Hot subs, start to finish, plus bacon and steaks.</span></h2>
+  <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="grill" data-label="Quiz all of the grill">Quiz all of the grill</button></div>
+<!--#include train-grill-->
+
+  <h2 class="section-title grp" id="g-slicer">The slicer <span class="sub-title">Cutting bread, slicing in order, and keeping the machine clean.</span></h2>
+  <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="slicer" data-label="Quiz all of the slicer">Quiz all of the slicer</button></div>
+<!--#include train-slicer-->
 </section>
 
 </main>

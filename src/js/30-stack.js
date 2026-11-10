@@ -56,11 +56,12 @@ function drawStack(layers, o){
     var fs = hgt < 20 ? 10.5 : 12.5, mid = y + hgt / 2, tx = pad + 9;
     if (l.skip) num += l.skip;   /* a band that stands for several layers uses up their numbers */
     if (l.n !== false && !special){
-      num++;
+      /* the number is the order it goes on. On a hot sub the lid is dressed first, so its bands carry 1, 2, 3 at the top of the picture */
+      var shown = (l.num !== undefined && l.num !== null) ? l.num : ++num;
       var r = hgt < 20 ? 6.4 : 8.4;
       var chipFill = l.status === "ok" ? "#24693F" : (l.status === "bad" ? "#B3261E" : "#FFFFFF");
       grp.appendChild(svgEl("circle", {cx:pad + 13, cy:mid, r:r, fill:chipFill, "fill-opacity":l.status ? 1 : .95, stroke:l.status ? null : "#1B2B44", "stroke-opacity":l.status ? null : .28, "stroke-width":l.status ? null : .9}));
-      grp.appendChild(svgEl("text", {x:pad + 13, y:mid + (hgt < 20 ? 3.1 : 3.7), "font-size":hgt < 20 ? 8.8 : 10.5, "font-weight":800, "text-anchor":"middle", fill:l.status ? "#FFFFFF" : "#1B2B44"}, String(num)));
+      grp.appendChild(svgEl("text", {x:pad + 13, y:mid + (hgt < 20 ? 3.1 : 3.7), "font-size":hgt < 20 ? 8.8 : 10.5, "font-weight":800, "text-anchor":"middle", fill:l.status ? "#FFFFFF" : "#1B2B44"}, String(shown)));
       tx = pad + 27;
     }
     var label = haloText(tx, mid + fs * 0.35, fs, ink, fill, l.label || l.k);
@@ -117,14 +118,21 @@ function subLayers(sub, o){
     (sub.lid || []).forEach(function(x){ layers.push({k:x, amt:amt(x), label:o.brackets ? null : x + ", on the lid"}); });
     group("Lid", start);
   } else {
+    /* drawn where each thing sits in the closed sub, numbered in the order it goes on: lid first, then the grill, cheese, finish */
+    var n = sub.lid.length;
+    function hamt(item){ return size ? hotAmountFor(item, size, sub) : null; }
     start = 0;
-    if (sub.protein) layers.push({k:sub.protein});
-    sub.grill.forEach(function(x){ layers.push({k:x}); });
+    sub.grill.forEach(function(x){ layers.push({k:x, num:++n, amt:hamt(x)}); });
+    if (sub.protein) layers.push({k:sub.protein, num:++n});
+    sub.sauce.forEach(function(x){ layers.push({k:x, num:++n, amt:hamt(x), label:o.brackets ? null : x + ", on the " + (sub.protein || "meat").toLowerCase()}); });
     group("Grill", start);
-    sub.cheese.forEach(function(c){ layers.push({k:c, label:c + ", melted on top"}); });
+    sub.cheese.forEach(function(c){ layers.push({k:c, num:++n, amt:hamt(c), label:c + (size ? "" : ", melted on top")}); });
     start = layers.length;
-    sub.after.forEach(function(a){ layers.push({k:a}); });
-    group("After", start);
+    sub.finish.forEach(function(a){ layers.push({k:a, num:++n, amt:hamt(a)}); });
+    group(sub.finishLabel || "Finish", start);
+    start = layers.length;
+    sub.lid.slice().reverse().forEach(function(x){ layers.push({k:x, num:sub.lid.indexOf(x) + 1, amt:hamt(x), label:o.brackets ? null : x + ", on the lid"}); });
+    group("Lid", start);
   }
   return {layers:layers, brackets:brackets};
 }
@@ -133,8 +141,22 @@ function stackSVG(sub, o){
   var s = subLayers(sub, o);
   return drawStack(s.layers, {
     brackets:o.brackets ? s.brackets : null, tappable:o.tappable, build:o.build && !reducedMotion,
-    label:sub.name + ": " + s.layers.map(function(l, i){ return (l.k === "MW" ? "Mike's Way" : l.k).toLowerCase(); }).join(", then ") + ", bottom to top"
+    label:sub.name + ": " + (sub.type === "cold"
+      ? s.layers.map(function(l, i){ return (l.k === "MW" ? "Mike's Way" : l.k).toLowerCase(); }).join(", then ") + ", bottom to top"
+      : hotParts(sub).map(function(p){ return p.label.toLowerCase() + ", " + p.items.join(", ").toLowerCase(); }).join("; "))
   });
+}
+/* a hot sub while you are building it: what you tap for the lid hangs under the top bread, the rest stacks up from the bottom,
+   and every band carries the number of the tap that put it there */
+function hotLive(sub){
+  return function(seq, o){
+    var low = [], lidL = [];
+    seq.forEach(function(k, i){
+      var l = {k:k, num:i + 1, status:o.statuses ? o.statuses[i] : null, isNew:!o.statuses && !reducedMotion && i === seq.length - 1 && o.justAdded};
+      if (sub.lid.indexOf(k) >= 0) lidL.unshift(l); else low.push(l);
+    });
+    return drawStack(low.concat(lidL), {top:true, lidLabel:"Top bread, the lid", label:seq.length ? "Your sub so far: " + seq.join(", then ").toLowerCase() : "An empty sub, bread only"});
+  };
 }
 /* the sandwich as it stands while you are building it */
 function liveStack(items, o){
