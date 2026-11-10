@@ -286,7 +286,7 @@ function cardText(card){
     } else {
       t = tidy(x.textContent);
       var hn = x.parentNode && x.parentNode.classList.contains("ht") ? x.parentNode.querySelector(".hn") : null;
-      if (hn && t) t = "Step " + tidy(hn.textContent) + ". " + t;   /* the how-to pictures are numbered; the voice says the number */
+      if (hn && t) t = (/^start$/i.test(tidy(hn.textContent)) ? "Before you start. " : "Step " + tidy(hn.textContent) + ". ") + t;   /* the how-to pictures are numbered; the voice says the number */
     }
     if (!t) return;
     if (!/[.!?:]["”')\]]*$/.test(t)) t += ".";   /* a line that ends inside quotes has its full stop already */
@@ -296,7 +296,12 @@ function cardText(card){
 }
 /* the training cards carry a few signs a voice trips on */
 function sayable(t){
-  return speakable(t).replace(/°F/g, " degrees").replace(/°/g, " degree").replace(/\bppm\b/g, "parts per million").replace(/¾/g, "three quarters").replace(/½/g, "one half").replace(/¼/g, "one quarter");
+  return speakable(t)
+    .replace(/(\d) x (?=\d)/g, "$1 by ")                                                /* "4 x 4" is four by four */
+    .replace(/(\d) lb\.? bag\b/g, "$1 pound bag").replace(/(^|[^\d.,])1 lb\b/g, function(m, a){ return a + "1 pound"; }).replace(/(\d) lb\b/g, "$1 pounds")
+    .replace(/(\d) min\b/g, "$1 minutes").replace(/\b360(?:°| degree)(?= )/g, "three sixty degree")
+    .replace(/\b4\/1 gal\b/g, "4 slash 1 gallon").replace(/\bover\/short\b/g, "over short")
+    .replace(/°F/g, " degrees").replace(/°/g, " degree").replace(/\bppm\b/g, "parts per million").replace(/¾/g, "three quarters").replace(/½/g, "one half").replace(/¼/g, "one quarter");
 }
 /* a voice with no Stop button in sight can't be stopped: when the thing being read leaves the screen (another tab, another level), it goes quiet */
 function hushIfHidden(){ if (saying && !saying.getClientRects().length){ Voice.stop(); sayReset(); } }

@@ -232,14 +232,14 @@ function renderTeachFact(q, card, bankKey){
     h("h3", {class:"q-name q-text", text:q.q}),
     h("div", {class:"fact"}, [h("b", {text:q.a}), h("span", {text:q.why})])
   ];
-  teachThen(card, lesson, function(){ return speakable(q.q + " " + q.a + ". " + q.why); }, function(box){ renderBank(q, box, bankKey); });
+  teachThen(card, lesson, function(){ return lessonSay(q); }, function(box){ renderBank(q, box, bankKey); });
 }
 function renderTeachSeq(key, card){
   var sq = SEQS[key], ol = h("ol", {class:"plain"});
   sq.steps.forEach(function(st){ ol.appendChild(h("li", {text:st})); });
   var lesson = [h("h3", {class:"q-name", text:sq.title}), ol];
   if (sq.where) lesson.push(h("p", {class:"fine mt-s", text:"More on each step is on the Training tab, under " + sq.where + "."}));
-  teachThen(card, lesson, function(){ return speakable(sq.title + ". " + sq.steps.join(". ") + "."); }, function(box){ renderSeq(key, box); });
+  teachThen(card, lesson, function(){ return seqSay(sq); }, function(box){ renderSeq(key, box); });
 }
 
 /* flashcards */
@@ -888,7 +888,7 @@ function renderListen(card){
     if (!playing || listenRun !== me) return;
     var s = sub();
     show(false); bar(0);
-    Voice.speak(speakable(LP.nameFirst ? s.name + "." : "Number " + s.n + "."), {
+    Voice.speak(listenAsk(s, LP.nameFirst), {
       onstart:talking,
       onend:function(){
         quiet();
@@ -901,7 +901,7 @@ function renderListen(card){
     if (!playing || listenRun !== me) return;
     var s = sub();
     show(true); bar(0);
-    Voice.speak(speakable((LP.nameFirst ? "Number " + s.n + ". " : s.name + ". ") + sayContents(s)), {
+    Voice.speak(listenTell(s, LP.nameFirst), {
       onstart:talking,
       onend:function(){
         quiet();
@@ -959,7 +959,8 @@ function renderListen(card){
     h("div", {class:"listen-set"}, [
       seg("It says", [{v:false, t:"The number"}, {v:true, t:"The name"}], function(){ return LP.nameFirst; }, function(v){ LP.nameFirst = v; savePrefsL(); if (!playing) show(false); }),
       seg("Time to answer", [{v:3, t:"3 seconds"}, {v:5, t:"5 seconds"}, {v:8, t:"8 seconds"}], function(){ return LP.pace; }, function(v){ LP.pace = v; savePrefsL(); }),
-      seg("Voice", [{v:false, t:"Normal"}, {v:true, t:"Slower"}], function(){ return Voice.isSlow(); }, function(v){ Voice.setSlow(v); })
+      seg("Voice", [{v:false, t:"Normal"}, {v:true, t:"Slower"}], function(){ return Voice.isSlow(); }, function(v){ Voice.setSlow(v); }),
+      Voice.ok ? h("div", {class:"row"}, h("button", {class:"btn ghost small", "data-voice-open":"", text:voiceLabel()})) : null
     ])
   ]);
   card.appendChild(box);

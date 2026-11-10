@@ -723,3 +723,20 @@ ul.ticks.live li[aria-checked="true"]::after{content:"";position:absolute;left:2
 .quiz-list .qz-h{margin:16px 0 0;padding-top:12px;border-top:2px solid var(--line);font-size:17px;color:var(--muted)}
 .quiz-list .qz-h + .qz{border-top:0}
 @media (prefers-reduced-motion: reduce){ .lv,ul.ticks.live li{transition:none} }
+
+
+/* ---- pick a voice: one row a voice, the one in use marked like a radio button ---- */
+.voice-list{display:grid;gap:6px;margin-top:12px}
+.vrow{position:relative;display:grid;gap:1px;align-content:center;width:100%;min-height:52px;padding:8px 14px 8px 46px;text-align:left;cursor:pointer;
+  border:1.5px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);font:500 15px var(--body);transition:background-color .15s ease,border-color .15s ease}
+.vrow b{font-weight:700}
+.vrow span{font-size:13.5px;color:var(--muted)}
+.vrow::before{content:"";position:absolute;left:14px;top:50%;width:20px;height:20px;margin-top:-10px;box-sizing:border-box;border-radius:50%;border:2px solid var(--navy-2);background:var(--surface)}
+.vrow[aria-pressed="true"]{border-color:var(--ui);background:var(--soft)}
+.vrow[aria-pressed="true"]::before{border:6px solid var(--ui)}
+.voice-status{margin-top:8px}
+.voice-status:empty{display:none}
+.voice-tips{margin-top:18px;border-top:1px solid var(--line);padding-top:4px}
+.voice-tips summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:600;color:var(--title)}
+.voice-tips p{margin:4px 0 0}
+@media (prefers-reduced-motion: reduce){ .vrow{transition:none} }

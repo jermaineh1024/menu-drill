@@ -1,4 +1,4 @@
-// node tools/test/planted.js  -> proves the suite can fail: breaks a copy of the site sixteen ways and expects each to be caught
+// node tools/test/planted.js  -> proves the suite can fail: breaks a copy of the site twenty-one ways and expects each to be caught
 // Each broken copy gets its own folder and its own quick run of the suite, two at a time.
 const fs = require('fs'); const path = require('path'); const { spawn } = require('child_process');
 const ROOT = path.resolve(__dirname, '../..'); const SRC = path.join(ROOT, 'dist/site');
@@ -21,22 +21,35 @@ const plants = [
   ['a check list that forgets its ticks', s => s.replace('var ticks = load(TICKS_KEY, {}) || {};', 'var ticks = {};'), 'ticks are still there after a reload'],
   ['a voice that cuts 1.25 ounces in two', s => s.replace('re = /[.!?]+["”\')\\]]*(?=\\s+[^a-z\\s]|\\s*$)/g', 're = /[.!?]+/g'), 'an amount like 1.25 ounces is said in one piece'],
   ['a manager session that teaches sprinkling first', s => s.replace('if (levelNow() > 1){', 'if (levelNow() > 9){'), 'its five new facts are manager facts'],
-  ['a clock box that starts mid-day an hour late', s => s.replace('{id:"dp-mid", from:14, to:17,', '{id:"dp-mid", from:15, to:17,'), 'at 2:30 in the afternoon the box says mid-day']
+  ['a clock box that starts mid-day an hour late', s => s.replace('{id:"dp-mid", from:14, to:17,', '{id:"dp-mid", from:15, to:17,'), 'at 2:30 in the afternoon the box says mid-day'],
+  // the voice
+  ['a voice picker that takes the first voice the device lists', s => s.replace('return (fine.length ? fine : en).sort(rank);', 'return (fine.length ? fine : en);'), 'the page picks the best voice the device has, and says which'],
+  ['recordings filed under the wrong fingerprint', s => s.replace('a = Math.imul(a ^ c, 0x01000193);', 'a = Math.imul(a ^ c, 0x01000195);'), 'every fixed thing the page says has a recording'],
+  ['a missing recording that leaves you in silence', s => s.replace('if (synth) speakDevice(text, opt); else if (opt.onfail) opt.onfail("silent");', 'if (opt.onfail) opt.onfail("silent");'), "when a recording does not arrive, the device's voice reads the same words"],
+  ['a Slower button the recorded voice ignores', s => s.replace('player.defaultPlaybackRate = player.playbackRate = slow ? 0.85 : 1;', 'player.defaultPlaybackRate = player.playbackRate = 1;'), 'its sample is the recording, and Slower plays it slower'],
+  ['a phone with no signal left waiting for a recording', s => s.replace('if (navigator.onLine === false) return false;', 'if (navigator.onLine === 7) return false;'), "with no signal the device's voice reads it at once"]
 ];
+
+// a broken copy is thrown away when its run is over; the link to the recordings goes first, so nothing can reach through it
+function clear(dir) {
+  try { if (fs.lstatSync(path.join(dir, 'audio')).isSymbolicLink()) fs.unlinkSync(path.join(dir, 'audio')); } catch (e) {}
+  fs.rmSync(dir, { recursive: true, force: true });
+}
 
 function runPlant(i) {
   const [name, mutate, expect] = plants[i];
   return new Promise(resolve => {
     const dir = TMP(i);
-    fs.rmSync(dir, { recursive: true, force: true }); fs.cpSync(SRC, dir, { recursive: true });
+    clear(dir); fs.cpSync(SRC, dir, { recursive: true, filter: f => path.basename(f) !== 'audio' });
+    if (fs.existsSync(path.join(ROOT, 'audio'))) fs.symlinkSync(path.join('..', '..', 'audio'), path.join(dir, 'audio'));   // the recordings are shared, never copied
     const f = path.join(dir, 'index.html'); const before = fs.readFileSync(f, 'utf8'); const after = mutate(before);
-    if (after === before) { fs.rmSync(dir, { recursive: true, force: true }); return resolve({ i, name, applied: false }); }
+    if (after === before) { clear(dir); return resolve({ i, name, applied: false }); }
     fs.writeFileSync(f, after);
     let out = '';
     const c = spawn('node', [path.join(__dirname, 'suite.js'), '--site', f, '--engines', 'chromium', '--quick'], { env: process.env });
     c.stdout.on('data', d => { out += d; }); c.stderr.on('data', () => {});
     c.on('close', status => {
-      fs.rmSync(dir, { recursive: true, force: true });
+      clear(dir);
       resolve({ i, name, applied: true, status, ok: status === 1 && out.includes(expect) && out.includes('CHECKS_FAILED') });
     });
   });

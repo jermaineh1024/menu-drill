@@ -1,5 +1,5 @@
 // Keeps the drill working offline after the first visit. Bump VERSION to push an update.
-const VERSION = '2026-11-10a';
+const VERSION = '2026-11-10b';
 const FILES = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
@@ -9,8 +9,10 @@ self.addEventListener('activate', e => {
     .then(() => self.clients.claim()));
 });
 // Network first so updates show up right away; the cache covers no signal.
+// The recordings are left to the browser: it asks for them a piece at a time, and they are too many to keep on a phone.
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
+  if (e.request.headers.has('range') || new URL(e.request.url).pathname.indexOf('/audio/') >= 0) return;
   e.respondWith(
     fetch(e.request).then(r => {
       const copy = r.clone();

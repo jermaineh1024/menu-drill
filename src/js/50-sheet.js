@@ -29,6 +29,7 @@ function openSheet(entry, push){
   sheetPanel.style.transform = "";
   if (entry.type === "sub") fillSub(byId(entry.id), true);
   else if (entry.type === "walk") fillWalk(entry);
+  else if (entry.type === "voice") fillVoice();
   else fillIng(entry.name);
   sheetPanel.scrollTop = 0;
   try { sheetPanel.focus({preventScroll:true}); } catch(e){ sheetPanel.focus(); }
@@ -37,6 +38,7 @@ function closeSheet(){
   if (sheet.hidden) return;
   walkPause(); walk = null;
   if (saying){ Voice.stop(); sayReset(); }
+  if (voiceSampling){ Voice.stop(); voiceSampling = false; }   /* a sample line stops when the voice list is put away */
   sheet.hidden = true;
   sheetPanel.classList.remove("dragging", "settle");
   sheetPanel.style.transform = "";
@@ -207,7 +209,7 @@ function fillWalk(entry){
   var dots = h("div", {class:"walk-dots", "aria-hidden":"true"});
   steps.forEach(function(s, k){ dots.appendChild(h("i", {class:k === entry.i ? "on" : null})); });
   var status = h("p", {class:"walk-status", role:"status"});
-  var spoken = speakable((isStart ? "Before you start. " : "Step " + st.num + ". ") + st.title + ". " + st.text);
+  var spoken = walkSay(st);
   var sayB = h("button", {class:"say-btn", "aria-pressed":"false", "aria-label":"Read this step out loud"});
   var icon = svgEl("svg", {viewBox:"0 0 24 24", "aria-hidden":"true"}); icon.appendChild(svgEl("path", {d:SPEAKER_ICON}));
   var sayT = h("span", {text:"Read it"});

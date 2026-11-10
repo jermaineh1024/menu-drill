@@ -818,9 +818,27 @@ ul.ticks.live li[aria-checked="true"]::after{content:"";position:absolute;left:2
 .quiz-list .qz-h{margin:16px 0 0;padding-top:12px;border-top:2px solid var(--line);font-size:17px;color:var(--muted)}
 .quiz-list .qz-h + .qz{border-top:0}
 @media (prefers-reduced-motion: reduce){ .lv,ul.ticks.live li{transition:none} }
+
+
+/* ---- pick a voice: one row a voice, the one in use marked like a radio button ---- */
+.voice-list{display:grid;gap:6px;margin-top:12px}
+.vrow{position:relative;display:grid;gap:1px;align-content:center;width:100%;min-height:52px;padding:8px 14px 8px 46px;text-align:left;cursor:pointer;
+  border:1.5px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);font:500 15px var(--body);transition:background-color .15s ease,border-color .15s ease}
+.vrow b{font-weight:700}
+.vrow span{font-size:13.5px;color:var(--muted)}
+.vrow::before{content:"";position:absolute;left:14px;top:50%;width:20px;height:20px;margin-top:-10px;box-sizing:border-box;border-radius:50%;border:2px solid var(--navy-2);background:var(--surface)}
+.vrow[aria-pressed="true"]{border-color:var(--ui);background:var(--soft)}
+.vrow[aria-pressed="true"]::before{border:6px solid var(--ui)}
+.voice-status{margin-top:8px}
+.voice-status:empty{display:none}
+.voice-tips{margin-top:18px;border-top:1px solid var(--line);padding-top:4px}
+.voice-tips summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:600;color:var(--title)}
+.voice-tips p{margin:4px 0 0}
+@media (prefers-reduced-motion: reduce){ .vrow{transition:none} }
 </style>
 </head>
 <body>
+<script>window.JM_AUDIO={base:"audio/",keys:"0079fc01d1fc54e1 008bc3a66641bfa9 00b32fbfd1762659 00d86f6db612de61 00e3655c3219a289 01176d6f87a25d5c 01333d9948a6b545 019a24d2aa1d5e28 0220b90f61398fd9 022def5c53732dc6 02352b99bcb20b76 0246f1d02e1ab8e7 0256bc3ce0f9d157 0272213f6df803e5 029252627628e966 033fdbf113e93363 0388a7e61d4d3e65 049308cef285dcf1 04fd3b914e48e615 051d71906bfa8aa9 052e3b76dee03a98 0536a57fb262d654 05846c0bf572a46a 058703d80a76eed1 05a68fca09bcbdb0 05e8ad3838d48032 063a811cba151899 0655c8d7fbe71d43 067991ae4b0e8221 068a5679ea8d8464 06d0bbbd1a217ae9 070a7ffc2d8b784f 07265a20afe250b3 0726918ae9855476 074cae025f218119 0768fe0e74a0bae4 076ac8ce3955b518 0785b0708cc1c5a4 087caebdbd5240e4 08aa96170cd32719 08e007dca750bf9d 08fd3e9b825c6ed2 09a2eb9a44a4a6d4 0a0c9e090bd2b347 0a3431c9919309af 0a40c86d75357e6b 0adb08a789eb30e8 0b4014eaf055ced3 0b9e871e292a96fc 0bee721dac57dbbc 0c07bd1bd334c1c3 0c3a2f03a5a72431 0c85980bb4786321 0cdbac5d75126427 0d09f7fec65ee23b 0d3dd4f9dae6b07e 0d3fa3d121ce20c2 0d4b08d7ada7d231 0d9aa2e33e3cc079 0da71fef3defb1a3 0db357bc7b938478 0dcbff24ca5984c0 0e042e6792fab0a2 0e6369660d5fbed7 0e68b6cee6c0e86c 0e6b17369cea73f6 0edb4dbc1af74566 0f1808714563c17e 0f93bd5ba9e5cf22 0fd027f32c781a72 0fda73dfd68eaae3 1063d2336c0074fa 10d8c69e578d2bf3 10e5a73c509a4d48 10fca3d1378c0782 11021e321c2da3a5 1112eef5d937161e 111d54ead19f8be1 113497bec2e6ffbb 119a2fb5b2266183 11b2c6726c589430 11c9e79f56415946 11ce97a8923195bb 12099078ca157aad 120e8c44c03fe99e 122525ec5e5f7fb4 123d47446f2097f8 12e52f4f113a32cc 138628ed275b829b 13b77df7c55df14d 13bd8b4c0ec20c8b 13ebf90192a0ee02 144783107462ce80 14a5eaeddfb2c970 14d6c4a4ac2faede 154d35410c4c2d9b 15636e342a591817 15853d2482cfd487 15d40fe07d0fd34d 1646e978b5726524 165daa4ddaac54f6 16cf74f7c8ac95c8 1714d24f96194491 1715cff4bd28053c 1732d22a6e1bd37c 1790129b5ba8e1fb 17e20ae01b8d8371 18571afde377fcd0 18a19982bacdf603 18db14a550baf589 1912b1ce8fe6d24b 19b9423f7835ce30 19ec83f79a5c61da 1a02a49260775d35 1a0591808e6b4552 1a13f133675f9a11 1a9e3538a36c1462 1b3fad0737a166c1 1b45c406d1ef4a0d 1b570b06bfe733dc 1b86a066b284e488 1b8fbd65e2d25a24 1c24f5e9de556767 1c2c3fdb20627528 1c6fa794a9e06853 1c721a642014f355 1c7a5dc1f937f20f 1cb4d8649b81f01b 1ccac8365b68ebb4 1d2c52082632a290 1d8b174ef7cbfe8f 1dfa3671270e56ab 1e4e7418e2270949 1e52d4b7c48affb9 1e833116ffd59b60 1f1facc566b6a4ea 1f2f3c566d266f9d 1f4022740a3f7d21 1f4e0f40dbf02682 1f893b2eb90ed286 1f95943f4e4472cc 20adc52c32794b4b 20b1be2feac1357f 2135bf8b66a6be95 21e21e8df0eb9522 21fc8455b90b5f3e 2277f4369160cd2f 227a39a81884de08 229bbd4168f01e44 22c7d823a753b2ae 234acc7ced9ad07d 23cc7b46a8b9cacf 246687e4558005e5 246f27a969178a26 24a9be2120e9c7b0 24b14c8069a8e2ab 24b7d3c76ff71d42 24fd6d4f001df46e 250bc8218a02944b 25aadc91ba3722b3 262e3644d3fbad82 264560678eb4da7a 269832e1ae8f08b1 26a7c42fd1d13471 26cc99ab3466256d 26dc47fe5afa84d3 274316ffffa0219f 2760737a975be60f 278526140ea04e10 278e49b26ffb49ad 27fa5a24f06f65ec 282a28cf51f2c26f 2837e37fa2547e09 284180de5244ac78 295a883e6242153e 2a86c591c1908587 2b3ee66c6fb49f12 2b45bf5c3546a227 2b9ca95815773ddc 2c0b9eb3d3ee4caa 2c7ead8693ade4cc 2c95a12ed9b6ac92 2cc296485025e95b 2cd37b492ef1578a 2cf25d8986cc92b6 2d2ef3960d2d3017 2d435e1e1480a0b1 2d4a181c325bdd1f 2d5c02ebf0f3c5f1 2d9dcf2686089a36 2dac430ea695520f 2ddaf7ce6228c689 2e47a436c718b7f3 2e9f5bdb3bf0c396 2ef952f6bf04fbd7 2f2c66859435df25 3056b0a001a347ad 3057631be6f8c060 3057d7cf253523a7 30adbd35a1e9e213 311c8371f472c107 31226fa9705aee1a 31fde9e21904ebc7 328fa2f1c1142500 32aff422fbc4670d 32e95cea9a743e84 32f6f243da73120d 33207a16feda9ce1 332b44085d1b98bf 33320fc97d63a69f 335f029215a13ffc 33ad6bf96ecff58f 33c3045ba7f45392 3413693d977d7223 341431afa301111c 34273c8bcb7de333 349b0d1bd257e9ca 34def1fcee6c0689 35149bb7b81ff848 3522c1ed80df4b42 3558f60e37f79f66 35646e4e61593b7a 35db447c10ace959 3666f6bbaea60efb 36671e2ecdc97f47 371736982838ddab 372a78c54088936c 3779b194fe7ece3e 37bad5c7990d4f63 3858df02325da21b 386951ab79b51335 38ed11341dc46789 393a630e695dbf82 394ed521d419fe9e 395246e6737dc6c2 39a472e7b40188b6 39a7baa2819f1543 39aacbc2b2e7269d 3a3310c4e5dcc2f7 3a48d1df89d745cd 3aece18d6c9ca932 3b15503d01364508 3ba3ab6797984b3c 3bc3017644b6d95a 3bcd7a00f169079d 3bd5b7b82f20e16e 3be25c45e7e79ad7 3c4b8337869fccb2 3c5ac3cccfeaf2c1 3c64116c9920df05 3caf0ddc6309f3c8 3d6a1ccb646832ed 3d80d7cc654435f2 3df112624db7b0c5 3eb74c81c9870bec 3f864a90b9d9735a 3ffcc06dd0df6bf6 4013831526647332 40a727367a7ede0b 40eef528b5d16618 4196c46dfebc5144 42588c3c78368f9a 431388bf69346cb8 4334ef042a7a4e17 4358d6abc50bde6e 43aba034b1b2ebab 43afb9a50778bd19 43bbdc690fd09a43 44377304802bc58f 4445dd06aad0827e 446d60818a519018 44d4a9b431bdd285 453074c98256203d 456f045213481688 464ea6bd36a1757f 46714caedec4d614 4690a4a47d5e5180 469ee853c6832cc7 46b1372d7affca25 47700d56719da97e 479130259f6a27e2 483934fd3def1f10 4887bbab80aed6d9 48b60d95c8f7baf0 4a8be251e8f39ed2 4aac1cc174af6fe1 4ac53dc0b7776176 4ad6b9c67cca7b73 4afcb74e4cc87ab3 4bc3bf0d76f82ba0 4cf9e5147fdb2d48 4d8724ca90ff855b 4dcabdb0cb0080fb 4dd7ace4d79fc6a3 4e26e1fa01ba18b8 4e6d9e8d0a413acd 4e8ec543fc28fa64 4f4c5707ef50eaf6 50315add619a96ff 50a2eda157459297 50b3fe271024945f 524b19d0fb0c272c 5283f29328fe6350 528747475d6767f7 52aac0bcf38f9573 52ee3a767bdd4667 53938505561b7a5a 53cc36c0d35fa28d 53f75fd7c4dd483a 541152e0d12454da 54273aa049ee0cb4 549b0356384a788c 550bda18243dc05a 558f8ace99fca279 55b172db38891a82 55f21c925b387feb 56f9741c87871dc7 56fe99516789b007 5715deec9f6066ad 575770f244dc14e7 575abd59a46f3a4a 579941b0ee1aec49 5818d291a245b3c7 583e01ec058d08f4 58eb8a26d2025566 590ee8da6ae00b21 5934722fd23cbbb7 598490783aaa83b8 59b95cb58c3d0da7 59bb29281e1e5b9b 59d812ad92b2ef2f 5ac3edc361801c5c 5aee77f6b3cf558f 5b33a42a94447f91 5b4d20a79dbac4ce 5bc3f636cee79805 5d9bad45bca7bdb8 5df37acfc3697993 5e265e05c717ee8e 5eb17ec7487d186f 5eb2d3cd06322577 5eb5af1345cf390b 5ee92bbc3c37b59d 5f00a679d87f2849 5f1e6f3ecd9d3251 5fc39bf8fc7d60ec 60756c9e0b37b178 60859a70e743174a 60cfadb27ec32103 60e9ae6efede9932 610aa0621c2f50df 61c433989453e80b 61e9b67c97e3b965 6210029816f74004 6276253486ad8f5c 629c3057ac0e26c0 634e40e7cbfb40dc 637eb8a62a3e0f86 64186d2f2583ad30 648dd1a308a68fb1 64a5f08d67a6aeda 64b914c365344b76 64ce77d91d23f60b 64fbcfea77edc16d 656b5dbd48171802 65d3d6a87e7410ec 65d9ee7b2f7d3358 666b7684e7fb23ac 669ae11e15127e7f 66a6398bfeba1c0e 66d1d763f434cf4a 67138dc6112df386 671c3d80e40e5407 6764890f0bda62f1 6794dd8324f69856 67cdf7ed4f5b8ddc 68332b81ff7050f7 685b92324d652117 6871807cc865b325 6897bdaef8848d98 689fb7ebe6d295da 68bbcf9c84480798 6939b03439215a06 6944e769fc5fa17f 6946df0eb1d431a2 6950968abaf012a5 695c803959253e9d 696ede28ab520852 6979dd5f3c80064b 69813122948a8270 69b875e2a5d3664c 69f60db5a5b52e14 6a85b9df52c6bcdf 6ade850fca0be7a7 6af59375d3bc145a 6b5f1d1c9cdcc9f2 6beb715d7e0af44a 6bf37fc9e6d6417a 6c20e475a971ed98 6c53457719fdef02 6cc8cfe1616a9cc6 6d021b5508460f53 6d252edf4597aa11 6d372902dfd487d4 6e414b004f12a406 6e741c290b5db616 6eaf15510596c12a 6ec68edc80862256 6effefc1a575eaf8 6f2e4f7d9cd9f007 6f5821a8b80ba1fa 6f77fd6a90d87aa8 6fc9f86da8144d4f 6fdb1cdffdddfc32 700bcba9797ca0b3 70222969416102e5 70a1a4f36023e7df 711a26a26ce00dc7 711ff56f8970eb13 71845c096e6c3711 71a25c32147d1bb6 71b56a4b04afd558 71cb128b5bbee370 71eecb92f2818845 71f4cf2505a61bef 71ff2d752d195464 72459506a9279216 724d90c4c22bc022 72755cb7f13bde66 73170f9884db04f2 735fa51e01e2d304 737d77b31bf7e07c 73cdfa72dcb2b050 73dd85978a366f7a 73e202c5f57d990b 742461ba78998f82 74584e2fed56f553 74b34019c16e0525 75188b7bee5716a7 75a607419109f723 76696f058580a1bd 7685228c00ac3ec7 76a05d1d3a9e8689 76b3266f710b50f4 77340628402c4bb9 77897fadbebf3ca2 779fcbe66d0de283 77b9c89c65a700e0 77bb84118e881e59 77f3365df21e2b0a 77f51cfc68671182 77fac1149d39860b 78023b8ecf30afa1 7807605af00bca86 78e8ed9500c593f7 7930df5829483a8f 794a75b2dcc4e5cb 794ffcf5aa41a8c3 795803a664efa9d0 797f7a50addef36d 798bf6047885cb85 798d5f40088c38a9 79b93f304d211386 79c5f7844cbf521b 79c9ce3fc68dd4bd 7a3623bc94ee7a39 7a484494a3086229 7a8b8f24f2b628b0 7afc1f91e07e445f 7b2680b606c1d1f8 7b27a14b3882a2c1 7b530cb07dbd12d2 7b655ae25dcf10dd 7bbd62ef371508b8 7bbec06698ed48d4 7bcd0336483608b1 7bdd5346d355585e 7c88a05da003f1a4 7cfd4af81d6fd780 7d36a9b4552ab57b 7d988485eccc0008 7d9c7b7719553e23 7daeff2926a3dbd2 7dc50eeb706bb553 7dfbd08faf96bcc6 7e1aac5867691069 7ec313b7553b99e3 7f1aa3ea0a80b2a0 7f1b7e0aec7f3345 7f480745106da873 7f9d22b9fb52878b 7fc6afacfc242a65 80cbe549e9cbbc7c 80ef6a37f710deee 8127291b647c97a7 81405655badafdc9 8142db7906e1873a 816aa350b6aa076e 81863f0efc2a655d 81d747f6619223bf 81f329a65ebc62d7 820767d8b68ee5d4 8232413ee25e2ead 82364ef887692fd5 83158738c9397bdb 83223cbd4849b526 833e47f166571865 834b31e7da25b450 836eab717ef7d17a 83d5510a93bcf914 83d845b50d3f8f1d 83e663b55b3b74f7 83e69725873a94a2 8424bca5b3beee57 8444c458bcdeeb24 848f0e336c2ea895 8491e064ec7023cb 8499c3cdec1230fb 84c7236ccde01bb0 85559b0af1690f62 8587739ae3b1f8d9 85e07aff97797ae1 86623805606c6bc6 867b6a45008fada8 86eee79fe37608fd 86fa79e1dbbfe916 877a26a96d9e68a4 87a26da8be0a3ad2 87ef7c7bca557e93 886b26e2cae0fb99 88b72e3ed195e541 89bb9bd1a81e94c4 89fb7174abc1bc0c 8a339f681c37d8af 8a88322002959127 8a98f32a781a8695 8b1d77b4fe8e123c 8b2c31a00662ab92 8b462103d2e8cc17 8b7519dbc4a7d67b 8c19f31ce057a309 8c9d430a3f5ba10d 8ca71032e5df22ec 8ca751b94817fdd0 8ccbc33c3d041255 8cd85c13679c5724 8d0a57ba36f2586c 8db687db105bea8b 8e0ff56de263363b 8e77ab8a87185b87 8edbb46c476ae3a8 8f5402945ba4a895 8f5e16845bace702 8f892dc9456e46b3 8fa8cd36d1e964f5 8fea1a2911e254dd 90bd963262417e7b 915602a44b5b0721 9187d3db2cda04ae 91c654bcbe1b7368 91cea8cc6824c699 91dff3680ae86cd6 91e47096c16aafa6 921eb9a75a11a5ae 922d990053498770 92379557e9fffe01 924e26dd64fa360b 92577489a2b3cd7e 935f55cf21d50a52 93b736551d6a6043 93c72d53d16a074a 93f13fafb4d3dd57 941745a10e07f5da 9477d9c8e66b32cf 94b5ee963feb06a4 94ef76f1b8dca93b 94fd2b8d472fb5c4 9511be4d82106551 958f87a3eb14eedd 9595767f7f870b2e 95b7f6be26f43b1c 95e251ee103cf74b 95fc434bd4ad672c 962871a700935a74 9693bec3a594d460 96a6863b9d418e8a 96e97f69993eced9 96eba310bc549f37 96f8f3d17cf2e551 9772444409c75ca7 97b2eff57a0ee7db 97c84b0c27270c06 97f4af8d2afbe241 981708b2fceca8df 9828cf4efce409bc 987b9d7308b9e859 988c2e131d420a20 98ef4462edf5af86 994e32744f44df8d 99642bcf97f285d5 998b18389b9fb265 99d06491eeb337c9 9a5667431d106676 9a9accec04687859 9abfbeafbfa2f6cf 9ace201faa64726e 9b06f756af6edc69 9b68a49a4e8b9a3e 9b6eeb8411d63666 9bb249edfa46177d 9c0c7253f16265f0 9c53ed847f2cbd6c 9c8cebb0ac2a8f55 9cb07a04e076e503 9cb8bff56ae16f9d 9cc1045a34e1ad1e 9cc58188bb777f92 9cd8090253cf3220 9d2f3ac39ad4a668 9d4b49c2ed34d88f 9db54be9e6d73666 9e3218c8432a80fe 9e4c06ac3927a36b 9e98b37185b1521e 9ea6bc6ffeade294 9ec1539c1f6c6837 9ed250a16d98ae50 9f04f531d4c3afe3 9f183ed41f2622b6 a06856f1c76092c6 a06b933b3b47794c a1110efc2e1f8496 a128f51701a4f73a a135c4e424716ede a1476f39f3fbc894 a1535d10d17af123 a1a8b665148d06df a291084db5ca46cc a29b47e0997935a9 a2bb1b2eff819edf a2fb0205fe1ffc05 a31d7b2641782f96 a37fd0076e08b276 a3adc6ca71531078 a3b5dc64b1e3c573 a48d0fbe3a519ad4 a4b635f56507216e a4b815712e452436 a4d0e1ae6ada64f8 a4dd20b0dfe7128b a509e0bc3efad9db a5bd64401c3ab523 a5fb581adbbaf859 a6964a3fcea02eaa a71f00293090e060 a76ff090729124e2 a789c01f3fbfb079 a7bcb53baaf7b2b3 a834b17eea6f7cc3 a8a324b77fed9ce3 a8a83d9dbbd861b0 a8b96a9c7072087a a8c1fbc708a5e6cd a8cdcd75ddadb156 a8d9d7e7977f1e14 a8e6d8ff759a8740 a9392602b975f62a a94304395eaebee1 a966ac7192b99018 a9790a2f8b5d880d a99d19c587669af7 a99f4ea98d9f6771 a9c552cd6fe544b7 a9d288c0ae61ab22 aa43e75393723d05 aab2458e98604731 ab3edbb581753ea0 abc3fc6e1328ce75 abda6f90a02b5227 abea262f2c07a645 ac12d70315fe2e39 ac9dc54730f0787a acb24882b8d0eea5 ad0e446bb7ba52b7 ad43cc29e01cdfea ad86546a17be495e ad9b9717a3a4a3dd add0fdd3c530b17f ae0a1612783eddaf ae15af0ae3b0dc58 ae63951a2b4da748 af51395a5fb36b6d af581f30d4ac2078 af5b3693e1a7fadc af92dccaacf2b657 afe57a8953ff3c39 affe4b7cf8b5fd06 b03cbe3a8a43d4d2 b1261003e06d7329 b1527571766c6ac6 b18bdae404432d0c b1b481f77e24a057 b1beb58030e6d2e0 b22679a707e13889 b247ce64fc3d3aca b300e1a9241a938c b313588b882c884c b4178f7f169c59cc b4816c198f24f4b6 b4a9246230517660 b52a4f9411d52434 b576d5366dc9d1a9 b5afebaa51770470 b606436ead0314d2 b68f0b39ce8a3bcf b6cd19cdaf788067 b727e415fc25b22c b72d30cfe66d0d7d b7363385e37f309a b754a1f73f5d6338 b75e84d1a549b192 b7db77c8f8725d3b b8c8eb3290072cc6 b8e0a609e97ea344 b940eb0ef7b1c2d2 b98b610c3a23dbd9 b9952f89857953a6 b9d152f4c3967c06 ba483c0e4a158b1e bac3600ea3ecec93 baefc6c63a74f66b bb6539992e64ac40 bb9993bd54ef6cfd bc0a6620c14ed743 bc2cc588c7d6cd33 bc6963a44c01a3ae bcafc4161be10908 bcfb602a2f1c99f5 bd431469f9e03521 bd4dc9a48be02974 bd669ac56c884ec3 bd7d9a324e43e51c bdfddcfac6786d72 be76db288427578a be9218bcb81e5f35 bec07d304178065d bef49a1bb31a9774 bf8ecc3d27d1b06a bfa927ff57451d32 bfcb68be686bf52d bfd05186f40b0dd0 c07a17a16f268034 c0b735b6aaace2f8 c0baf1e9331c40db c0c89f70bcccffbf c0cba8954ff3f7ef c0e0e2305b569b38 c11ffd52f70dbaba c14b1b696d9a00fe c21b4c9adcb0f154 c23fe8b62c93cfaa c2862323fa9165d6 c2937b6ca0e28496 c2c6d751225af501 c306883558402e66 c360dd20ac733712 c36a378d39d341bc c39a3d6b441f15b3 c3b9971ecb40ef73 c3f74d331439f7f5 c42cb4cc31cfa110 c46b58fb92480027 c4a07f7ca0918373 c4aadc3d2201d6c5 c4b1ed67d1bb8644 c5315bbbbe7eba3a c53786a7903d8ebd c56d1a85c1d326d8 c5b4c9e072642f5a c5dcf172d8d9a4d0 c622d774952e3d44 c6249bac885bdcda c62568133e39ebc0 c65c0976128a5f01 c6e1396a804fa609 c7bcda030c456019 c86487a114cc318b c8c159c611993f1a c95789c33cd45fca c97928669356092b c9a3fe78618f87ad c9c30b86b09acbcb c9f1cc3f3a6b4b5f ca665ac954ac1a7b ca91f98dc7f258f6 cb1fe8ec859abf38 cb549cef123ceb7f cb8de17aa0639604 cbdacb9c6f3dcbfc cbe7dc70adf6fd7f cbf0ad1d852248ed cbfca7261a8f2385 cc6d5e715c8950aa ccd2d5cca1f8af84 ccfefabfc2209c7f cd5f8490eea6740c cd5fba75ac8e593a cd6dc8f0546bcf02 cd7d606758b5d0f6 cd9add253b8e81a7 cda40b0d7cc56fb0 cdae8b2436ee2ab1 cdcdcddfe3276167 cdedf852d1e6a5b8 ce0dc01f767b9b9e ce963a85f5a000f9 cf653a78df0dfa30 cf6f72decd62af53 cfd647f1db4826be d15b4b4c55e1b6bc d160df403eb0bab7 d1751d4aea1998e7 d253de0fb4d662bf d257bfc91980c27e d2a6eeac231801e2 d2bab1fccd36ddea d2cd2b7951bb5f1e d3fadd746651a42e d4533df2cdc051b4 d4983e3ca895f1d3 d4a8769695144bf0 d4ebe4a5bfd9e804 d50aa8a7410c5b82 d535982bfa38f2b6 d5480da7abd01025 d59511c30a37fb2b d5a425d48c67bc4a d5f4ac52f87b4edf d6256089a64df274 d6b82e7b2cfa134c d71b076c088bfaa0 d7ba065a3a06de67 d80af7041fd8ce47 d832b28000bce189 d855e8f2c390f0b8 d89e14b85bcd0a26 d8a3026c69315af1 d8c8bac7de131285 d8ff4e279bbf0ba7 d9090a84a69f2917 d9a1c4dcfb96e9da d9af29b4b9ae946b d9f6087dd8f7a589 da04119922c263d1 da764ccbc267bc50 dab02094bdd87d3b db247cbc3eb51c33 db4bd95819d31116 db76b8a5b2a5a129 db8b0229bafb96a2 dbdb58b948bd6ad5 dbe735fb2ca218b2 dc15469370800e75 dc91bbd1b5648751 dca37e1aa061b784 dca5971f898a27af dcd7d2f953242c1f dced2b4cebabdb1e dd3d5ac589444a5c de0d2c9712c33a59 de3ce0566438b357 df2ee5ebd4e7bba6 df7ce4c6406c07df df9003cbcc2301a1 e09597b4f847370d e146191802723019 e1dec70d61374d72 e1f4c93e2e0c949f e264d5322bb77cf7 e284a3426d7bf02a e2b0f635908632d5 e2b911eda9fe8d38 e306eec148911130 e355640c3ecb08f0 e3590b533fc2fa92 e3723b896ae7f410 e3b902b9b21248af e3f94595b7295d4d e413b3ce4d359c8a e44ce900532a5799 e44d07cc4b3af7a7 e47a58b0bfdd41f9 e47e63f96bc94f02 e495ef8951783f4b e4b17c512e9ff6ce e4e657aba72cd6be e4ec5367cf93a6f2 e4f5e3684c68aefb e5012ed8b9817362 e55b3d7649ca7d83 e59fe4dd3c19bc92 e605ea98e8ab3bad e609a946967f74c5 e662b00df7bdc7f1 e68a5cde9d4857af e71b5d2217565356 e7323d89a57368fd e76b4ee9bf2eb4fb e7eb2cd19d13264f e837ffc9e992d664 e83da6747d6fd1e7 e8c0b32d38c95374 e9040f3e563364d1 e912d51d8b6dcde4 e947e34b0cd0b247 e95a6692a21d2afb e99d9313383eab41 ea4c04f58cec5190 eab26a840067d548 eacdb021f8bd0bd4 eadd0454adb1208d eaf7c86a9142bf38 eb12631dd601697c eb4aa9c8fde5314e eba06848390b2445 ec2d2f8baf9b02b7 ec91a71960b3daf7 ed0a9e6c345d8f0d ed1c222130fff97f ed2c0a5a79bbb345 ed77f2700d88d725 eda8c5dd0152b094 eda98b5b670ba249 edb56b4179a303ba edc60fd43b35b340 edd9cf68bf21610f ee7f4ba0f6d258b5 eefff1e7385fe776 efa1d502ea3e3f00 efd165de5e0ab990 eff23fa03a82eff3 f007aec43079a539 f08bef14c3405a8a f09969844078d0cd f0bcd04213d18b3f f0bd4f2260a3c9b3 f0ebfeee0c0d2930 f108994340e71da8 f109248c398a863b f12cdbc6255bd665 f1e984e475d5c1bb f2833d14d569a07c f28b87d6cb942024 f28d55210e1081e0 f28f632bc80b8a0a f2b0717d45dee3de f2bd9c979c0cc35b f302dbccb44f2476 f340f5432e78bc0e f3507bb0ba66363a f39e9952f031b172 f3ade221e4653458 f3b4b31014646fb4 f3c00d0d6ce205f0 f3d6f5069c540a1e f3e7497394eef6ac f40063d0de4fb962 f46f4b1d2f95564d f5081ece28441a2e f57aa7529ca27a65 f57f7c47addbff63 f5b875f528344997 f619a6dbf2d88b91 f63093859dc175ed f6e54cd3d91f26a4 f723d020d68b4afc f77c8be1776678f7 f7a67ffdf5e92bec f7c47d5380ff9d7e f7c6535be822a643 f8483d8e2fc68b14 f84ee0146ef4721a f8847c17fdda5f47 f8a6eafb25d90466 f8de53e95d6d317e f902a5ba0189e66f f92831e72c2575ff f9423b170b7ebbd8 f9557519c9ae94fa f9aa2df45ff0f0f1 fa1f42e700b20b86 fa56f39e3966cbdc fac48ca00101bef2 fac96b1b4a9af469 fb3a0e303250ce0e fbb98b34d8e53b82 fc884861c6074b9e fc9ea4168f3fe8e2 fdc63b6251a828d8 fde51ef96d9f5d02 fe3054e13352b390 fe91d09ee1f5ed51 fec85a6597e10350 feccd793e80a6ff6 fed00a1dddae4a65 fed1b6bd004256e6 ff84819e96e2e450 ffe6445fb65e9acd fffe5bf35c091b55"};</script>
 
 
 <svg width="0" height="0" style="position:absolute;width:0;height:0" aria-hidden="true" focusable="false">
@@ -1155,6 +1173,7 @@ ul.ticks.live li[aria-checked="true"]::after{content:"";position:absolute;left:2
     <summary><h2>Set it up your way</h2><span class="fold-x" aria-hidden="true"></span></summary>
     <label class="switch"><input type="checkbox" id="focus-toggle" checked> One card open at a time</label>
     <label class="switch"><input type="checkbox" id="motion-toggle" checked> Moving pictures and background motion</label>
+    <div class="row" id="voice-row"><button type="button" class="btn ghost small" data-voice-open>Voice</button></div>
     <p class="fine mt-s"><span id="listen-note"></span>Your progress and your ticks are saved on this device only. Nothing is sent anywhere.</p>
   </details>
 
@@ -5068,25 +5087,104 @@ function ingChip(name, attrs){
    utterance off after about fifteen seconds, and so a watchdog can tell "nothing came out" from "still talking".
    A sentence ends at . ! or ? when a space and a new sentence follow, or when the text ends. The point in 1.25 and
    the dots in "9:15 a.m. as part of opening" end nothing, so a number or a time is never said in two halves. */
-var VOICE_KEY = "jm-voice-slow";
+var VOICE_KEY = "jm-voice-slow", VOICE_PICK_KEY = "jm-voice";
 var Voice = (function(){
   var synth = null;
   try { if (typeof window.speechSynthesis !== "undefined" && typeof window.SpeechSynthesisUtterance !== "undefined") synth = window.speechSynthesis; } catch(e){}
   var token = 0, voice = null, keep = null, slow = loadRaw(VOICE_KEY) === "1";
-  var PREFER = ["Samantha", "Ava", "Allison", "Evan", "Google US English", "Microsoft Aria", "Microsoft Jenny", "Microsoft Zira"];
-  function pickVoice(){
-    var list = [];
-    try { list = synth.getVoices() || []; } catch(e){}
-    var en = list.filter(function(v){ return /^en[-_]US/i.test(v.lang) && !/compact/i.test(v.name); });
-    voice = null;
-    for (var i = 0; i < PREFER.length && !voice; i++){
-      for (var j = 0; j < en.length; j++){ if (en[j].name.indexOf(PREFER[i]) === 0){ voice = en[j]; break; } }
+  var all = [], picked = loadRaw(VOICE_PICK_KEY) || "", watchers = [];
+
+  /* ----- which of the device's voices is easiest on the ear -----
+     A page can only use the voices the phone or computer lends it, and the first one in that list is often the oldest.
+     So every English voice gets a grade from its name and its id, and the best one is used unless you picked one yourself:
+     6 Apple's "Premium"; 5 "Enhanced", "Natural", "Neural"; 4.5 the Siri voices; 4 the usual good ones by name;
+     3.5 Google's online voices (fine, but silent with no signal); 2 a voice nobody has heard of; 1 the old Microsoft
+     desktop voices; 0 the joke voices and the 1990s synthesizers, which are left out whenever there is anything else.
+     American English comes first, since that is what the store speaks. */
+  var JOKE = /^(albert|bad news|bahh|bells|boing|bubbles|cellos|deranged|fred|good news|hysterical|jester|junior|kathy|organ|pipe organ|princess|ralph|superstar|trinoids|whisper|wobble|zarvox)\b/i;
+  var OLD = /^(eddy|flo|grandma|grandpa|reed|rocko|sandy|shelley)( \(|$)/i;
+  var GOOD = ["ava", "zoe", "samantha", "evan", "allison", "susan", "nathan", "tom", "joelle", "noelle", "alex", "nicky", "aaron", "daniel", "karen", "moira", "tessa", "rishi", "serena", "kate", "oliver", "jamie", "stephanie", "matilda", "lee"];
+  function idOf(v){ return v.name + "|" + v.lang; }
+  function isUS(v){ return /^en[-_]us/i.test(v.lang || ""); }
+  function known(v){ var n = String(v.name || "").toLowerCase(); for (var i = 0; i < GOOD.length; i++){ if (n.indexOf(GOOD[i]) === 0) return i; } return 99; }
+  function grade(v){
+    var n = String(v.name || "").toLowerCase(), s = n + " " + String(v.voiceURI || "").toLowerCase();
+    if (JOKE.test(n) || OLD.test(n) || /eloquence|espeak/.test(s)) return 0;
+    if (/premium/.test(s)) return 6;
+    if (/enhanced|natural|neural/.test(s)) return 5;
+    if (/siri/.test(s)) return 4.5;
+    if (known(v) < 99) return 4;
+    if (/^google /.test(n)) return 3.5;
+    if (/^microsoft /.test(n)) return 1;
+    return 2;
+  }
+  function rank(a, b){
+    var d = (grade(b) + (isUS(b) ? 2 : 0)) - (grade(a) + (isUS(a) ? 2 : 0));
+    if (d) return d;
+    d = known(a) - known(b);
+    if (d) return d;
+    if (!!a.localService !== !!b.localService) return a.localService ? -1 : 1;   /* one that works with no signal first */
+    return a.name < b.name ? -1 : (a.name > b.name ? 1 : 0);
+  }
+  /* the English voices worth offering, best first; some phones list a voice twice, and it is shown once */
+  function english(){
+    var seen = {}, en = all.filter(function(v){ if (!/^en([-_]|$)/i.test(v.lang || "") || seen[idOf(v)]) return false; seen[idOf(v)] = 1; return true; });
+    var fine = en.filter(function(v){ return grade(v) > 0; });
+    return (fine.length ? fine : en).sort(rank);
+  }
+  function pickedVoice(list){
+    if (!picked) return null;
+    var name = picked.split("|")[0], i;
+    for (i = 0; i < list.length; i++){ if (idOf(list[i]) === picked) return list[i]; }
+    for (i = 0; i < list.length; i++){ if (list[i].name === name) return list[i]; }
+    return null;   /* the voice you picked is gone from this device: the page chooses until it comes back */
+  }
+  function tell(){ watchers.forEach(function(fn){ try { fn(); } catch(e){} }); }
+
+  /* ----- the recorded voice -----
+     On the public site, every fixed thing the page says (a card, a sub, a walkthrough step, a quiz lesson) was recorded
+     once in a natural voice: one small file each, named by a fingerprint of its exact words. When the words on the page
+     change, the fingerprint no longer matches, and the device's own voice reads that piece until it is recorded again.
+     The copy on claude.ai carries no recordings (JM_AUDIO is not set there), so it reads with the device's voice. */
+  var REC = null, player = null;
+  try {
+    if (window.JM_AUDIO && window.JM_AUDIO.base && typeof Audio !== "undefined"){
+      var probe = new Audio();
+      if (probe.canPlayType && probe.canPlayType("audio/mpeg")){
+        REC = {base:String(window.JM_AUDIO.base), has:{}};
+        String(window.JM_AUDIO.keys || "").split(" ").forEach(function(k){ if (k) REC.has[k] = 1; });
+        player = probe; player.preload = "auto";
+      }
     }
-    if (!voice) voice = en.filter(function(v){ return v.localService; })[0] || en[0] || null;
+  } catch(e){ REC = null; player = null; }
+  /* the fingerprint: the words with their spacing tidied, run through two small hashes, written as 16 hex digits */
+  function recKey(text){
+    var s = String(text).replace(/\s+/g, " ").replace(/^ | $/g, ""), a = 0x811c9dc5, b = 0x9747b28c, i, c;
+    for (i = 0; i < s.length; i++){
+      c = s.charCodeAt(i);
+      a = Math.imul(a ^ c, 0x01000193);
+      b = Math.imul(b ^ (c + i), 0x5bd1e995); b ^= b >>> 13;
+    }
+    return ("0000000" + (a >>> 0).toString(16)).slice(-8) + ("0000000" + (b >>> 0).toString(16)).slice(-8);
+  }
+  /* With no signal a recording cannot arrive, and a phone only lets a voice start inside the tap that asked for it. So when the
+     device says it is offline, or a recording just failed to arrive, the device's own voice is used at once, for two minutes. */
+  var recDown = 0;
+  try { window.addEventListener("online", function(){ recDown = 0; }); } catch(e){}
+  function recorded(text){
+    if (!REC || picked !== "" || !REC.has[recKey(text)]) return false;
+    try { if (navigator.onLine === false) return false; } catch(e){}
+    return Date.now() >= recDown;
+  }
+  function refresh(){
+    try { all = Array.prototype.slice.call(synth.getVoices() || []); } catch(e){ all = []; }
+    var list = english();
+    voice = pickedVoice(list) || list[0] || null;
+    tell();
   }
   if (synth){
-    pickVoice();
-    try { if (synth.addEventListener) synth.addEventListener("voiceschanged", pickVoice); else synth.onvoiceschanged = pickVoice; } catch(e){}
+    refresh();   /* some browsers hand over their voices a moment after the page loads */
+    try { if (synth.addEventListener) synth.addEventListener("voiceschanged", refresh); else synth.onvoiceschanged = refresh; } catch(e){}
   }
   function sentences(text){
     var s = String(text), parts = [], from = 0, re = /[.!?]+["”')\]]*(?=\s+[^a-z\s]|\s*$)/g, m;
@@ -5097,10 +5195,56 @@ var Voice = (function(){
   function stop(){
     token++;
     if (synth){ try { synth.cancel(); } catch(e){} }
+    if (player){ try { player.pause(); } catch(e){} }
   }
-  /* opt: onstart, onend, onfail(kind) where kind is "none" (no voice on this device), "silent" (nothing came out) or the engine's error */
+  /* play the recording of these words; if it will not start (no signal, a missing file), the device's voice says them */
+  function playRecorded(text, opt){
+    var my = ++token, started = false, over = false;
+    try { if (synth) synth.cancel(); } catch(e){}
+    var at = -1, stuck = 0, beat = null;
+    function drop(){ player.onplaying = player.onended = player.onerror = null; clearTimeout(dog); clearInterval(beat); }
+    function fallback(){
+      if (over || my !== token) return;
+      over = true; drop();
+      recDown = Date.now() + 120000;
+      try { player.pause(); } catch(e){}
+      if (synth) speakDevice(text, opt); else if (opt.onfail) opt.onfail("silent");
+    }
+    var dog = setTimeout(function(){ if (!started) fallback(); }, 6000);
+    /* a recording that stops arriving part way would leave hands-free waiting for ever: twelve seconds with no progress ends it */
+    beat = setInterval(function(){
+      if (my !== token || over){ clearInterval(beat); return; }
+      if (!started || player.paused) return;
+      if (player.currentTime !== at){ at = player.currentTime; stuck = 0; return; }
+      if (++stuck >= 4){ over = true; drop(); try { player.pause(); } catch(e){} if (opt.onfail) opt.onfail("silent"); }
+    }, 3000);
+    player.onplaying = function(){ if (my !== token || started) return; started = true; clearTimeout(dog); if (opt.onstart) opt.onstart(); };
+    player.onended = function(){ if (my !== token || over) return; over = true; drop(); if (opt.onend) opt.onend(); };
+    player.onerror = function(){
+      if (my !== token || over) return;
+      if (!started){ fallback(); return; }
+      over = true; drop();
+      try { player.pause(); } catch(e){}
+      if (opt.onfail) opt.onfail("silent");   /* it cut out part way, or the device has nowhere to send sound: say so, never start over in another voice */
+    };
+    try {
+      player.pause();
+      player.src = REC.base + recKey(text) + ".mp3";
+      player.defaultPlaybackRate = player.playbackRate = slow ? 0.85 : 1;
+      var went = player.play();   /* inside the tap that asked for it, which is what phones require */
+      if (went && went.catch) went.catch(function(){ if (!started) fallback(); });
+    } catch(e){ fallback(); }
+  }
+  /* opt: onstart, onend, onfail(kind) where kind is "none" (no voice on this device), "silent" (nothing came out) or the engine's error;
+     opt.voice says it in that voice just this once (to let you hear one before you keep it) */
   function speak(text, opt){
     opt = opt || {};
+    try { if (window.__speechLog) window.__speechLog.push({text:String(text), key:recKey(text), recorded:!opt.voice && recorded(text)}); } catch(e){}   /* a list only the tests and the recording tool ask for */
+    if (!opt.voice && recorded(text)) playRecorded(text, opt); else speakDevice(text, opt);
+  }
+  function speakDevice(text, opt){
+    opt = opt || {};
+    if (player){ try { player.pause(); } catch(e){} }
     if (!synth){ if (opt.onfail) opt.onfail("none"); return; }
     var busy = false;
     try { busy = synth.speaking || synth.pending; } catch(e){}
@@ -5116,8 +5260,9 @@ var Voice = (function(){
       if (my !== token) return;
       if (i >= parts.length){ clearTimeout(dog); if (opt.onend) opt.onend(); return; }
       var u = new SpeechSynthesisUtterance(parts[i++]);
-      u.lang = "en-US"; u.rate = slow ? 0.78 : 0.92;
-      if (voice) u.voice = voice;
+      var say = opt.voice || voice;
+      u.lang = say && say.lang ? String(say.lang).replace("_", "-") : "en-US"; u.rate = slow ? 0.78 : 0.92;
+      if (say) u.voice = say;
       u.onstart = begun;
       u.onend = function(){ if (my !== token) return; begun(); next(); };
       u.onerror = function(ev){
@@ -5137,9 +5282,24 @@ var Voice = (function(){
     } catch(e){ clearTimeout(dog); if (opt.onfail) opt.onfail("error"); }
   }
   return {
-    ok:!!synth, speak:speak, stop:stop,
+    ok:!!synth || !!REC, speak:speak, stop:stop,
     isSlow:function(){ return slow; },
-    setSlow:function(v){ slow = !!v; store(VOICE_KEY, slow ? "1" : "0"); }
+    setSlow:function(v){ slow = !!v; store(VOICE_KEY, slow ? "1" : "0"); },
+    list:function(){ return synth ? english() : []; },          /* the voices on offer, best first */
+    current:function(){ return voice; },                        /* the one in use; null means the device's own default */
+    chosen:function(){ return synth ? pickedVoice(english()) : null; },   /* the one you picked, if it is still here */
+    use:function(v){ picked = v === "device" ? "device" : (v ? idOf(v) : ""); store(VOICE_PICK_KEY, picked); if (synth) refresh(); else tell(); },   /* null: let the page choose; "device": this device's best voice, never the recording */
+    hasRecorded:function(){ return !!REC; },
+    hasDevice:function(){ return !!synth; },
+    key:recKey,
+    /* "pick": a voice you chose; "recorded": the recorded voice; "device": this device's best voice, by choice; "auto": the page chooses and there are no recordings */
+    mode:function(){
+      if (synth && picked && picked !== "device" && pickedVoice(english())) return "pick";
+      if (REC && picked === "") return "recorded";
+      return REC ? "device" : "auto";
+    },
+    onChange:function(fn){ watchers.push(fn); },
+    same:function(a, b){ return !!a && !!b && idOf(a) === idOf(b); }   /* browsers hand out a fresh object for the same voice each time they are asked */
   };
 })();
 document.addEventListener("visibilitychange", function(){ if (document.hidden){ Voice.stop(); stopListen(); walkPause(); } });
@@ -5147,6 +5307,8 @@ document.addEventListener("visibilitychange", function(){ if (document.hidden){ 
 /* how the names are said out loud */
 function speakable(t){
   return String(t).replace(/Cappacuolo/gi, "capicola").replace(/Prosciuttini/gi, "pro shoo tee nee").replace(/\b([Aa])n #(\d)/g, "$1 number $2").replace(/#(\d)/g, "number $1").replace(/\bLTO\b/g, "limited time")
+    .replace(/(^|[^\d.,])1 oz\b/g, function(m, a){ return a + "1 ounce"; })          /* one ounce, not "1 ounces" */
+    .replace(/\b(an?) (\d[\d.]*) oz\b/g, "$1 $2 ounce")                              /* "a 4 ounce cup" */
     .replace(/(\d) oz\b/g, "$1 ounces").replace(/½ oz/g, "half an ounce");
 }
 function sayContents(sub){
@@ -5171,6 +5333,14 @@ function sayText(sub){
   if (sub.delta) t += " " + sub.delta;
   return speakable(t);
 }
+/* Every fixed thing the page says is put into words by one of these (and by sayText above and cardText on the Training tab),
+   so a recording can be matched to the exact words. */
+function listenAsk(s, nameFirst){ return sayable(nameFirst ? s.name + "." : "Number " + s.n + "."); }
+function listenTell(s, nameFirst){ return sayable((nameFirst ? "Number " + s.n + ". " : s.name + ". ") + sayContents(s)); }
+function fullStop(t){ t = String(t); return /[.!?:]["”')\]]*$/.test(t) ? t : t + "."; }   /* an answer that ends in "p.m." or "?" has its stop already */
+function lessonSay(q){ return sayable(q.q + " " + fullStop(q.a) + " " + q.why); }
+function seqSay(sq){ return sayable(fullStop(sq.title) + " " + sq.steps.map(fullStop).join(" ")); }
+function walkSay(st){ return sayable((/^start$/i.test(st.num) ? "Before you start. " : "Step " + st.num + ". ") + st.title + ". " + st.text); }
 var SPEAKER_ICON = "M3 9v6h4l5 4V5L7 9H3zm11.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM12 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z";
 var saying = null;   /* the button that is talking right now */
 function sayReset(){ if (saying){ saying.setAttribute("aria-pressed", "false"); saying.lastChild.textContent = saying.getAttribute("data-label"); saying = null; } }
@@ -5244,6 +5414,7 @@ function openSheet(entry, push){
   sheetPanel.style.transform = "";
   if (entry.type === "sub") fillSub(byId(entry.id), true);
   else if (entry.type === "walk") fillWalk(entry);
+  else if (entry.type === "voice") fillVoice();
   else fillIng(entry.name);
   sheetPanel.scrollTop = 0;
   try { sheetPanel.focus({preventScroll:true}); } catch(e){ sheetPanel.focus(); }
@@ -5252,6 +5423,7 @@ function closeSheet(){
   if (sheet.hidden) return;
   walkPause(); walk = null;
   if (saying){ Voice.stop(); sayReset(); }
+  if (voiceSampling){ Voice.stop(); voiceSampling = false; }   /* a sample line stops when the voice list is put away */
   sheet.hidden = true;
   sheetPanel.classList.remove("dragging", "settle");
   sheetPanel.style.transform = "";
@@ -5422,7 +5594,7 @@ function fillWalk(entry){
   var dots = h("div", {class:"walk-dots", "aria-hidden":"true"});
   steps.forEach(function(s, k){ dots.appendChild(h("i", {class:k === entry.i ? "on" : null})); });
   var status = h("p", {class:"walk-status", role:"status"});
-  var spoken = speakable((isStart ? "Before you start. " : "Step " + st.num + ". ") + st.title + ". " + st.text);
+  var spoken = walkSay(st);
   var sayB = h("button", {class:"say-btn", "aria-pressed":"false", "aria-label":"Read this step out loud"});
   var icon = svgEl("svg", {viewBox:"0 0 24 24", "aria-hidden":"true"}); icon.appendChild(svgEl("path", {d:SPEAKER_ICON}));
   var sayT = h("span", {text:"Read it"});
@@ -5729,14 +5901,14 @@ function renderTeachFact(q, card, bankKey){
     h("h3", {class:"q-name q-text", text:q.q}),
     h("div", {class:"fact"}, [h("b", {text:q.a}), h("span", {text:q.why})])
   ];
-  teachThen(card, lesson, function(){ return speakable(q.q + " " + q.a + ". " + q.why); }, function(box){ renderBank(q, box, bankKey); });
+  teachThen(card, lesson, function(){ return lessonSay(q); }, function(box){ renderBank(q, box, bankKey); });
 }
 function renderTeachSeq(key, card){
   var sq = SEQS[key], ol = h("ol", {class:"plain"});
   sq.steps.forEach(function(st){ ol.appendChild(h("li", {text:st})); });
   var lesson = [h("h3", {class:"q-name", text:sq.title}), ol];
   if (sq.where) lesson.push(h("p", {class:"fine mt-s", text:"More on each step is on the Training tab, under " + sq.where + "."}));
-  teachThen(card, lesson, function(){ return speakable(sq.title + ". " + sq.steps.join(". ") + "."); }, function(box){ renderSeq(key, box); });
+  teachThen(card, lesson, function(){ return seqSay(sq); }, function(box){ renderSeq(key, box); });
 }
 
 /* flashcards */
@@ -6385,7 +6557,7 @@ function renderListen(card){
     if (!playing || listenRun !== me) return;
     var s = sub();
     show(false); bar(0);
-    Voice.speak(speakable(LP.nameFirst ? s.name + "." : "Number " + s.n + "."), {
+    Voice.speak(listenAsk(s, LP.nameFirst), {
       onstart:talking,
       onend:function(){
         quiet();
@@ -6398,7 +6570,7 @@ function renderListen(card){
     if (!playing || listenRun !== me) return;
     var s = sub();
     show(true); bar(0);
-    Voice.speak(speakable((LP.nameFirst ? "Number " + s.n + ". " : s.name + ". ") + sayContents(s)), {
+    Voice.speak(listenTell(s, LP.nameFirst), {
       onstart:talking,
       onend:function(){
         quiet();
@@ -6456,7 +6628,8 @@ function renderListen(card){
     h("div", {class:"listen-set"}, [
       seg("It says", [{v:false, t:"The number"}, {v:true, t:"The name"}], function(){ return LP.nameFirst; }, function(v){ LP.nameFirst = v; savePrefsL(); if (!playing) show(false); }),
       seg("Time to answer", [{v:3, t:"3 seconds"}, {v:5, t:"5 seconds"}, {v:8, t:"8 seconds"}], function(){ return LP.pace; }, function(v){ LP.pace = v; savePrefsL(); }),
-      seg("Voice", [{v:false, t:"Normal"}, {v:true, t:"Slower"}], function(){ return Voice.isSlow(); }, function(v){ Voice.setSlow(v); })
+      seg("Voice", [{v:false, t:"Normal"}, {v:true, t:"Slower"}], function(){ return Voice.isSlow(); }, function(v){ Voice.setSlow(v); }),
+      Voice.ok ? h("div", {class:"row"}, h("button", {class:"btn ghost small", "data-voice-open":"", text:voiceLabel()})) : null
     ])
   ]);
   card.appendChild(box);
@@ -6804,6 +6977,7 @@ document.addEventListener("click", function(e){
     return;
   }
   if (t.closest("[data-today]")){ go("drill"); startRun(null, "today"); toQuestion(); return; }
+  if (t.closest("[data-voice-open]")){ openSheet({type:"voice"}); return; }
   var w = t.closest("[data-walk]");
   if (w){ openSheet({type:"walk", key:w.getAttribute("data-walk"), i:0}); return; }
   var fig = t.closest("ol.howto[data-live] figure");
@@ -7114,7 +7288,7 @@ function cardText(card){
     } else {
       t = tidy(x.textContent);
       var hn = x.parentNode && x.parentNode.classList.contains("ht") ? x.parentNode.querySelector(".hn") : null;
-      if (hn && t) t = "Step " + tidy(hn.textContent) + ". " + t;   /* the how-to pictures are numbered; the voice says the number */
+      if (hn && t) t = (/^start$/i.test(tidy(hn.textContent)) ? "Before you start. " : "Step " + tidy(hn.textContent) + ". ") + t;   /* the how-to pictures are numbered; the voice says the number */
     }
     if (!t) return;
     if (!/[.!?:]["”')\]]*$/.test(t)) t += ".";   /* a line that ends inside quotes has its full stop already */
@@ -7124,7 +7298,12 @@ function cardText(card){
 }
 /* the training cards carry a few signs a voice trips on */
 function sayable(t){
-  return speakable(t).replace(/°F/g, " degrees").replace(/°/g, " degree").replace(/\bppm\b/g, "parts per million").replace(/¾/g, "three quarters").replace(/½/g, "one half").replace(/¼/g, "one quarter");
+  return speakable(t)
+    .replace(/(\d) x (?=\d)/g, "$1 by ")                                                /* "4 x 4" is four by four */
+    .replace(/(\d) lb\.? bag\b/g, "$1 pound bag").replace(/(^|[^\d.,])1 lb\b/g, function(m, a){ return a + "1 pound"; }).replace(/(\d) lb\b/g, "$1 pounds")
+    .replace(/(\d) min\b/g, "$1 minutes").replace(/\b360(?:°| degree)(?= )/g, "three sixty degree")
+    .replace(/\b4\/1 gal\b/g, "4 slash 1 gallon").replace(/\bover\/short\b/g, "over short")
+    .replace(/°F/g, " degrees").replace(/°/g, " degree").replace(/\bppm\b/g, "parts per million").replace(/¾/g, "three quarters").replace(/½/g, "one half").replace(/¼/g, "one quarter");
 }
 /* a voice with no Stop button in sight can't be stopped: when the thing being read leaves the screen (another tab, another level), it goes quiet */
 function hushIfHidden(){ if (saying && !saying.getClientRects().length){ Voice.stop(); sayReset(); } }
@@ -7139,6 +7318,129 @@ function initListen(){
     row.appendChild(b);
     card.addEventListener("toggle", function(){ if (!card.open && saying === b){ Voice.stop(); sayReset(); } });
   });
+}
+
+/* ---------- pick a voice ----------
+   On the public site the page has a recorded voice of its own. Everywhere else, and for anything not recorded, it reads with
+   whichever voice the phone or computer lends it. This sheet lists the recorded voice first, then the device's English ones,
+   best first. Tapping one says a sample line in it and keeps it; the choice stays on this device. */
+var voiceSampling = false;
+var VOICE_SAMPLE = "Number 13, the Original Italian. Provolone, ham, prosciuttini, capicola, salami and pepperoni.";
+/* "Microsoft Aria Online (Natural) - English (United States)" is shown as "Aria (Natural)"; other names are shown as they are */
+function voiceTitle(v){ return String(v.name || "").replace(/^Microsoft\s+/, "").replace(/\s+Online\b/, "").replace(/\s+-\s+English.*$/, ""); }
+function voiceNote(v){
+  var bits = [], lang = String(v.lang || "").replace("_", "-").toLowerCase();
+  var from = {"en-gb":"British", "en-au":"Australian", "en-ie":"Irish", "en-za":"South African", "en-in":"Indian", "en-nz":"New Zealand", "en-ca":"Canadian", "en-sg":"Singaporean"}[lang];
+  if (from) bits.push(from);
+  if (v.localService === false) bits.push("needs the internet");
+  return bits.join(", ");
+}
+function voiceLabel(){
+  if (Voice.mode() === "recorded") return "Voice: recorded. Change";
+  var v = Voice.current();
+  return "Voice: " + (v ? voiceTitle(v) : "built in") + ". Change";
+}
+function fillVoice(){
+  stopListen();
+  var list = Voice.list(), rec = Voice.hasRecorded(), dev = Voice.hasDevice();
+  sheetBody.appendChild(h("div", {class:"sheet-head"}, h("div", {}, [h("h2", {id:"sheet-title", text:"Pick a voice"}), h("span", {class:"pill", text:"Read aloud"})])));
+  sheetBody.appendChild(h("p", {text:rec
+    ? (dev ? "The recorded voice is the natural one. The rest are the voices this device lends to a web page. Tap one to hear it. The last one you tap is the one the page keeps."
+           : "This page reads in a recorded voice. Tap it to hear it.")
+    : (list.length ? "These are the voices this device lends to a web page. Tap one to hear it. The last one you tap is the one the page keeps."
+                   : "This device reads with its one built-in voice and doesn't let a page pick another.")}));
+  var status = h("p", {class:"fine voice-status", "aria-live":"polite"});
+  var box = h("div", {class:"voice-list", role:"group", "aria-label":"Voices"}), rows = [];
+  /* a row is the recorded voice (v is null where there are recordings), the device's best voice ("device", or null where
+     there are no recordings), or one voice by name */
+  function mark(){
+    var mode = Voice.mode(), cur = Voice.current();
+    rows.forEach(function(r){
+      var on = r.v === null ? (mode === "recorded" || mode === "auto") : (r.v === "device" ? mode === "device" : (mode === "pick" && Voice.same(r.v, cur)));
+      r.b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+  }
+  function hear(v){
+    sayReset(); stopListen(); walkPause();
+    status.textContent = "";
+    voiceSampling = true;
+    var opt = {
+      onend:function(){ voiceSampling = false; },
+      onfail:function(kind){
+        voiceSampling = false;
+        status.textContent = kind === "silent" ? "No sound came out. Check the volume, or try another voice." : "That voice didn't answer. Try another one.";
+      }};
+    if (v && v !== "device") opt.voice = v;   /* one voice by name; otherwise the page says it the way it now would */
+    Voice.speak(speakable(VOICE_SAMPLE), opt);
+  }
+  function row(v, title, note){
+    var b = h("button", {class:"vrow", "aria-pressed":"false"}, [h("b", {text:title}), note ? h("span", {text:note}) : null]);
+    b.addEventListener("click", function(){ Voice.use(v); mark(); hear(v); });
+    rows.push({b:b, v:v});
+    box.appendChild(b);
+  }
+  if (rec || list.length){
+    if (rec){
+      row(null, "The recorded voice", dev ? "Natural, and the same on every device. Needs the internet. With no signal, the device's voice steps in." : "Natural, and the same on every device. Needs the internet.");
+      if (dev) row("device", "This device's best voice", "Works with no signal.");
+    } else row(null, "Let the page choose", "It takes the best one it finds here.");
+    list.forEach(function(v){ row(v, voiceTitle(v), voiceNote(v)); });
+    sheetBody.appendChild(box);
+    mark();
+  } else {
+    sheetBody.appendChild(h("div", {class:"row"}, h("button", {class:"btn ghost", text:"Hear it", onclick:function(){ hear(null); }})));
+  }
+  sheetBody.appendChild(status);
+  /* how fast it talks */
+  var speed = h("div", {class:"seg tight", role:"group", "aria-label":"Speed"});
+  [{v:false, t:"Normal"}, {v:true, t:"Slower"}].forEach(function(op){
+    speed.appendChild(h("button", {"aria-pressed":op.v === Voice.isSlow() ? "true" : "false", text:op.t, onclick:function(){
+      Voice.setSlow(op.v);
+      each(speed.children, function(b, k){ b.setAttribute("aria-pressed", (k === 1) === Voice.isSlow() ? "true" : "false"); });
+    }}));
+  });
+  sheetBody.appendChild(h("div", {class:"ctl-row"}, [h("span", {class:"ctl-label", text:"Speed"}), speed]));
+  /* what to do when none of the device's voices is good: said plainly, because a page cannot fix this by itself */
+  if (dev) sheetBody.appendChild(h("details", {class:"voice-tips"}, [
+    h("summary", {text:rec ? "The device's voices sound bad?" : "None of them sound good?"}),
+    h("p", {text:"A page can only borrow the voices a device already has, and some devices keep their best ones to themselves. A better one is often a free download:"}),
+    h("dl", {class:"dl words"}, [
+      h("dt", {text:"iPhone or iPad"}), h("dd", {text:"Settings, Accessibility, then Read & Speak (some say Spoken Content), Voices, English. Download one marked Enhanced or Premium, then close this page and open it again. If it isn't in the list above after that, Apple isn't lending that one to web pages."}),
+      h("dt", {text:"Android"}), h("dd", {text:"Open Settings and search for Text-to-speech. In the speech engine's own settings, install the English voice data."}),
+      h("dt", {text:"Windows"}), h("dd", {text:"Open this page in Microsoft Edge. Its voices marked Natural are far better than the ones other browsers get. They need the internet."}),
+      h("dt", {text:"Mac"}), h("dd", {text:"System Settings, Accessibility, then Read & Speak (some say Spoken Content), System voice, Manage Voices. Download an English one marked Enhanced or Premium."})
+    ])
+  ]));
+}
+/* Every fixed thing the page can say, with the fingerprint its recording is filed under. The tests ask for this list, and so
+   does the tool that makes the recordings; nothing on the page itself uses it. */
+function allSpoken(){
+  var out = [];
+  function add(kind, id, text){ out.push({kind:kind, id:String(id), text:text, key:Voice.key(text)}); }
+  each(document.querySelectorAll("#view-orient > details.card:not(.ease-card)"), function(card){ add("card", card.id, cardText(card)); });
+  SUBS.forEach(function(s){
+    add("sub", s.id, sayText(s));
+    if (s.lto) return;
+    [false, true].forEach(function(nameFirst){
+      add("ask", s.id + (nameFirst ? "-name" : "-number"), listenAsk(s, nameFirst));
+      add("tell", s.id + (nameFirst ? "-name" : "-number"), listenTell(s, nameFirst));
+    });
+  });
+  Object.keys(HOWTO_NAME).forEach(function(k){ howtoSteps(k).forEach(function(st){ add("step", k + "-" + st.num, walkSay(st)); }); });
+  Object.keys(SEQS).forEach(function(k){ add("game", k, seqSay(SEQS[k])); });
+  Object.keys(BANKS).forEach(function(b){ BANKS[b].forEach(function(q){ add("lesson", q.id, lessonSay(q)); }); });
+  add("sample", "voice", speakable(VOICE_SAMPLE));
+  return out;
+}
+/* every "change the voice" button on the page says which voice is in use, and stays right when the list arrives late */
+function refreshVoiceButtons(){
+  each(document.querySelectorAll("[data-voice-open]"), function(b){ b.textContent = voiceLabel(); });
+}
+function initVoiceUI(){
+  var row = $("voice-row");
+  if (!Voice.ok){ if (row) row.hidden = true; return; }
+  refreshVoiceButtons();
+  Voice.onChange(refreshVoiceButtons);
 }
 
 /* ---------- boot ---------- */
@@ -7157,6 +7459,8 @@ initTicks();
 initCalcs();
 initNow();
 initListen();
+initVoiceUI();
+try { if (window.__speechLog) window.__jmSpoken = allSpoken; } catch(e){}   /* only where a test or the recording tool asked for it before the page loaded */
 /* someone who has already started doesn't need the first-day explainer open */
 if (Object.keys(sched).length){ var intro = $("j-first"); if (intro) intro.open = false; }
 showView(currentHashView());

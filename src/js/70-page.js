@@ -216,6 +216,7 @@ document.addEventListener("click", function(e){
     return;
   }
   if (t.closest("[data-today]")){ go("drill"); startRun(null, "today"); toQuestion(); return; }
+  if (t.closest("[data-voice-open]")){ openSheet({type:"voice"}); return; }
   var w = t.closest("[data-walk]");
   if (w){ openSheet({type:"walk", key:w.getAttribute("data-walk"), i:0}); return; }
   var fig = t.closest("ol.howto[data-live] figure");

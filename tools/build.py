@@ -1,7 +1,7 @@
 """Turn the assembled page into the standalone web app in dist/site/: one index.html that works as a sent file,
 plus a manifest, icons and a service worker so the hosted copy installs to a home screen and works offline.
    python3 tools/build.py VERSION      e.g. 2026-11-09d  (the service worker cache name; bump it every release)"""
-import base64, re, json, sys
+import base64, os, re, json, sys
 from pathlib import Path
 from PIL import Image, ImageDraw
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -80,7 +80,18 @@ html = head + body.replace("<style>", "<style>\n", 1)
 MARK = "/* END-OF-PAGE-STYLE */"
 if html.count(MARK) != 1: raise SystemExit("style.css must end with the END-OF-PAGE-STYLE marker exactly once")
 idx = html.index("</style>", html.index(MARK)) + len("</style>")
-html = html[:idx] + "\n</head>\n<body>\n" + html[idx:] + "\n" + sw_reg + "\n</body>\n</html>\n"
+
+# The recorded voice. audio/ holds one small MP3 for each fixed thing the page says, named by a fingerprint of the exact
+# words (tools/voice/record.py makes them). The site is told which fingerprints have a recording; anything else, and the
+# copy on claude.ai, is read by the device's own voice.
+AUDIO = ROOT / "audio"
+keys = sorted(p.stem for p in AUDIO.glob("*.mp3") if re.fullmatch(r"[0-9a-f]{16}", p.stem)) if AUDIO.is_dir() else []
+audio_tag = ('<script>window.JM_AUDIO={base:"audio/",keys:"' + " ".join(keys) + '"};</script>\n') if keys else ""
+link = OUT / "audio"
+if AUDIO.is_dir() and not link.exists() and not link.is_symlink():
+    os.symlink(os.path.join("..", "..", "audio"), link)   # so the built site finds the recordings where the live site has them
+
+html = html[:idx] + "\n</head>\n<body>\n" + audio_tag + html[idx:] + "\n" + sw_reg + "\n</body>\n</html>\n"
 (OUT / "index.html").write_text(html, encoding="utf-8")
 
 manifest = {
@@ -111,8 +122,10 @@ self.addEventListener('activate', e => {{
     .then(() => self.clients.claim()));
 }});
 // Network first so updates show up right away; the cache covers no signal.
+// The recordings are left to the browser: it asks for them a piece at a time, and they are too many to keep on a phone.
 self.addEventListener('fetch', e => {{
   if (e.request.method !== 'GET') return;
+  if (e.request.headers.has('range') || new URL(e.request.url).pathname.indexOf('/audio/') >= 0) return;
   e.respondWith(
     fetch(e.request).then(r => {{
       const copy = r.clone();
@@ -158,4 +171,4 @@ icon(192).save(OUT / "icon-192.png")
 icon(512).save(OUT / "icon-512.png")
 icon(512, pad_ratio=0.08, radius=False).save(OUT / "icon-512-maskable.png")
 icon(180, radius=False).convert("RGB").save(OUT / "apple-touch-icon.png")
-print("built", VERSION, sorted(p.name for p in OUT.iterdir()), "index bytes", (OUT / "index.html").stat().st_size)
+print("built", VERSION, sorted(p.name for p in OUT.iterdir()), "index bytes", (OUT / "index.html").stat().st_size, "recordings", len(keys))

@@ -1,4 +1,4 @@
-// node tools/test/suite.js [--site dist/site/index.html] [--engines chromium,webkit,firefox] [--version 2026-11-09d] [--quick]
+// node tools/test/suite.js [--site dist/site/index.html] [--engines chromium,webkit,firefox] [--version 2026-11-09d] [--quick] [--allow-unrecorded]
 // Taps through the built page the way a person would, in every engine, and exits 0 only if every check passed.
 // The last line is ALL_CHECKS_PASSED ... on success, CHECKS_FAILED ... otherwise.
 const pw = require('playwright');
@@ -13,6 +13,11 @@ const URL = 'file://' + SITE;
 const ENGINES = opt('engines', 'chromium,webkit,firefox').split(',');
 const VERSION = opt('version', null);
 const QUICK = args.includes('--quick');
+const ALLOW_UNRECORDED = args.includes('--allow-unrecorded');   // after the page's words change, before the changed pieces are recorded again
+// the recorded voice: the fingerprints the built site lists, and the files beside it
+const AUDIO_DIR = path.join(path.dirname(SITE), 'audio');
+const AUDIO_KEYS = ((fs.readFileSync(SITE, 'utf8').match(/window\.JM_AUDIO=\{base:"audio\/",keys:"([0-9a-f ]*)"\}/) || [])[1] || '').split(' ').filter(Boolean);
+const HAS_KEY = new Set(AUDIO_KEYS);
 
 // the page's own data, loaded straight from the source file, so the tests know the right answers without scraping
 // (every file named 1x-*.js is data: the board, the stations, then the crew, shift lead and manager courses, in page order)
@@ -51,20 +56,22 @@ const SPEECH_MOCK = () => {
   window.__spoken = []; window.__cancels = 0;
   function U(t) { this.text = t; }
   window.SpeechSynthesisUtterance = U;
+  window.__used = [];
   const synth = {
-    speaking: false, pending: false, _t: null,
-    getVoices() { return []; },
-    addEventListener() {}, removeEventListener() {},
+    speaking: false, pending: false, _t: null, _l: [],
+    getVoices() { return (window.__voiceList || []).map(v => Object.assign({}, v)); },   // a fresh object for each voice on every call, as Chrome does
+    addEventListener(t, fn) { if (t === 'voiceschanged') this._l.push(fn); }, removeEventListener() {},
     resume() {},
     cancel() { window.__cancels++; clearTimeout(this._t); this.speaking = false; },
     speak(u) {
-      window.__spoken.push(u.text); this.speaking = true;
+      window.__spoken.push(u.text); window.__used.push({ voice: u.voice ? u.voice.name : null, lang: u.lang, rate: u.rate }); this.speaking = true;
       const self = this;
       const gap = window.__fast ? 0 : (window.__slow ? 350 : 25);   // flat out to read whole cards, slow to catch it mid-sentence
       this._t = setTimeout(() => { if (u.onstart) u.onstart(); self._t = setTimeout(() => { self.speaking = false; if (u.onend) u.onend(); }, gap); }, gap ? 5 : 0);
     }
   };
   Object.defineProperty(window, 'speechSynthesis', { value: synth, configurable: true });
+  window.__voicesArrive = list => { window.__voiceList = list; synth._l.forEach(fn => fn()); };   // a device that hands over its voices late
   window.__wl = 0; window.__wlr = 0;
   try { Object.defineProperty(navigator, 'wakeLock', { configurable: true, value: { request: async () => { window.__wl++; return { release() { window.__wlr++; }, addEventListener() {} }; } } }); } catch (e) {}
 };
@@ -72,6 +79,36 @@ const NO_SPEECH = () => {
   Object.defineProperty(window, 'speechSynthesis', { value: undefined, configurable: true });
   Object.defineProperty(window, 'SpeechSynthesisUtterance', { value: undefined, configurable: true });
 };
+// watches the page's audio player: which file each play() asked for, how fast, and what became of it
+const MEDIA_SPY = () => {
+  window.__speechLog = []; window.__media = [];
+  const play = HTMLMediaElement.prototype.play;
+  HTMLMediaElement.prototype.play = function () {
+    const el = this; window.__lastAudio = el;
+    window.__media.push({ src: String(el.src).split('/').pop(), rate: null, events: [] });
+    if (!el.__spied) {
+      el.__spied = true;
+      ['playing', 'ended', 'error', 'pause'].forEach(ev => el.addEventListener(ev, () => { const cur = window.__media[window.__media.length - 1]; cur.events.push(ev); if (ev === 'playing') cur.rate = el.playbackRate; }));
+    }
+    return play.apply(this, arguments);
+  };
+};
+// a site whose recordings went missing: every one of them answers "not found"
+const LOST_AUDIO = () => { let a; Object.defineProperty(window, 'JM_AUDIO', { get() { return a; }, set(v) { a = Object.assign({}, v, { base: 'audio-that-is-not-there/' }); } }); };
+const NO_AUDIO = () => { try { Object.defineProperty(window, 'JM_AUDIO', { get() { return undefined; }, set() {} }); } catch (e) {} };
+// what a phone might lend a page: a joke voice, two good ones, a British one, an old synthesizer, an online one, an old desktop one, one in Spanish, and one listed twice
+const VOICES = [
+  { name: 'Albert', lang: 'en-US', localService: true, voiceURI: 'com.apple.speech.synthesis.voice.Albert' },
+  { name: 'Samantha', lang: 'en-US', localService: true, voiceURI: 'com.apple.voice.compact.en-US.Samantha' },
+  { name: 'Ava (Premium)', lang: 'en-US', localService: true, voiceURI: 'com.apple.voice.premium.en-US.Ava' },
+  { name: 'Daniel', lang: 'en-GB', localService: true, voiceURI: 'com.apple.voice.compact.en-GB.Daniel' },
+  { name: 'Eddy (English (US))', lang: 'en-US', localService: true, voiceURI: 'com.apple.eloquence.en-US.Eddy' },
+  { name: 'Google US English', lang: 'en-US', localService: false, voiceURI: 'Google US English' },
+  { name: 'Microsoft David - English (United States)', lang: 'en-US', localService: true, voiceURI: 'Microsoft David - English (United States)' },
+  { name: 'M\u00f3nica', lang: 'es-ES', localService: true, voiceURI: 'com.apple.voice.compact.es-ES.Monica' },
+  { name: 'Samantha', lang: 'en-US', localService: true, voiceURI: 'com.apple.voice.compact.en-US.Samantha' }
+];
+const VOICE_ROWS = ['Ava (Premium)', 'Samantha', 'Google US English', 'Daniel', 'David'];   // best first; the joke, the synthesizer and the Spanish one left out
 const BAD_STORAGE = () => {
   Storage.prototype.setItem = function () { throw new Error('QuotaExceededError'); };
   Storage.prototype.getItem = function () { throw new Error('SecurityError'); };
@@ -90,7 +127,12 @@ async function open(browser, o = {}) {
   page.on('pageerror', e => page.__errs.push('pageerror: ' + e.message));
   page.on('console', m => { if (m.type() === 'error') page.__errs.push('console: ' + m.text()); });
   page.on('request', r => { if (!r.url().startsWith('file:') && !r.url().startsWith('data:') && !r.url().startsWith('blob:')) page.__ext.push(r.url()); });
+  if (o.voices) await page.addInitScript(list => { window.__voiceList = list; }, o.voices);   // the voices this pretend device lends a page
   if (o.init !== null) await page.addInitScript(o.init || SPEECH_MOCK);
+  // Most sections test the words and the device's own voice, so the recordings are switched off for them. The recorded voice has sections of its own.
+  if (o.js !== false) await page.addInitScript(o.lostAudio ? LOST_AUDIO : (o.recorded ? MEDIA_SPY : NO_AUDIO));
+  if (o.js !== false && o.lostAudio) await page.addInitScript(MEDIA_SPY);
+  if (o.store) await page.addInitScript(kv => { try { Object.keys(kv).forEach(k => localStorage.setItem(k, kv[k])); } catch (e) {} }, o.store);
   // error events that never become exceptions (a ResizeObserver loop, a failed resource) still count
   if (o.js !== false) {
     await page.exposeFunction('__reportWinError', m => { page.__errs.push('window error: ' + m); });
@@ -1178,6 +1220,248 @@ async function engineSuite(name) {
     await p.__close();
   }
 
+  // ---------- 7b. picking one of the device's voices ----------
+  S('voices');
+  {
+    const voiceBtn = async p => { await tab(p, 'orient'); await p.evaluate(() => { document.getElementById('ease-card').open = true; window.scrollTo(0, 0); }); await p.waitForTimeout(100); };
+    const rows = p => p.evaluate(() => [...document.querySelectorAll('#sheet .vrow')].map(b => ({ t: b.querySelector('b').textContent, note: (b.querySelector('span') || {}).textContent || '', on: b.getAttribute('aria-pressed') === 'true' })));
+    const tapRow = (p, title) => p.evaluate(t => { const b = [...document.querySelectorAll('#sheet .vrow')].find(x => x.querySelector('b').textContent === t); if (!b) return false; b.click(); return true; }, title);
+    const used = p => p.evaluate(() => window.__used[window.__used.length - 1] || null);
+    const p = await open(browser, { voices: VOICES });
+    await voiceBtn(p);
+    check('the page picks the best voice the device has, and says which', (await txt(p, '#voice-row [data-voice-open]')) === 'Voice: Ava (Premium). Change', await txt(p, '#voice-row [data-voice-open]'));
+    await p.click('#voice-row [data-voice-open]'); await p.waitForTimeout(350);
+    const r0 = await rows(p);
+    check('the sheet lists the English voices best first, each once, without the joke voice, the old synthesizer or the Spanish one', (await txt(p, '#sheet-title')) === 'Pick a voice' && r0.map(r => r.t).join('|') === ['Let the page choose'].concat(VOICE_ROWS).join('|'), r0.map(r => r.t).join('|'));
+    check('it starts on Let the page choose, and says what each voice needs', r0[0].on && r0.filter(r => r.on).length === 1 && r0[3].note === 'needs the internet' && r0[4].note === 'British', JSON.stringify(r0));
+    let bad = await p.evaluate(TAP_AUDIT); check('voice sheet tap targets are 44px', bad.length === 0, bad.slice(0, 6).join(' | '));
+    check('voice sheet has no sideways scroll', (await overflow(p)) <= 0);
+    await p.evaluate(() => { window.__slow = true; window.__spoken.length = 0; });
+    await tapRow(p, 'Samantha');
+    check('tapping a voice says a sample line in it', await p.waitForFunction(() => window.__spoken.length > 0, null, { timeout: 2000 }).then(() => true, () => false) && (await used(p)).voice === 'Samantha' && /^Number 13, the Original Italian/.test(await p.evaluate(() => window.__spoken[0])), JSON.stringify(await used(p)));
+    const r1 = await rows(p);
+    check('and keeps it: the row is marked, it is saved on the device, and the button names it', r1.find(r => r.t === 'Samantha').on && r1.filter(r => r.on).length === 1 && (await p.evaluate(() => localStorage.getItem('jm-voice'))) === 'Samantha|en-US', JSON.stringify(r1.filter(r => r.on)) + ' ' + await p.evaluate(() => localStorage.getItem('jm-voice')));
+    const c0 = await p.evaluate(() => window.__cancels);
+    await p.keyboard.press('Escape'); await p.waitForTimeout(300);
+    check('putting the sheet away stops the sample', (await p.evaluate(() => window.__cancels)) > c0);
+    check('every voice button on the page now names the new voice', (await txt(p, '#voice-row [data-voice-open]')) === 'Voice: Samantha. Change', await txt(p, '#voice-row [data-voice-open]'));
+    await p.evaluate(() => { window.__slow = false; window.__spoken.length = 0; });
+    await p.click('#o-food summary'); await p.waitForTimeout(150); await p.click('#o-food .say-btn');
+    await p.waitForFunction(() => window.__spoken.length > 0, null, { timeout: 2000 }).catch(() => {});
+    let u = await used(p);
+    check('cards are then read in that voice, at an easy pace', !!u && u.voice === 'Samantha' && u.lang === 'en-US' && Math.abs(u.rate - 0.92) < 0.001, JSON.stringify(u));
+    await p.click('#o-food .say-btn');
+    // slower
+    await p.evaluate(() => window.scrollTo(0, 0)); await p.click('#voice-row [data-voice-open]'); await p.waitForTimeout(350);
+    await clickBtn(p, 'Slower', '#sheet'); await tapRow(p, 'Daniel');
+    await p.waitForFunction(() => window.__used.length && window.__used[window.__used.length - 1].voice === 'Daniel', null, { timeout: 2000 }).catch(() => {});
+    u = await used(p);
+    check('Slower slows it down, a British voice speaks British, and both are remembered', !!u && u.voice === 'Daniel' && u.lang === 'en-GB' && Math.abs(u.rate - 0.78) < 0.001 && (await p.evaluate(() => localStorage.getItem('jm-voice-slow'))) === '1', JSON.stringify(u));
+    await clickBtn(p, 'Normal', '#sheet');
+    await p.evaluate(() => { document.querySelector('#sheet .voice-tips summary').click(); }); await p.waitForTimeout(150);
+    check('the sheet says plainly what to do when no voice sounds good', await vis(p, '#sheet .voice-tips dl') && /Enhanced or Premium/.test(await txt(p, '#sheet .voice-tips')) && (await overflow(p)) <= 0);
+    await p.keyboard.press('Escape'); await p.waitForTimeout(250);
+    await p.reload(); await p.waitForTimeout(300);
+    await voiceBtn(p);
+    check('the choice is still there after a reload', (await txt(p, '#voice-row [data-voice-open]')) === 'Voice: Daniel. Change', await txt(p, '#voice-row [data-voice-open]'));
+    await p.click('#voice-row [data-voice-open]'); await p.waitForTimeout(350);
+    await tapRow(p, 'Let the page choose');
+    await p.waitForFunction(() => window.__used.length && window.__used[window.__used.length - 1].voice === 'Ava (Premium)', null, { timeout: 2000 }).catch(() => {});
+    check('Let the page choose hands the choice back', (await used(p)).voice === 'Ava (Premium)' && (await p.evaluate(() => localStorage.getItem('jm-voice'))) === '' && (await rows(p))[0].on, JSON.stringify(await used(p)));
+    await p.keyboard.press('Escape'); await p.waitForTimeout(250);
+    // the Listen card has the same button
+    await startRun(p, 'listen', 'italian');
+    check('the Listen card names the voice too, and opens the same sheet', (await txt(p, '#q-area [data-voice-open]')) === 'Voice: Ava (Premium). Change' && (await p.click('#q-area [data-voice-open]'), await p.waitForTimeout(350), (await txt(p, '#sheet-title')) === 'Pick a voice'), await txt(p, '#q-area [data-voice-open]'));
+    await p.keyboard.press('Escape');
+    check('no script errors', p.__errs.length === 0, p.__errs.join(' | '));
+    await p.__close();
+    // a device that hands its voices over late, one with none to offer, and a choice that has since gone
+    const q = await open(browser);
+    await voiceBtn(q);
+    check('with no list yet the button says built in', (await txt(q, '#voice-row [data-voice-open]')) === 'Voice: built in. Change', await txt(q, '#voice-row [data-voice-open]'));
+    await q.click('#voice-row [data-voice-open]'); await q.waitForTimeout(350);
+    check('a device with one voice gets a plain Hear it button', (await rows(q)).length === 0 && /one built-in voice/.test(await txt(q, '#sheet')) && await clickBtn(q, 'Hear it', '#sheet') && await q.waitForFunction(() => window.__spoken.length > 0 && window.__used[0].voice === null, null, { timeout: 2000 }).then(() => true, () => false));
+    await q.keyboard.press('Escape'); await q.waitForTimeout(250);
+    await q.evaluate(list => window.__voicesArrive(list), VOICES); await q.waitForTimeout(150);
+    check('when the voices arrive late, the button catches up', (await txt(q, '#voice-row [data-voice-open]')) === 'Voice: Ava (Premium). Change', await txt(q, '#voice-row [data-voice-open]'));
+    check('no script errors', q.__errs.length === 0, q.__errs.join(' | '));
+    await q.__close();
+    const g = await open(browser, { voices: VOICES, store: { 'jm-voice': 'Zoe (Enhanced)|en-US' } });
+    await voiceBtn(g);
+    check('a chosen voice that is no longer on the device falls back to the best one', (await txt(g, '#voice-row [data-voice-open]')) === 'Voice: Ava (Premium). Change', await txt(g, '#voice-row [data-voice-open]'));
+    await g.__close();
+  }
+
+  // ---------- 7c. the recorded voice ----------
+  S('recorded voice');
+  if (!AUDIO_KEYS.length) check('the site was built with its recordings', ALLOW_UNRECORDED, 'no recordings beside the site: run tools/voice/record.py and build again, or pass --allow-unrecorded');
+  else {
+    const rows = p => p.evaluate(() => [...document.querySelectorAll('#sheet .vrow')].map(b => ({ t: b.querySelector('b').textContent, on: b.getAttribute('aria-pressed') === 'true' })));
+    const tapRow = (p, title) => p.evaluate(t => { const b = [...document.querySelectorAll('#sheet .vrow')].find(x => x.querySelector('b').textContent === t); if (!b) return false; b.click(); return true; }, title);
+    const last = p => p.evaluate(() => ({ m: window.__media[window.__media.length - 1] || null, n: window.__media.length, log: window.__speechLog[window.__speechLog.length - 1] || null, paused: window.__lastAudio ? window.__lastAudio.paused : null, spoken: window.__spoken ? window.__spoken.length : -1 }));
+    const heard = (p, ev, ms) => p.waitForFunction(e => { const m = window.__media[window.__media.length - 1]; return !!m && m.events.includes(e); }, ev, { timeout: ms || 5000 }).then(() => true, () => false);
+    const p = await open(browser, { recorded: true, voices: VOICES });
+    // can this engine put sound out at all? (a browser with no sound device says so by failing a moment after it starts)
+    const canHear = await p.evaluate(key => new Promise(res => {
+      const a = new Audio('audio/' + key + '.mp3'); let done = false;
+      const end = v => { if (!done) { done = true; try { a.pause(); } catch (e) {} res(v); } };
+      a.addEventListener('error', () => end(false)); a.addEventListener('timeupdate', () => { if (a.currentTime > 0.3) end(true); });
+      a.play().catch(() => end(false)); setTimeout(() => end(false), 5000);
+    }), AUDIO_KEYS[0]);
+    if (name !== 'firefox') check('this engine can play the recordings', canHear);
+    await p.evaluate(() => { window.__media.length = 0; });
+    const spoken = await p.evaluate(() => window.__jmSpoken());
+    const HAS_LIST = spoken.filter(x => HAS_KEY.has(x.key));
+    const pick = (kind, id) => HAS_LIST.find(x => x.kind === kind && (id === undefined || x.id === String(id)));
+    check('the button says the page is reading in its recorded voice', (await p.evaluate(() => { document.getElementById('ease-card').open = true; return document.querySelector('#voice-row [data-voice-open]').textContent; })) === 'Voice: recorded. Change');
+    // a sub, read from its sheet
+    const sub13 = pick('sub', 13);
+    if (!sub13) check('the Original Italian has a recording', ALLOW_UNRECORDED, 'sub 13 is not recorded');
+    else {
+      await tab(p, 'study'); await p.click('#glance [data-sub="13"]'); await p.waitForTimeout(350);
+      await p.click('#sheet .say-btn');
+      let st = await last(p);
+      check('Read it to me asks for the recording of exactly those words', !!st.log && st.log.recorded === true && st.log.key === sub13.key && !!st.m && st.m.src === sub13.key + '.mp3', JSON.stringify(st).slice(0, 260));
+      if (canHear) {
+        check('the recording plays, the button turns into Stop, and the device\'s own voice stays quiet', await heard(p, 'playing') && (await txt(p, '#sheet .say-btn')) === 'Stop' && (await last(p)).spoken === 0, JSON.stringify(await last(p)).slice(0, 260));
+        await p.waitForTimeout(400); await p.click('#sheet .say-btn'); await p.waitForTimeout(250);
+        st = await last(p);
+        check('Stop stops the recording', st.paused === true && (await txt(p, '#sheet .say-btn')) === 'Read it to me', JSON.stringify(st).slice(0, 200));
+        await p.click('#sheet .say-btn'); await heard(p, 'playing');
+        await clickBtn(p, 'Close', '#sheet'); await p.waitForTimeout(300);
+        check('closing the sheet stops it too', (await last(p)).paused === true);
+      } else {
+        check('with nowhere to send sound, the page says so and stops', await p.waitForFunction(() => /No sound/.test(document.querySelector('#sheet .say-btn').textContent), null, { timeout: 4000 }).then(() => true, () => false) && (await last(p)).paused === true, await txt(p, '#sheet .say-btn'));
+        await clickBtn(p, 'Close', '#sheet'); await p.waitForTimeout(300);
+      }
+    }
+    // hands-free: Listen plays one recording after another with no tap in between
+    const deck = DATA.DECKS.find(d => d.key === 'italian').ids, asks = deck.map(id => pick('ask', id + '-number')), tells = deck.map(id => pick('tell', id + '-number'));
+    if (asks.some(x => !x) || tells.some(x => !x)) check('the Italian subs have their Listen recordings', ALLOW_UNRECORDED, 'some are not recorded');
+    else if (canHear) {
+      await startRun(p, 'listen', 'italian'); await clickBtn(p, '3 seconds');
+      await p.evaluate(() => { window.__media.length = 0; window.__speechLog.length = 0; });
+      await p.click('#q-area .listen-play');
+      const askOk = await heard(p, 'ended', 6000); let st = await last(p);
+      check('Listen says the number from its recording', askOk && asks.some(a => a.key + '.mp3' === st.m.src) && /^Number \d+\.$/.test(st.log.text), JSON.stringify(st).slice(0, 240));
+      const tellStarted = await p.waitForFunction(() => window.__media.length >= 2 && window.__media[1].events.includes('playing'), null, { timeout: 8000 }).then(() => true, () => false);
+      st = await last(p);
+      check('then tells you, from the next recording, with no tap', tellStarted && tells.some(a => a.key + '.mp3' === st.m.src) && !(await p.evaluate(() => document.querySelector('#q-area .listen-ans').classList.contains('wait'))), JSON.stringify(st).slice(0, 240));
+      if (!QUICK) check('and goes on to the next sub by itself', await p.waitForFunction(() => window.__media.length >= 3 && window.__media[2].events.includes('playing'), null, { timeout: 25000 }).then(() => true, () => false), JSON.stringify(await p.evaluate(() => window.__media)).slice(0, 300));
+      await p.click('#q-area .listen-play'); await p.waitForTimeout(250);
+      check('Pause stops the recording, and the device\'s own voice never spoke', (await last(p)).paused === true && (await last(p)).spoken === 0 && (await txt(p, '#q-area .listen-play')) === 'Play');
+    }
+    // a training card and a walkthrough step
+    const card = pick('card', 'o-wrap') || HAS_LIST.find(x => x.kind === 'card'), step = pick('step', 'wrap-1');
+    if (!card || !step) check('a training card and a walkthrough step have recordings', ALLOW_UNRECORDED, 'not recorded yet');
+    else {
+      await tab(p, 'orient'); await pickLevel(p, 'all');
+      await p.evaluate(id => { const d = document.getElementById(id); d.open = true; d.scrollIntoView(); }, card.id); await p.waitForTimeout(200);
+      await p.evaluate(id => { document.querySelector('#' + id + ' .say-btn').click(); }, card.id);
+      let st = await last(p);
+      check('a card is read from its recording', st.log.recorded === true && st.log.key === card.key && st.m.src === card.key + '.mp3', JSON.stringify(st).slice(0, 220));
+      if (canHear) {
+        await heard(p, 'playing');
+        await p.evaluate(id => { document.getElementById(id).open = false; }, card.id); await p.waitForTimeout(300);
+        check('folding the card stops the recording', (await last(p)).paused === true && (await p.evaluate(id => document.querySelector('#' + id + ' .say-btn').getAttribute('aria-pressed'), card.id)) === 'false');
+      } else await p.evaluate(id => { document.getElementById(id).open = false; }, card.id);
+      await p.evaluate(() => { const d = document.getElementById('o-wrap'); d.open = true; d.querySelector('[data-walk="wrap"]').click(); }); await p.waitForTimeout(450);
+      await clickBtn(p, 'Next', '#sheet'); await p.waitForTimeout(250);
+      await p.click('#sheet .walk .say-btn');
+      st = await last(p);
+      check('a walkthrough step is read from its recording', st.log.recorded === true && st.log.key === step.key && st.m.src === step.key + '.mp3', JSON.stringify(st).slice(0, 220));
+      await p.keyboard.press('Escape'); await p.waitForTimeout(300);
+    }
+    // the voice sheet: the recorded voice first, the device's own voices after it
+    await tab(p, 'orient');
+    await p.evaluate(() => { document.getElementById('ease-card').open = true; window.scrollTo(0, 0); window.__media.length = 0; window.__spoken.length = 0; });
+    await p.click('#voice-row [data-voice-open]'); await p.waitForTimeout(350);
+    const r0 = await rows(p);
+    check('the voice sheet offers the recorded voice first, then this device\'s best, then each voice', r0.map(r => r.t).join('|') === ['The recorded voice', "This device's best voice"].concat(VOICE_ROWS).join('|') && r0[0].on && r0.filter(r => r.on).length === 1, JSON.stringify(r0));
+    let bad = await p.evaluate(TAP_AUDIT); check('voice sheet tap targets are 44px', bad.length === 0, bad.slice(0, 6).join(' | '));
+    const sample = pick('sample');
+    if (sample && canHear) {
+      await clickBtn(p, 'Slower', '#sheet'); await tapRow(p, 'The recorded voice');
+      check('its sample is the recording, and Slower plays it slower', await heard(p, 'playing') && (await last(p)).m.src === sample.key + '.mp3' && Math.abs((await last(p)).m.rate - 0.85) < 0.001, JSON.stringify(await last(p)).slice(0, 220));
+      await clickBtn(p, 'Normal', '#sheet'); await tapRow(p, 'The recorded voice');
+      check('Normal plays it at its own pace', await p.waitForFunction(() => { const m = window.__media[window.__media.length - 1]; return m.events.includes('playing') && m.rate === 1; }, null, { timeout: 5000 }).then(() => true, () => false), JSON.stringify(await last(p)).slice(0, 220));
+    }
+    const n0 = (await last(p)).n;
+    await tapRow(p, "This device's best voice");
+    await p.waitForFunction(() => window.__spoken.length > 0, null, { timeout: 2000 }).catch(() => {});
+    check('This device\'s best voice switches the recordings off: the sample comes from the device, and the choice is kept', (await last(p)).n === n0 && (await p.evaluate(() => window.__used[window.__used.length - 1].voice)) === 'Ava (Premium)' && (await p.evaluate(() => localStorage.getItem('jm-voice'))) === 'device' && (await rows(p))[1].on && (await rows(p)).filter(r => r.on).length === 1 && (await last(p)).paused !== false, JSON.stringify(await last(p)).slice(0, 200));
+    await tapRow(p, 'Samantha');
+    await p.waitForFunction(() => window.__used[window.__used.length - 1].voice === 'Samantha', null, { timeout: 2000 }).catch(() => {});
+    check('one voice by name works here too', (await p.evaluate(() => window.__used[window.__used.length - 1].voice)) === 'Samantha' && (await rows(p)).find(r => r.t === 'Samantha').on && (await last(p)).n === n0);
+    await p.keyboard.press('Escape'); await p.waitForTimeout(300);
+    check('the button names the voice in use', (await txt(p, '#voice-row [data-voice-open]')) === 'Voice: Samantha. Change', await txt(p, '#voice-row [data-voice-open]'));
+    await p.click('#voice-row [data-voice-open]'); await p.waitForTimeout(350);
+    await tapRow(p, 'The recorded voice'); await p.waitForTimeout(200);
+    check('going back to the recorded voice is one tap', (await p.evaluate(() => localStorage.getItem('jm-voice'))) === '' && (await rows(p))[0].on && (await last(p)).n === n0 + 1);
+    await p.keyboard.press('Escape'); await p.waitForTimeout(300);
+    check('and the button says recorded again', (await txt(p, '#voice-row [data-voice-open]')) === 'Voice: recorded. Change');
+    // no signal: the device's own voice reads at once, inside the tap
+    if (sub13) {
+      await p.context().setOffline(true); await p.waitForTimeout(150);
+      const off = await p.evaluate(() => navigator.onLine);
+      if (name === 'chromium') check('the pretend phone is offline', off === false);
+      if (off === false) {
+        await tab(p, 'study'); await p.click('#glance [data-sub="13"]'); await p.waitForTimeout(350);
+        await p.evaluate(() => { window.__spoken.length = 0; }); const n1 = (await last(p)).n;
+        await p.click('#sheet .say-btn');
+        check('with no signal the device\'s voice reads it at once, with no wait for a recording', await p.waitForFunction(() => window.__spoken.length > 0, null, { timeout: 1500 }).then(() => true, () => false) && (await last(p)).n === n1 && (await last(p)).log.recorded === false, JSON.stringify(await last(p)).slice(0, 200));
+        await p.click('#sheet .say-btn'); await clickBtn(p, 'Close', '#sheet');
+        await p.context().setOffline(false); await p.waitForTimeout(250);
+        await p.click('#glance [data-sub="13"]'); await p.waitForTimeout(350); await p.click('#sheet .say-btn');
+        check('back on line, the recording is used again', (await last(p)).log.recorded === true && (await last(p)).n === n1 + 1);
+        await p.click('#sheet .say-btn').catch(() => {}); await clickBtn(p, 'Close', '#sheet');
+      } else await p.context().setOffline(false);
+    }
+    check('no script errors', p.__errs.length === 0, p.__errs.join(' | '));
+    await p.__close();
+
+    // a recording that will not arrive: the device's voice says the same words, and takes over for a while
+    if (sub13) {
+      const q = await open(browser, { recorded: true, lostAudio: true, voices: VOICES });
+      await q.click('#glance [data-sub="13"]'); await q.waitForTimeout(350);
+      await q.click('#sheet .say-btn');
+      const fell = await q.waitForFunction(() => window.__spoken.length > 0, null, { timeout: 9000 }).then(() => true, () => false);
+      check('when a recording does not arrive, the device\'s voice reads the same words', fell && (await q.evaluate(() => window.__media.length)) === 1 && /^Number 13\./.test(await q.evaluate(() => window.__spoken[0])), JSON.stringify(await q.evaluate(() => ({ m: window.__media, s: window.__spoken.slice(0, 1) }))).slice(0, 240));
+      await q.waitForFunction(() => document.querySelector('#sheet .say-btn').getAttribute('aria-pressed') === 'false', null, { timeout: 8000 }).catch(() => {});
+      await q.evaluate(() => { window.__spoken.length = 0; }); await q.click('#sheet .say-btn');
+      check('and the next tap goes straight to the device\'s voice, without trying the recording again', await q.waitForFunction(() => window.__spoken.length > 0, null, { timeout: 1500 }).then(() => true, () => false) && (await q.evaluate(() => window.__media.length)) === 1);
+      const lostErrs = q.__errs.filter(e => !/audio-that-is-not-there|ERR_FILE_NOT_FOUND|Failed to load resource|NS_ERROR|not found|NotSupportedError|404/i.test(e));
+      check('no script errors', lostErrs.length === 0, lostErrs.join(' | '));
+      await q.__close();
+    }
+    // a browser with no voice of its own still gets the recorded one
+    if (sub13) {
+      const v = await open(browser, { recorded: true, init: NO_SPEECH });
+      await v.click('#glance [data-sub="13"]'); await v.waitForTimeout(350);
+      check('with no voice of its own, a browser still gets a Read it to me button', (await v.evaluate(() => document.querySelectorAll('#sheet .say-btn').length)) === 1);
+      await v.click('#sheet .say-btn');
+      if (canHear) check('and the recording plays', await heard(v, 'playing') && (await txt(v, '#sheet .say-btn')) === 'Stop');
+      else check('and with nowhere to send sound it says so', await v.waitForFunction(() => /No sound/.test(document.querySelector('#sheet .say-btn').textContent), null, { timeout: 4000 }).then(() => true, () => false));
+      await clickBtn(v, 'Close', '#sheet'); await v.waitForTimeout(250);
+      await tab(v, 'orient'); await v.evaluate(() => { document.getElementById('ease-card').open = true; window.scrollTo(0, 0); }); await v.click('#voice-row [data-voice-open]'); await v.waitForTimeout(350);
+      const vr = await rows(v);
+      check('its voice sheet offers the recorded voice and nothing it cannot do', vr.length === 1 && vr[0].t === 'The recorded voice' && vr[0].on && (await v.evaluate(() => document.querySelectorAll('#sheet .voice-tips').length)) === 0, JSON.stringify(vr));
+      await v.keyboard.press('Escape');
+      check('no script errors', v.__errs.length === 0, v.__errs.join(' | '));
+      await v.__close();
+    }
+    // every fixed thing the page can say has its recording, and every listed recording is on disk
+    if (name === 'chromium') {
+      const missing = spoken.filter(x => !HAS_KEY.has(x.key));
+      const kinds = {}; missing.forEach(x => { kinds[x.kind] = (kinds[x.kind] || 0) + 1; });
+      check(`every fixed thing the page says has a recording (${spoken.length - missing.length} of ${spoken.length})`, missing.length === 0 || ALLOW_UNRECORDED, JSON.stringify(kinds) + ' are not recorded: run tools/voice/record.py and build again, or pass --allow-unrecorded');
+      if (missing.length && ALLOW_UNRECORDED) console.log(`  note: ${missing.length} of ${spoken.length} pieces have no recording and will be read by the device's own voice ${JSON.stringify(kinds)}`);
+      const small = AUDIO_KEYS.filter(k => { try { return fs.statSync(path.join(AUDIO_DIR, k + '.mp3')).size < 3000; } catch (e) { return true; } });
+      check('every recording the site lists is on disk, and is not an empty file', small.length === 0, small.slice(0, 5).join(' '));
+      check('the list covers cards, subs, Listen, walkthrough steps, games and quiz lessons', ['card', 'sub', 'ask', 'tell', 'step', 'game', 'lesson', 'sample'].every(kd => spoken.some(x => x.kind === kd)) && spoken.length > 1000, spoken.length);
+    }
+  }
+
   // ---------- 8. the bad days: no voice, no storage, no motion, no script ----------
   S('no voice');
   {
@@ -1189,6 +1473,7 @@ async function engineSuite(name) {
     await clickBtn(p, 'Close', '#sheet');
     await tab(p, 'orient'); await p.click('#o-cut summary'); await p.click('#o-cut [data-walk="cut"]');
     check('walkthrough still works without a voice', await clickBtn(p, 'Next', '#sheet') && (await p.evaluate(() => document.querySelectorAll('#sheet #walk-hands').length)) === 0);
+    check('no voice button where there is no voice', (await p.evaluate(() => [...document.querySelectorAll('[data-voice-open]')].filter(b => b.getClientRects().length).length)) === 0 && await p.evaluate(() => document.getElementById('voice-row').hidden));
     check('no card offers to read itself where there is no voice, and the settings card does not promise it', (await p.evaluate(() => document.querySelectorAll('#view-orient .say-btn').length)) === 0 && (await p.evaluate(() => document.getElementById('listen-note').textContent)) === '');
     check('no script errors', p.__errs.length === 0, p.__errs.join(' | '));
     await p.__close();
@@ -1266,6 +1551,12 @@ async function engineSuite(name) {
       await p.click('#mode-seg [data-mode="listen"]');
       await p.waitForTimeout(900);
       bad = await p.evaluate(CONTRAST_AUDIT); check('listen contrast', bad.length === 0, bad.slice(0, 5).join(' | '));
+      await tab(p, 'orient'); await p.evaluate(() => { document.getElementById('ease-card').open = true; window.scrollTo(0, 0); }); await p.click('#voice-row [data-voice-open]');
+      await p.waitForTimeout(900);
+      bad = await p.evaluate(CONTRAST_AUDIT); check('voice sheet contrast', bad.length === 0, bad.slice(0, 5).join(' | '));
+      await p.evaluate(() => { document.querySelector('#sheet .voice-tips summary').click(); }); await p.waitForTimeout(300);
+      bad = await p.evaluate(CONTRAST_AUDIT); check('voice tips contrast', bad.length === 0, bad.slice(0, 5).join(' | '));
+      await p.keyboard.press('Escape'); await p.waitForTimeout(300);
       const bg = await p.evaluate(() => getComputedStyle(document.body).backgroundColor);
       check('body paints its own background', !/rgba\(0, 0, 0, 0\)|transparent/.test(bg), bg);
       await p.__close();
@@ -1318,6 +1609,8 @@ function staticChecks() {
   check('site loads nothing from another server', ext.length === 0, ext.slice(0, 3).join(' '));
   check('site carries its own fonts', (idx.match(/font\/woff2;base64,/g) || []).length >= 4);
   check('site registers its offline worker', /serviceWorker/.test(idx) && /register\(/.test(idx));
+  check('the offline worker leaves the recordings to the browser', /indexOf\('\/audio\/'\) >= 0\) return;/.test(files[1][1]));
+  if (files[3]) check('the copy for claude.ai carries no list of recordings, so it reads with the device\'s voice', !/window\.JM_AUDIO=\{/.test(files[3][1]) && /window\.JM_AUDIO=\{base:"audio\/"/.test(idx) === (AUDIO_KEYS.length > 0));
   if (VERSION) check('worker cache is named for this version', files[1][1].includes(VERSION), VERSION);
   for (const icon of ['icon-192.png', 'icon-512.png', 'icon-512-maskable.png', 'apple-touch-icon.png']) check(icon + ' exists', fs.existsSync(path.join(dir, icon)));
   if (files[3]) {
