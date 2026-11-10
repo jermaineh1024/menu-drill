@@ -1,7 +1,9 @@
 
 /* ---------- the phone's own voice (free, works offline) ----------
    Everything spoken goes through Voice.speak. Text is split into sentences because some browsers cut a long
-   utterance off after about fifteen seconds, and so a watchdog can tell "nothing came out" from "still talking". */
+   utterance off after about fifteen seconds, and so a watchdog can tell "nothing came out" from "still talking".
+   A sentence ends at . ! or ? when a space and a new sentence follow, or when the text ends. The point in 1.25 and
+   the dots in "9:15 a.m. as part of opening" end nothing, so a number or a time is never said in two halves. */
 var VOICE_KEY = "jm-voice-slow";
 var Voice = (function(){
   var synth = null;
@@ -23,7 +25,9 @@ var Voice = (function(){
     try { if (synth.addEventListener) synth.addEventListener("voiceschanged", pickVoice); else synth.onvoiceschanged = pickVoice; } catch(e){}
   }
   function sentences(text){
-    var parts = String(text).match(/[^.!?]+[.!?]+["”']?|[^.!?]+$/g) || [String(text)];
+    var s = String(text), parts = [], from = 0, re = /[.!?]+["”')\]]*(?=\s+[^a-z\s]|\s*$)/g, m;
+    while ((m = re.exec(s))){ parts.push(s.slice(from, m.index + m[0].length)); from = m.index + m[0].length; }
+    if (from < s.length) parts.push(s.slice(from));
     return parts.map(function(p){ return p.replace(/^\s+|\s+$/g, ""); }).filter(function(p){ return p.length > 0; });
   }
   function stop(){
@@ -78,7 +82,7 @@ document.addEventListener("visibilitychange", function(){ if (document.hidden){ 
 
 /* how the names are said out loud */
 function speakable(t){
-  return String(t).replace(/Cappacuolo/gi, "capicola").replace(/Prosciuttini/gi, "pro shoo tee nee").replace(/#(\d)/g, "number $1").replace(/\bLTO\b/g, "limited time")
+  return String(t).replace(/Cappacuolo/gi, "capicola").replace(/Prosciuttini/gi, "pro shoo tee nee").replace(/\b([Aa])n #(\d)/g, "$1 number $2").replace(/#(\d)/g, "number $1").replace(/\bLTO\b/g, "limited time")
     .replace(/(\d) oz\b/g, "$1 ounces").replace(/½ oz/g, "half an ounce");
 }
 function sayContents(sub){

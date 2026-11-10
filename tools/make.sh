@@ -5,6 +5,7 @@ cd "$(dirname "$0")/.."
 V="${1:?usage: tools/make.sh 2026-11-09d}"
 python3 tools/howto.py >/dev/null
 python3 tools/pics.py >/dev/null
+python3 tools/pics_mgr.py >/dev/null
 python3 tools/assemble.py dist/artifact.html
 python3 tools/build.py "$V"
 PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers python3 tools/prerender.py

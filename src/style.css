@@ -287,6 +287,8 @@ table.amt td{padding:9px 8px 9px 0;border-bottom:1px solid var(--line);vertical-
 table.amt td:first-child{font-weight:600}
 table.amt td:not(:first-child){white-space:nowrap}
 table.amt td[colspan]{white-space:normal}
+table.amt.flow td{white-space:normal}   /* a table whose middle column is a sentence: let it wrap, so nothing has to be scrolled sideways */
+table.amt.flow td:first-child{white-space:nowrap}
 table.amt tr.sep td{border-top:2px solid var(--line)}
 
 /* ---- small diagrams ---- */
@@ -630,3 +632,94 @@ body.nomotion .topbar::before,body.nomotion .topbar::after,body.nomotion .today-
   *,*::before,*::after{transition:none!important;animation:none!important}   /* the star alone misses the water and the light, which live on ::before and ::after */
 }
 /* END-OF-PAGE-STYLE */
+
+/* ---- the path: crew, shift lead, manager ---- */
+.path-card{position:relative;overflow:hidden;background:var(--grad-band);background-color:var(--band-hi);border-color:transparent;color:var(--on-navy)}
+.path-card h2{color:inherit}
+.path-card > p{color:var(--on-navy-dim);font-size:15px;margin:6px 0 0}
+.path{display:grid;gap:8px;margin-top:14px}
+.lv{display:grid;grid-template-columns:auto 1fr auto;gap:6px 12px;align-items:center;width:100%;min-height:68px;padding:10px 14px;border-radius:12px;text-align:left;cursor:pointer;
+  border:1.5px solid rgba(255,255,255,.24);background:rgba(8,20,45,.26);color:var(--on-navy);font:500 15px var(--body);
+  transition:transform .1s ease,background-color .18s ease,border-color .18s ease,color .18s ease}
+.lv:active{transform:scale(.985)}
+.lv .lv-n{width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.16);font:800 24px var(--display);display:flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
+.lv .lv-t{display:grid;min-width:0}
+.lv .lv-t b{font:800 22px/1.05 var(--display);letter-spacing:.03em;text-transform:uppercase}
+.lv .lv-t span{font-size:14px;color:var(--on-navy-dim)}
+.lv .lv-c{font:700 13px var(--body);font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--on-navy-dim)}
+.lv .bar{grid-column:1/-1;flex:none;background:rgba(255,255,255,.22)}
+.lv .bar i{background:linear-gradient(90deg,var(--ok-a),var(--ok-b));background-color:var(--ok-a)}
+.lv[aria-pressed="true"]{background:#FFFFFF;border-color:#FFFFFF;color:#1F3A5F;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.lv[aria-pressed="true"] .lv-n{background:linear-gradient(180deg,#2B5187,#1B3458);background-color:#2B5187;color:#FFFFFF}
+.lv[aria-pressed="true"] .lv-t span,.lv[aria-pressed="true"] .lv-c{color:#4F6076}
+.lv[aria-pressed="true"] .bar{background:#DCE6EA}
+.lv[aria-pressed="true"] .bar i{background:linear-gradient(90deg,#24693F,#3FBF7F);background-color:#24693F}
+.lv.done .lv-c::before{content:"";display:inline-block;width:6px;height:11px;margin:0 7px 1px 0;border-right:2.5px solid currentColor;border-bottom:2.5px solid currentColor;transform:rotate(45deg)}
+.lv:focus-visible,#path-all:focus-visible{outline-color:#FFFFFF}
+.path-now{margin:10px 0 0;font-size:14px;color:var(--on-navy-dim)}
+#path-all[aria-pressed="true"]{box-shadow:0 0 0 3px rgba(255,255,255,.5)}
+a.btn{display:inline-flex;align-items:center;text-decoration:none}   /* a link that goes somewhere on the page, dressed as the button it acts like */
+.ease-card > summary h2{font-size:19px;color:var(--muted)}
+.ease-card .switch{margin-top:6px}
+.ease-card .switch:first-of-type{margin-top:2px}
+
+/* each level opens with a band; with one level picked, the other levels step aside */
+.level-head{display:grid;grid-template-columns:auto 1fr;gap:0 12px;align-items:center;margin-top:14px;padding:12px 14px;border-radius:14px;scroll-margin-top:76px;
+  background:var(--grad-band);background-color:var(--band-hi);color:var(--on-navy);box-shadow:var(--shadow)}
+.level-head .lv-n{grid-row:1/3;width:46px;height:46px;border-radius:12px;background:rgba(8,20,45,.3);font:800 30px var(--display);display:flex;align-items:center;justify-content:center}
+.level-head h2{color:inherit;font-size:28px}
+.level-head p{margin:0;color:var(--on-navy-dim);font-size:15px}
+#view-orient[data-show="1"] > [data-lv]:not([data-lv="1"]),
+#view-orient[data-show="2"] > [data-lv]:not([data-lv="2"]),
+#view-orient[data-show="3"] > [data-lv]:not([data-lv="3"]),
+#view-orient[data-show="1"] .jump a[data-lv]:not([data-lv="1"]),
+#view-orient[data-show="2"] .jump a[data-lv]:not([data-lv="2"]),
+#view-orient[data-show="3"] .jump a[data-lv]:not([data-lv="3"]){display:none}
+
+/* ---- inside a card: the one-line gist, checklists, practice math, the day clock ---- */
+.gist{font-size:17px;line-height:1.42;font-weight:600;margin:4px 0 14px;padding:10px 12px 10px 16px;border-radius:0 12px 12px 0;background:var(--soft);box-shadow:inset 4px 0 0 var(--navy-2)}
+ul.ticks{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px}
+ul.ticks li{position:relative;min-height:44px;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;background:var(--surface)}
+ul.ticks.live li{padding-left:48px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background-color .15s ease,border-color .15s ease}
+ul.ticks.live li::before{content:"";position:absolute;left:12px;top:50%;width:24px;height:24px;margin-top:-12px;border-radius:7px;border:2px solid var(--navy-2);background:var(--surface)}
+ul.ticks.live li[aria-checked="true"]{background:var(--ok-soft);border-color:var(--ok)}
+ul.ticks.live li[aria-checked="true"]::before{background:var(--ok);border-color:var(--ok)}
+ul.ticks.live li[aria-checked="true"]::after{content:"";position:absolute;left:20px;top:50%;width:7px;height:13px;margin-top:-9px;border-right:3px solid var(--surface);border-bottom:3px solid var(--surface);transform:rotate(45deg)}
+.ticks-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 12px;margin-top:6px;min-height:44px}
+.ticks-n{margin:0;color:var(--muted);font-size:14px;font-variant-numeric:tabular-nums}
+
+.calc{margin-top:18px;padding:14px;border:1.5px solid var(--line);border-radius:14px;background:var(--soft)}
+.calc h3{font-size:20px;margin:0 0 4px}
+.calc-in{display:grid;gap:8px;margin-top:12px}
+.calc-f{display:grid;grid-template-columns:minmax(0,1fr) 128px;gap:10px;align-items:center;font-size:15px;cursor:text}
+.calc-w{position:relative;display:block}
+.calc-w input{display:block;width:100%;min-height:46px;padding:8px 10px;border:1.5px solid var(--navy-2);border-radius:10px;background:var(--surface);color:var(--ink);
+  font:600 17px var(--body);font-variant-numeric:tabular-nums;text-align:right}
+.calc-w.money input{padding-left:24px}
+.calc-w.money::before{content:"$";position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-weight:600;pointer-events:none}
+.calc-out{margin-top:12px;display:grid;gap:6px}
+.calc-r{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:9px 12px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:15px}
+.calc-r span{min-width:0}
+.calc-r b{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap;flex:none}   /* the answer stays in one piece; the label beside it wraps */
+.calc-r.ok{border-color:var(--ok);background:var(--ok-soft)}
+.calc-t{margin:2px 0 0;font-size:14.5px;color:var(--muted)}
+.calc .row{margin-top:8px}
+
+.nowbox{margin:12px 0 10px;padding:12px 14px;border-radius:12px;background:var(--grad-band);background-color:var(--band-hi);color:var(--on-navy)}
+.nowbox p{margin:0}
+.nowbox .now-d{margin-top:4px;color:var(--on-navy-dim);font-size:15px}
+.nowbox:empty{display:none}
+.dl.dayparts{grid-template-columns:minmax(0,1fr);gap:4px}
+.dl.dayparts dt,.dl.words dt{max-width:none}   /* one column at every width, so the term takes the whole line */
+.dayparts dt{display:flex;flex-direction:column;gap:1px;margin-top:8px;padding:8px 12px;border-radius:10px;background:var(--soft);font:800 20px/1.1 var(--display);letter-spacing:.03em;text-transform:uppercase;color:var(--title)}
+.dayparts dt .dp-t{font:600 12.5px/1.3 var(--body);letter-spacing:.05em;color:var(--muted)}
+.dayparts dt.now{background:var(--warn-soft);box-shadow:inset 4px 0 0 var(--warn)}
+.dayparts dt.now::after{content:"Now, on the example clock";font:700 12px/1.4 var(--body);letter-spacing:.04em;text-transform:none;color:var(--warn)}
+.dayparts dd{padding:0 2px}
+
+.dl.words{grid-template-columns:minmax(0,1fr);gap:2px}
+.words dt{margin-top:10px}
+.words dt:first-child{margin-top:0}
+.quiz-list .qz-h{margin:16px 0 0;padding-top:12px;border-top:2px solid var(--line);font-size:17px;color:var(--muted)}
+.quiz-list .qz-h + .qz{border-top:0}
+@media (prefers-reduced-motion: reduce){ .lv,ul.ticks.live li{transition:none} }

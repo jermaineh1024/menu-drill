@@ -15,12 +15,28 @@ const VERSION = opt('version', null);
 const QUICK = args.includes('--quick');
 
 // the page's own data, loaded straight from the source file, so the tests know the right answers without scraping
-const DATA = new Function(['10-data.js', '12-train.js'].map(f => fs.readFileSync(path.resolve(ROOT, 'src/js', f), 'utf8')).join('\n') +
-  '; return {SUBS, MW, TOP_EXTRAS, LID_ORDER, numbered, BANKS, MODS, SEQS, DECKS, MODES, hotOrder, HOT_AMT, GROUPS, HOWTO_NAME};')();
+// (every file named 1x-*.js is data: the board, the stations, then the crew, shift lead and manager courses, in page order)
+const DATA_FILES = fs.readdirSync(path.resolve(ROOT, 'src/js')).filter(f => /^1\d[a-z]?-[\w-]+\.js$/.test(f)).sort();
+const DATA = new Function(DATA_FILES.map(f => fs.readFileSync(path.resolve(ROOT, 'src/js', f), 'utf8')).join('\n') +
+  '; return {SUBS, MW, TOP_EXTRAS, LID_ORDER, numbered, BANKS, MODS, SEQS, DECKS, MODES, hotOrder, HOT_AMT, GROUPS, HOWTO_NAME, LEVELS, BANK_LABEL};')();
 const subByN = n => DATA.numbered.find(s => String(s.n) === String(n));
 const subByName = name => DATA.SUBS.find(s => s.name === name);
 const itemsOf = s => s.type === 'cold' ? s.cheese.concat(s.meats, s.fixed, s.mw ? DATA.MW : [], s.lid || []) : DATA.hotOrder(s);
 const ALLQ = {}; Object.keys(DATA.BANKS).forEach(b => DATA.BANKS[b].forEach(q => { ALLQ[q.q] = q; }));
+// levels: every station belongs to one, and its bank, its cards and its put-in-order games go with it
+const lvOfBank = b => { const g = DATA.GROUPS.find(x => x.bank === b); return g ? (g.level || 1) : 0; };
+const bankOfQ = q => Object.keys(DATA.BANKS).find(b => DATA.BANKS[b].includes(q));
+const modsAt = n => DATA.MODS.filter(m => lvOfBank(m.bank) === n);
+const groupsAt = n => DATA.GROUPS.filter(g => (g.level || 1) === n);
+const seqLevel = k => { const m = DATA.MODS.find(x => x.seq === k); return m ? lvOfBank(m.bank) : 0; };
+// what the "Training facts" bar counts at a level (0: every level): that level's questions and games. The board and the sprinkling amounts have a bar of their own.
+const factsAt = n => Object.keys(DATA.BANKS).filter(b => b !== 'amounts' && (!n || !lvOfBank(b) || lvOfBank(b) === n)).reduce((a, b) => a + DATA.BANKS[b].length, 0)
+  + Object.keys(DATA.SEQS).filter(k => !DATA.SEQS[k].board && (!n || !seqLevel(k) || seqLevel(k) === n)).length;
+// the diagrams: every file the picture tools drew, and every place the page asks for one
+const INC = path.resolve(ROOT, 'src/include');
+const PIC_FILES = fs.readdirSync(INC).filter(f => /^pic-[\w-]+\.html$/.test(f)).map(f => f.replace('.html', ''));
+const SRC_HTML = [path.resolve(ROOT, 'src/body.html')].concat(fs.readdirSync(INC).filter(f => /^train-[\w-]+\.html$/.test(f)).map(f => path.join(INC, f))).map(f => fs.readFileSync(f, 'utf8')).join('\n');
+const PIC_USES = (SRC_HTML.match(/<!--#include pic-[\w-]+-->/g) || []).length;
 
 let passed = 0; const failures = [];
 let scope = '';
@@ -44,7 +60,8 @@ const SPEECH_MOCK = () => {
     speak(u) {
       window.__spoken.push(u.text); this.speaking = true;
       const self = this;
-      this._t = setTimeout(() => { if (u.onstart) u.onstart(); self._t = setTimeout(() => { self.speaking = false; if (u.onend) u.onend(); }, 25); }, 5);
+      const gap = window.__fast ? 0 : (window.__slow ? 350 : 25);   // flat out to read whole cards, slow to catch it mid-sentence
+      this._t = setTimeout(() => { if (u.onstart) u.onstart(); self._t = setTimeout(() => { self.speaking = false; if (u.onend) u.onend(); }, gap); }, gap ? 5 : 0);
     }
   };
   Object.defineProperty(window, 'speechSynthesis', { value: synth, configurable: true });
@@ -63,9 +80,12 @@ const BAD_STORAGE = () => {
 async function open(browser, o = {}) {
   const ctx = await browser.newContext({
     viewport: o.viewport || { width: 390, height: 664 }, colorScheme: o.scheme || 'light',
-    reducedMotion: o.reduced ? 'reduce' : 'no-preference', javaScriptEnabled: o.js !== false, hasTouch: !!o.touch
+    reducedMotion: o.reduced ? 'reduce' : 'no-preference', javaScriptEnabled: o.js !== false, hasTouch: !!o.touch,
+    ...(o.at || o.clockAt ? { timezoneId: 'America/New_York' } : {})
   });
   const page = await ctx.newPage();
+  if (o.at) await page.clock.setFixedTime(new Date(o.at));   // the clock reads this time; timers still run
+  if (o.clockAt) await page.clock.install({ time: new Date(o.clockAt) });   // a clock that starts here, keeps ticking, and can be jumped forward
   page.__errs = []; page.__ext = [];
   page.on('pageerror', e => page.__errs.push('pageerror: ' + e.message));
   page.on('console', m => { if (m.type() === 'error') page.__errs.push('console: ' + m.text()); });
@@ -192,12 +212,27 @@ async function runToEnd(p, right, max = 200) {
   }
   return { end: 'too long', kinds };
 }
+// Training shows one level, and one open card, at a time. The page-wide audits want all of it on screen:
+// turn "One card open at a time" off with its own switch, press "Show every level", then open every card.
+const showAllTraining = async p => {
+  await p.evaluate(() => {
+    const f = document.getElementById('focus-toggle'); if (f && f.checked) f.click();
+    const all = document.getElementById('path-all'); if (all && all.getAttribute('aria-pressed') !== 'true') all.click();
+    document.querySelectorAll('#view-orient details').forEach(d => { d.open = true; });
+  });
+  await p.waitForTimeout(150);
+};
+const pickLevel = async (p, n) => {
+  if (n === 'all') await p.evaluate(() => { const all = document.getElementById('path-all'); if (all.getAttribute('aria-pressed') !== 'true') all.click(); });
+  else await p.click(`#path .lv[data-level="${n}"]`);
+  await p.waitForTimeout(120);
+};
 const startRun = async (p, mode, deck) => { await tab(p, 'drill'); if (deck) await p.click(`#deck-seg button[data-deck="${deck}"]`); if (mode) await p.click(`#mode-seg [data-mode="${mode}"]`); };
 
 // ---- page-wide audits, run inside the page ----
 const TAP_AUDIT = () => {
   const bad = [];
-  document.querySelectorAll('button, [role=button], summary, a[href], label.switch, .tab').forEach(el => {
+  document.querySelectorAll('button, [role=button], [role=checkbox], summary, a[href], label.switch, .tab, input[type=text]').forEach(el => {
     if (el.closest('svg') || el.closest('[hidden]') || el.disabled) return;   // thin bands in the sub picture have full-size twins right under it
     const r = el.getBoundingClientRect();
     if (!r.width || !r.height) return;
@@ -276,11 +311,15 @@ async function engineSuite(name) {
       check(t + ' tab shows its view', await vis(p, '#view-' + t));
       const hsh = await p.evaluate(() => location.hash); check(t + ' hash', hsh === '#' + t || (t === 'study' && hsh === ''), hsh);
       if (t === 'orient') {
-        await p.evaluate(() => document.querySelectorAll('#view-orient details').forEach(d => { d.open = true; }));
+        await showAllTraining(p);
+        const seen = await p.evaluate(() => { const ds = [...document.querySelectorAll('#view-orient details')]; return [ds.length, ds.filter(d => d.open).length, ds.filter(d => !d.getClientRects().length).length]; });
+        check('every training card is open and on screen for the audits', seen[0] === seen[1] && seen[2] === 0 && seen[0] >= DATA.MODS.length + 2, seen.join(' / '));
         const out = await p.evaluate(() => [...document.querySelectorAll('#view-orient details.card > svg, #view-orient details.card .howto-pic, #view-orient details.card svg.stack')].filter(s => { const r = s.getBoundingClientRect(), c = s.closest('details').getBoundingClientRect(); return r.left < c.left + 9 || r.right > c.right - 9; }).map(s => s.getAttribute('class')));
         check('orientation drawings stay inside their card', out.length === 0, out.join(' '));
       }
       const ov = await overflow(p); check(t + ' has no sideways scroll', ov <= 0, ov + 'px');
+      const wideT = await p.evaluate(() => [...document.querySelectorAll('.tbl-wrap')].filter(e => e.getClientRects().length && e.scrollWidth > e.clientWidth + 1).map(e => ((e.closest('details, .card') || {}).id || '?') + ' ' + e.scrollWidth + '>' + e.clientWidth));
+      check(t + ': no table has to be scrolled sideways', wideT.length === 0, wideT.join(' | '));
       if (label !== 'small phone') { const bad = await p.evaluate(TAP_AUDIT); check(t + ' tap targets are 44px', bad.length === 0, bad.slice(0, 6).join(' | ')); }
     }
     check('no script errors', p.__errs.length === 0, p.__errs.join(' | '));
@@ -295,13 +334,14 @@ async function engineSuite(name) {
     let pics = 0, labels = 0;
     for (const t of ['study', 'line', 'drill', 'orient']) {
       await tab(p, t);
-      await p.evaluate(() => { document.querySelectorAll('details').forEach(d => { d.open = true; }); const o = document.getElementById('view-orient'); if (o && o.hasAttribute('data-show')) o.setAttribute('data-show', 'all'); });
+      if (t === 'orient') await showAllTraining(p);
+      else await p.evaluate(v => { document.querySelectorAll('#view-' + v + ' details').forEach(d => { d.open = true; }); }, t);
       await p.waitForTimeout(200);
       const out = await p.evaluate(PIC_AUDIT);
       pics += out.pics; labels += out.labels;
       check(t + ': no picture label is cut by its picture or sits on another label', out.res.length === 0, out.res.slice(0, 5).join(' | '));
     }
-    check('the picture audit saw the pictures', pics >= 80 && labels >= 700, pics + ' pictures, ' + labels + ' labels');
+    check('the picture audit saw the pictures', pics >= 138 && labels >= 1400, pics + ' pictures, ' + labels + ' labels');
     await p.__close();
   }
 
@@ -330,7 +370,7 @@ async function engineSuite(name) {
     check('and rest when it stops', !(await p.evaluate(() => document.querySelector('#q-area .listen').classList.contains('speaking'))));
     check('each way to practice has its picture', (await p.evaluate(() => [...document.querySelectorAll('#mode-seg .mode svg.mode-ic path')].filter(x => (x.getAttribute('d') || '').length > 20).length)) === 6);
     // the switch stops the background motion as well as the pictures
-    await tab(p, 'orient'); await p.click('#motion-toggle');
+    await tab(p, 'orient'); await p.click('#ease-card summary'); await p.click('#motion-toggle');
     check('the motion switch stills the water', (await moving()) === 0, await moving());
     await startRun(p, 'num', 'italian'); await runToEnd(p, true);
     check('and holds the toppings', (await p.evaluate(() => document.querySelectorAll('#q-area .confetti').length)) === 0);
@@ -604,8 +644,8 @@ async function engineSuite(name) {
       btns: [...document.querySelectorAll('#view-orient .grp-row [data-bank]')].map(b => b.getAttribute('data-bank') + ':' + b.textContent)
     }));
     check('one card for every module, all folded to start', st.mods.length === DATA.MODS.length && st.open === 0 && DATA.MODS.every(m => st.mods.includes(m.id)), JSON.stringify(st.mods));
-    check('seven stations, each with a jump chip', st.groups.join() === DATA.GROUPS.map(g => 'g-' + g.id).join() && st.jumps.join() === st.groups.join(), st.groups + ' / ' + st.jumps);
-    check('each station button counts its questions', st.btns.length === 7 && DATA.GROUPS.every((g, i) => st.btns[i].startsWith(g.bank + ':') && st.btns[i].endsWith('(' + DATA.BANKS[g.bank].length + ')')), st.btns.join(' | '));
+    check('every station has its heading and a jump chip, in the course order', st.groups.length >= 18 && st.groups.join() === DATA.GROUPS.map(g => 'g-' + g.id).join() && st.jumps.join() === st.groups.join(), st.groups + ' / ' + st.jumps);
+    check('each station button counts its questions', st.btns.length === DATA.GROUPS.length && DATA.GROUPS.every((g, i) => st.btns[i].startsWith(g.bank + ':') && st.btns[i].endsWith('(' + DATA.BANKS[g.bank].length + ')')), st.btns.join(' | '));
     // every module: a quiz button with the right count, and the new ones each carry a drawing
     const cards = await p.evaluate(() => [...document.querySelectorAll('#view-orient details.mod')].map(d => ({ id: d.getAttribute('data-mod'), quiz: (d.querySelector('[data-quiz]') || {}).textContent, pics: d.querySelectorAll('svg.pic, svg.howto-pic, svg.stations, svg.stack').length, pill: d.querySelector('.mod-p').textContent })));
     for (const m of DATA.MODS) {
@@ -634,12 +674,14 @@ async function engineSuite(name) {
     await p.click('#view-line [data-bank="grill"]');
     check('the Line tab\'s grill button starts the grill quiz', (await txt(p, '#q-area .prog .mono')) === `1 of ${DATA.BANKS.grill.length}`, await txt(p, '#q-area .prog .mono'));
     await clickBtn(p, 'Stop');
-    // the put-in-order games that live inside the modules
+    // the put-in-order games that live inside the modules, at every level
     const seqKeys = Object.keys(DATA.SEQS).filter(k => !DATA.SEQS[k].visual);
-    await tab(p, 'orient');
+    await tab(p, 'orient'); await pickLevel(p, 'all');
     for (const k of seqKeys) {
       const host = await p.evaluate(key => { const e = document.querySelector('[data-seq="' + key + '"]'); if (!e) return null; e.closest('details').open = true; return '#' + e.id; }, k);
       if (!check(`${k}: its game is on the page`, !!host, k)) continue;
+      await p.waitForTimeout(60);
+      check(`${k}: its chips are on screen to tap`, await p.evaluate(h => { const b = document.querySelector(h + ' .pool button'); return !!b && b.getClientRects().length > 0; }, host));
       const steps = DATA.SEQS[k].steps;
       for (const stp of steps.slice().reverse()) await tapChip(p, stp, host);
       await clickBtn(p, 'Check', host);
@@ -671,6 +713,338 @@ async function engineSuite(name) {
     check('no script errors', p.__errs.length === 0, p.__errs.join(' | '));
     await p.__close();
   }
+  // ---------- 6a. the path: crew, shift lead, manager ----------
+  S('levels');
+  {
+    const p = await open(browser, { hash: '#orient' });
+    const look = () => p.evaluate(() => {
+      const v = document.getElementById('view-orient'), on = e => !!e && e.getClientRects().length > 0;
+      let stored = 'blocked'; try { stored = localStorage.getItem('jm-level'); } catch (e) {}
+      return {
+        show: v.getAttribute('data-show'),
+        mods: [...v.querySelectorAll(':scope > details.mod')].filter(on).map(d => d.getAttribute('data-mod')).sort().join(),
+        heads: [...v.querySelectorAll('.level-head')].filter(on).map(e => e.id).join(),
+        chips: [...v.querySelectorAll('.jump a')].filter(on).map(a => a.getAttribute('data-jump')).join(),
+        grps: [...v.querySelectorAll('.section-title.grp')].filter(on).map(e => e.id).join(),
+        pressed: [...document.querySelectorAll('#path .lv')].map(b => b.getAttribute('aria-pressed')).join(),
+        counts: [...document.querySelectorAll('#path .lv .lv-c')].map(e => e.textContent).join('|'),
+        now: document.getElementById('path-now').textContent,
+        all: document.getElementById('path-all').textContent + ':' + document.getElementById('path-all').getAttribute('aria-pressed'),
+        words: on(document.getElementById('o-words')), stored
+      };
+    });
+    const ids = n => modsAt(n).map(m => m.id).sort().join(), gids = n => groupsAt(n).map(g => 'g-' + g.id).join();
+    let s = await look();
+    check('a first visit opens on the crew level, and nothing is stored until you pick', s.show === '1' && s.pressed === 'true,false,false' && s.stored === null, JSON.stringify(s).slice(0, 240));
+    check('level 1 shows the crew cards and only those', s.mods === ids(1) && s.heads === 'lv-1' && !s.words, s.heads + ' ' + s.mods.slice(0, 120));
+    check('level 1 offers the crew stations as headings and jump chips', s.chips === gids(1) && s.grps === gids(1), s.chips + ' / ' + s.grps);
+    check('each level button counts its cards', s.counts === [1, 2, 3].map(n => '0 of ' + modsAt(n).length).join('|'), s.counts);
+    check('the line under the buttons says what is showing', s.now === 'Showing level 1: Crew. Work every station.' && s.all === 'Show every level:false', s.now + ' / ' + s.all);
+    const names = await p.evaluate(() => [...document.querySelectorAll('#path .lv')].map(b => b.getAttribute('aria-label')).join(' | '));
+    check('a level button says its name, its job and its count', /^Level 1, Crew\. Work every station\. 0 of \d+ cards locked in\. Showing now\. \| Level 2, Shift lead\. Run a shift\. 0 of \d+ cards locked in\. Show this level\. \| Level 3, Manager\. Run the store\./.test(names), names);
+
+    await p.focus('#path .lv[data-level="2"]'); await p.keyboard.press('Enter'); await p.waitForTimeout(900);
+    check('pressed from the keyboard, the level button keeps the focus', await p.evaluate(() => { const b = document.querySelector('#path .lv[data-level="2"]'); return document.activeElement === b && b.getAttribute('aria-pressed') === 'true'; }));
+    check('the level buttons are a named group', (await p.evaluate(() => document.getElementById('path').getAttribute('role') + ':' + document.getElementById('path').getAttribute('aria-label'))) === 'group:Pick a level');
+    s = await look();
+    check('picking Shift lead shows its cards and only those', s.show === '2' && s.mods === ids(2) && s.heads === 'lv-2' && s.chips === gids(2) && s.grps === gids(2) && s.pressed === 'false,true,false', JSON.stringify(s).slice(0, 300));
+    check('the pick is kept on this device', s.stored === '2', s.stored);
+    const hy = await p.evaluate(() => { const r = document.getElementById('lv-2').getBoundingClientRect(), t = document.querySelector('.tabs').getBoundingClientRect(); return { top: Math.round(r.top), tabs: Math.round(t.bottom), vh: innerHeight }; });
+    check('and its band is brought up under the tabs', hy.top >= hy.tabs - 2 && hy.top < hy.vh - 120, JSON.stringify(hy));
+    let ov = await overflow(p); check('level 2 has no sideways scroll', ov <= 0, ov);
+
+    await p.evaluate(() => window.scrollTo(0, 0)); await pickLevel(p, 3); await p.waitForTimeout(900);
+    s = await look();
+    check('picking Manager shows its cards and the plain-English word list', s.show === '3' && s.mods === ids(3) && s.heads === 'lv-3' && s.chips === gids(3) && s.words && s.now === 'Showing level 3: Manager. Run the store.', JSON.stringify(s).slice(0, 300));
+    ov = await overflow(p); check('level 3 has no sideways scroll', ov <= 0, ov);
+    const bad = await p.evaluate(TAP_AUDIT); check('level 3 tap targets are 44px', bad.length === 0, bad.slice(0, 6).join(' | '));
+
+    await pickLevel(p, 'all');
+    s = await look();
+    check('Show every level lays out all three, one after the other', s.show === 'all' && s.mods === DATA.MODS.map(m => m.id).sort().join() && s.heads === 'lv-1,lv-2,lv-3' && s.chips === DATA.GROUPS.map(g => 'g-' + g.id).join() && s.pressed === 'false,false,false' && s.all === 'Back to one level:true' && s.now === 'Showing every level, one after the other.', JSON.stringify(s).slice(0, 300));
+    await p.evaluate(() => document.getElementById('path-all').click()); s = await look();
+    check('Back to one level returns to the crew level', s.show === '1' && s.mods === ids(1) && s.all === 'Show every level:false', s.show + ' ' + s.all);
+
+    await p.evaluate(() => window.scrollTo(0, 0)); await pickLevel(p, 3); await p.reload(); await p.waitForTimeout(250);
+    s = await look();
+    check('the level is still picked after a reload', s.show === '3' && s.pressed === 'false,false,true' && s.mods === ids(3), s.show + ' ' + s.pressed);
+    // a link inside a card can point into another level (the trainer's card sends you to the crew check lists): it shows that level, then lands on its target
+    await p.evaluate(() => window.scrollTo(0, 0)); await pickLevel(p, 2);
+    await p.click('#o-trainer summary'); await p.click('#o-trainer a[data-jump="g-check"]'); await p.waitForTimeout(900);
+    s = await look();
+    const gy = await p.evaluate(() => { const r = document.getElementById('g-check').getBoundingClientRect(); return { top: Math.round(r.top), on: r.height > 0, vh: innerHeight }; });
+    check('a link into another level switches to that level and lands on its target', s.show === '1' && s.stored === '1' && gy.on && gy.top > 0 && gy.top < gy.vh - 60, s.show + ' ' + JSON.stringify(gy));
+    const links = await p.evaluate(() => [...document.querySelectorAll('#view-orient details a[href]')].map(a => a.getAttribute('data-jump') + ':' + !!document.getElementById(a.getAttribute('data-jump') || '-')).join());
+    check('every link inside a card points at something on the page', links.split(',').every(x => /:true$/.test(x)), links);
+
+    // a card locked in (every question right on two different days) counts on its level's button
+    const small = modsAt(2).slice().sort((a, b) => (a.q.length + (a.seq ? 1 : 0)) - (b.q.length + (b.seq ? 1 : 0)))[0];
+    const quizIt = async () => { await tab(p, 'orient'); await p.evaluate(id => { const d = document.getElementById('o-' + id); d.open = true; d.querySelector('[data-quiz]').click(); }, small.id); return runToEnd(p, true); };
+    await quizIt();
+    await p.evaluate(() => { const sc = JSON.parse(localStorage.getItem('jm-sched-v1')); Object.keys(sc).forEach(k => { sc[k].due = Date.now() - 1000; }); localStorage.setItem('jm-sched-v1', JSON.stringify(sc)); });
+    await p.reload(); await p.waitForTimeout(250);
+    await quizIt(); await tab(p, 'orient');
+    const c2 = await p.evaluate(id => { const b = document.querySelector('#path .lv[data-level="2"]'); return { count: b.querySelector('.lv-c').textContent, bar: parseFloat(b.querySelector('.bar i').style.width), pill: document.querySelector('#o-' + id + ' .mod-p').textContent, label: b.getAttribute('aria-label') }; }, small.id);
+    check('a card locked in counts on its level button', c2.count === `1 of ${modsAt(2).length}` && c2.pill === 'Locked in' && c2.bar > 0 && c2.label.includes('1 of ' + modsAt(2).length + ' cards locked in'), JSON.stringify(c2));
+    check('no script errors', p.__errs.length === 0, p.__errs.join(' | '));
+    await p.__close();
+  }
+
+  // ---------- 6b. one card open at a time ----------
+  S('one card at a time');
+  {
+    const p = await open(browser, { hash: '#orient' });
+    const openMods = () => p.evaluate(() => [...document.querySelectorAll('#view-orient details.mod[open]')].map(d => d.id).join());
+    check('"One card open at a time" starts switched on, in a settings card that starts folded', await p.evaluate(() => document.getElementById('focus-toggle').checked && !document.getElementById('ease-card').open));
+    await p.click('#o-values summary'); await p.waitForTimeout(200);
+    check('a tap opens a card', (await openMods()) === 'o-values', await openMods());
+    // put the next card's title mid-screen, tap it, and see that it has not moved under the finger even though the card above it folded
+    await p.evaluate(() => { const r = document.querySelector('#o-food summary').getBoundingClientRect(); window.scrollBy(0, r.top - 320); }); await p.waitForTimeout(250);
+    const before = await p.evaluate(() => Math.round(document.querySelector('#o-food summary').getBoundingClientRect().top));
+    await p.click('#o-food summary'); await p.waitForTimeout(400);
+    const after = await p.evaluate(() => Math.round(document.querySelector('#o-food summary').getBoundingClientRect().top));
+    check('opening the next card folds the one before', (await openMods()) === 'o-food', await openMods());
+    check('and the card you tapped stays where your finger is', Math.abs(before - 320) <= 3 && Math.abs(after - before) <= 3, before + ' -> ' + after);
+    await p.evaluate(() => window.scrollTo(0, 0)); await p.click('#ease-card summary'); await p.click('#focus-toggle');
+    check('the switch turns it off, and that is kept on this device', !(await p.evaluate(() => document.getElementById('focus-toggle').checked)) && (await p.evaluate(() => localStorage.getItem('jm-focus'))) === 'off');
+    await p.click('#o-values summary'); await p.waitForTimeout(250);
+    check('switched off, two cards can be open together', (await openMods()) === 'o-values,o-food', await openMods());
+    await p.reload(); await p.waitForTimeout(250);
+    check('still off after a reload', !(await p.evaluate(() => document.getElementById('focus-toggle').checked)));
+    await p.click('#o-values summary'); await p.click('#o-uniform summary'); await p.waitForTimeout(250);
+    check('and two cards still stay open', (await openMods()) === 'o-values,o-uniform', await openMods());
+    check('no script errors', p.__errs.length === 0, p.__errs.join(' | '));
+    await p.__close();
+  }
+
+  // ---------- 6c. the check lists you can tick ----------
+  S('check lists');
+  {
+    const p = await open(browser, { hash: '#orient' });
+    const LIST = 'ul.ticks[data-check="sprinkler"]';
+    const T = () => p.evaluate(sel => {
+      const ul = document.querySelector(sel), rows = [...ul.children], foot = ul.nextElementSibling;
+      return { n: rows.length, roles: rows.every(li => li.getAttribute('role') === 'checkbox' && li.tabIndex === 0), on: rows.map((li, i) => li.getAttribute('aria-checked') === 'true' ? i : -1).filter(i => i >= 0).join(),
+        count: foot.querySelector('.ticks-n').textContent, clear: !foot.querySelector('button').hidden, group: ul.getAttribute('role') + ':' + ul.getAttribute('aria-label'),
+        minH: Math.min(...rows.map(li => li.getBoundingClientRect().height)), store: localStorage.getItem('jm-ticks-v1') };
+    }, LIST);
+    await p.click('#o-cksprk summary'); await p.waitForTimeout(200);
+    let t = await T();
+    check('a check list is a named group of tick boxes, none ticked to start', t.n === 11 && t.roles && t.on === '' && t.count === '0 of 11 ticked' && !t.clear && t.group === 'group:Sprinkler check', JSON.stringify(t));
+    check('tick rows are big enough to tap', t.minH >= 43.5, t.minH);
+    await p.click(LIST + ' li:nth-child(1)');
+    await p.focus(LIST + ' li:nth-child(3)'); await p.keyboard.press('Space');
+    t = await T();
+    check('a tap ticks a line, and so does the space bar', t.on === '0,2' && t.count === '2 of 11 ticked' && t.clear, JSON.stringify(t));
+    check('ticks are kept on this device', t.store === '{"sprinkler":[0,2]}', t.store);
+    await p.reload(); await p.waitForTimeout(250); await p.click('#o-cksprk summary'); await p.waitForTimeout(200);
+    t = await T(); check('ticks are still there after a reload', t.on === '0,2' && t.count === '2 of 11 ticked', JSON.stringify(t));
+    await p.click(LIST + ' li:nth-child(1)');
+    t = await T(); check('a second tap takes a tick off', t.on === '2' && t.count === '1 of 11 ticked', JSON.stringify(t));
+    await clickBtn(p, 'Clear these ticks', '#o-cksprk');
+    t = await T(); check('Clear these ticks empties that list', t.on === '' && t.count === '0 of 11 ticked' && !t.clear && t.store === '{}', JSON.stringify(t));
+    const lists = await p.evaluate(() => [...document.querySelectorAll('ul.ticks')].map(u => ({ key: u.getAttribute('data-check'), live: u.classList.contains('live'), foot: !!u.nextElementSibling && u.nextElementSibling.classList.contains('ticks-foot'), name: u.getAttribute('aria-label') })));
+    check('every check list on the page works the same way, each under its own name', lists.length >= 9 && lists.every(l => l.key && l.live && l.foot && l.name) && new Set(lists.map(l => l.key)).size === lists.length, JSON.stringify(lists).slice(0, 300));
+    check('no script errors', p.__errs.length === 0, p.__errs.join(' | '));
+    await p.__close();
+  }
+
+  // ---------- 6d. the practice math: each box starts on the video's own numbers ----------
+  S('practice math');
+  {
+    const p = await open(browser, { hash: '#orient' });
+    await pickLevel(p, 3);
+    const show = key => p.evaluate(k => { document.querySelector('.calc[data-calc="' + k + '"]').closest('details').open = true; }, key);
+    const rows = key => p.evaluate(k => [...document.querySelectorAll('.calc[data-calc="' + k + '"] .calc-out > *')].map(e => e.classList.contains('calc-t') ? 'note: ' + e.textContent : e.querySelector('span').textContent + ' = ' + e.querySelector('b').textContent), key);
+    const WANT = {
+      order: ['On hand now, in cases = 0.25', 'Used since the last order = 1.25 cases', "Order 1: you'd have 1.25 = no cushion", "Order 2: you'd have 2.25 = has a cushion", "Order 3: you'd have 3.25 = has a cushion", 'note: Having only what you used last time may not be enough. Leave room for a busy week or a damaged case.'],
+      cogu: ['Working inventory = $12,000', 'Cost of goods used = $6,500', 'As a percent of sales = 28%'],
+      goal: ['Goal (theoretical + 2) = 27.71%', 'Over goal by = 0.37 points', 'note: High. Look for red variances: too much going out.'],
+      forecast: ['4-week average = $17,535', 'Last year plus 5% = $17,492.02', 'note: Then adjust for the time of year, the 10-day weather, local events and big catering orders.'],
+      labor: ['Labor percent = 14.92%', 'note: Too high? Go back to the shift lines. Try a quarter hour later start or earlier finish.'],
+      loaf: ['Average sales per loaf = $16.50', 'Average bread per day = 143 loaves', '10 more loaves a day adds = $1,155 a week', 'The week becomes = $17,655'],
+      week: ['Average bread per day = 143', 'Average sales per loaf = $16.50', 'Variance (actual minus theoretical) = 2.37 points', "note: Circle food cost: it's more than 2 points over theoretical."]
+    };
+    const found = await p.evaluate(() => [...document.querySelectorAll('.calc[data-calc]')].map(c => c.getAttribute('data-calc')).sort().join());
+    check('all seven practice boxes are on the page', found === Object.keys(WANT).sort().join(), found);
+    for (const k of Object.keys(WANT)) {
+      await show(k); await p.waitForTimeout(60);
+      const got = await rows(k);
+      check(`${k}: the example works out to the video's numbers`, got.join(' | ') === WANT[k].join(' | '), got.join(' | '));
+    }
+    await show('labor'); await p.waitForTimeout(80);
+    const S_IN = '#calc-labor-s';
+    await p.fill(S_IN, '3000');
+    check('typing a new number moves the answer', (await rows('labor'))[0] === 'Labor percent = 11.19%', (await rows('labor'))[0]);
+    await p.fill(S_IN, '$2,250');
+    check('a dollar sign and a comma are read as the number', (await rows('labor'))[0] === 'Labor percent = 14.92%', (await rows('labor'))[0]);
+    await p.fill(S_IN, 'abc');
+    check('a slip of the thumb gets a plain note, never a broken number', (await rows('labor')).join() === 'note: Sales has to be more than 0.', (await rows('labor')).join());
+    await clickBtn(p, 'Back to the example', '.calc[data-calc="labor"]');
+    check('Back to the example puts the video numbers back', (await rows('labor'))[0] === 'Labor percent = 14.92%' && (await p.inputValue(S_IN)) === '2250', await p.inputValue(S_IN));
+    const wild = await p.evaluate(() => { const bad = []; document.querySelectorAll('.calc[data-calc]').forEach(c => { for (const v of ['', '0', '-5', '1e9', '0.001', '7,5', '..', '1/2']) { c.querySelectorAll('input').forEach(i => { i.value = v; i.dispatchEvent(new Event('input', { bubbles: true })); }); const t = c.querySelector('.calc-out').textContent; if (!t || /NaN|Infinity|undefined|null/.test(t)) bad.push(c.getAttribute('data-calc') + ' with "' + v + '": ' + t.slice(0, 80)); } }); return bad; });
+    check('no box ever shows NaN or Infinity, whatever is typed', wild.length === 0, wild.join(' | '));
+    const inputs = await p.evaluate(() => [...document.querySelectorAll('.calc input')].map(i => ({ id: i.id, lab: !!document.querySelector('label[for="' + i.id + '"]') && document.querySelector('label[for="' + i.id + '"]').textContent.trim().length > 3, fs: parseFloat(getComputedStyle(i).fontSize), mode: i.getAttribute('inputmode') })));
+    check('every number box has a label, a number keypad, and type big enough that an iPhone does not zoom in', inputs.length === 24 && new Set(inputs.map(i => i.id)).size === 24 && inputs.every(i => i.lab && i.fs >= 16 && i.mode === 'decimal'), JSON.stringify(inputs.filter(i => !(i.lab && i.fs >= 16 && i.mode === 'decimal'))).slice(0, 200) + ' of ' + inputs.length);
+    const ov = await overflow(p); check('practice math has no sideways scroll', ov <= 0, ov);
+    check('no script errors', p.__errs.length === 0, p.__errs.join(' | '));
+    await p.__close();
+  }
+
+  // ---------- 6e. the day by the clock: the box follows the time of day ----------
+  S('day clock');
+  {
+    const day = '2026-11-10T', zone = ':00-05:00';
+    const p = await open(browser, { hash: '#orient', at: day + '14:30' + zone });
+    await pickLevel(p, 2);
+    await p.click('#o-dayclock summary'); await p.waitForTimeout(200);
+    const now = () => p.evaluate(() => { const t = document.querySelector('#day-now .now-t'), d = document.querySelector('#day-now .now-d'); return { t: t ? t.textContent : '', d: d ? d.textContent : '', lit: [...document.querySelectorAll('.dayparts dt.now')].map(x => x.id).join(), shown: document.getElementById('day-now').getClientRects().length > 0 }; });
+    let n = await now();
+    check('at 2:30 in the afternoon the box says mid-day, says what happens then, and marks that part', n.shown && n.t === "It's 2:30 p.m. On the example clock this is mid-day." && /^The mid-day checklist/.test(n.d) && n.lit === 'dp-mid', JSON.stringify(n));
+    for (const [at, starts, lit] of [
+      ['07:59', "It's 7:59 a.m. On the example clock the store is closed.", ''], ['08:00', "It's 8:00 a.m. On the example clock this is opening time.", 'dp-open'], ['10:59', "It's 10:59 a.m. On the example clock this is opening time.", 'dp-open'],
+      ['11:00', "It's 11:00 a.m. On the example clock this is the lunch rush.", 'dp-lunch'], ['12:00', "It's 12:00 p.m. On the example clock this is the lunch rush.", 'dp-lunch'], ['14:00', "It's 2:00 p.m. On the example clock this is mid-day.", 'dp-mid'],
+      ['17:45', "It's 5:45 p.m. On the example clock this is the dinner rush.", 'dp-dinner'], ['19:00', "It's 7:00 p.m. On the example clock this is close-down time.", 'dp-close'], ['21:14', "It's 9:14 p.m. On the example clock this is close-down time.", 'dp-close'],
+      ['21:15', "It's 9:15 p.m. On the example clock the store is closed.", ''], ['00:05', "It's 12:05 a.m. On the example clock the store is closed.", '']]) {
+      await p.clock.setFixedTime(new Date(day + at + zone));
+      await p.evaluate(() => { document.getElementById('o-dayclock').open = false; }); await p.waitForTimeout(60);
+      await p.evaluate(() => { document.getElementById('o-dayclock').open = true; }); await p.waitForTimeout(120);
+      n = await now();
+      check(`the clock box at ${at}`, n.t === starts && n.lit === lit && (lit ? n.d.length > 10 : n.d === ''), JSON.stringify(n));
+    }
+    check('no script errors', p.__errs.length === 0, p.__errs.join(' | '));
+    await p.__close();
+    // left open, the box keeps time by itself: the lid closes at 1:59 and opens again at 2:00
+    const q = await open(browser, { hash: '#orient', clockAt: day + '13:59' + zone });
+    await pickLevel(q, 2); await q.click('#o-dayclock summary'); await q.waitForTimeout(250);
+    const t1 = await q.evaluate(() => document.querySelector('#day-now .now-t').textContent);
+    await q.clock.pauseAt(new Date(day + '14:00:30-05:00')); await q.waitForTimeout(150);
+    const t2 = await q.evaluate(() => ({ t: document.querySelector('#day-now .now-t').textContent, lit: [...document.querySelectorAll('.dayparts dt.now')].map(x => x.id).join() }));
+    check('left open, the box moves on with the clock without a tap', t1 === "It's 1:59 p.m. On the example clock this is the lunch rush." && t2.t === "It's 2:00 p.m. On the example clock this is mid-day." && t2.lit === 'dp-mid', t1 + ' -> ' + JSON.stringify(t2));
+    check('no script errors with the clock jumped', q.__errs.length === 0, q.__errs.join(' | '));
+    await q.__close();
+  }
+
+  // ---------- 6f. every card can be read out loud ----------
+  S('read aloud');
+  {
+    const p = await open(browser, { hash: '#orient' });
+    const cards = await p.evaluate(() => [...document.querySelectorAll('#view-orient > details.card:not(.ease-card)')].map(d => ({ id: d.id, n: d.querySelectorAll('.say-btn').length, label: (d.querySelector('.say-btn span') || {}).textContent })));
+    check('every training card has a Read this card to me button', cards.length === DATA.MODS.length + 1 && cards.every(c => c.n === 1 && c.label === 'Read this card to me'), cards.filter(c => c.n !== 1).map(c => c.id).join() + ' of ' + cards.length);
+    check('the settings card says so, and has no such button itself', (await p.evaluate(() => document.getElementById('listen-note').textContent)) === 'Every card has a button that reads it to you. ' && (await p.evaluate(() => document.querySelectorAll('#ease-card .say-btn').length)) === 0);
+    const said = () => p.evaluate(() => window.__spoken.slice());
+    // at a talking pace: the button becomes Stop, and Stop stops it
+    await p.click('#o-food summary'); await p.waitForTimeout(150);
+    const title = await p.evaluate(() => document.querySelector('#o-food summary h2').textContent.replace(/\s+/g, ' ').trim());
+    await p.evaluate(() => { window.__slow = true; window.__spoken.length = 0; });
+    await p.click('#o-food .say-btn');
+    check('the button turns into Stop while the card is read', (await txt(p, '#o-food .say-btn')) === 'Stop' && (await p.getAttribute('#o-food .say-btn', 'aria-pressed')) === 'true', await txt(p, '#o-food .say-btn'));
+    check('the reading starts with the card\'s title', await p.waitForFunction(t => window.__spoken[0] === t + '.', title, { timeout: 2000 }).then(() => true, () => false), JSON.stringify((await said()).slice(0, 2)));
+    await p.click('#o-food .say-btn');
+    const n1 = (await said()).length; await p.waitForTimeout(800);
+    check('Stop stops it, and the button offers to read again', (await said()).length === n1 && (await txt(p, '#o-food .say-btn')) === 'Read this card to me' && (await p.evaluate(() => window.__cancels)) >= 1, n1 + ' then ' + (await said()).length);
+    // folding the card, leaving the level, leaving the tab: each one quiets the voice, because its Stop button is gone from the screen
+    const stopsWhen = async (what, act) => {
+      await p.evaluate(() => { document.getElementById('o-food').open = true; }); await p.waitForTimeout(120);
+      await p.click('#o-food .say-btn'); await p.waitForTimeout(150);
+      const on = await p.getAttribute('#o-food .say-btn', 'aria-pressed'), c0 = await p.evaluate(() => window.__cancels);
+      await act(); await p.waitForTimeout(200);
+      const n = (await said()).length; await p.waitForTimeout(800);
+      check(`${what} stops the reading`, on === 'true' && (await p.evaluate(() => window.__cancels)) > c0 && (await said()).length === n && (await p.evaluate(() => document.querySelector('#o-food .say-btn').getAttribute('aria-pressed'))) === 'false', on + ' ' + n + ' then ' + (await said()).length);
+    };
+    await stopsWhen('folding the card', () => p.click('#o-food summary'));
+    await stopsWhen('picking another level', async () => { await p.evaluate(() => window.scrollTo(0, 0)); await pickLevel(p, 2); });
+    await p.evaluate(() => window.scrollTo(0, 0)); await pickLevel(p, 1); await p.waitForTimeout(700);
+    await stopsWhen('leaving the Training tab', () => tab(p, 'study'));
+    await tab(p, 'orient'); await p.evaluate(() => { window.__slow = false; });
+    // flat out: what a whole card says
+    const readCard = async id => {
+      await p.evaluate(i => { window.__fast = true; window.__spoken.length = 0; const d = document.getElementById(i); d.open = true; d.querySelector('.say-btn').click(); }, id);
+      const ok = await p.waitForFunction(i => document.querySelector('#' + i + ' .say-btn').getAttribute('aria-pressed') === 'false', id, { timeout: 20000 }).then(() => true, () => false);
+      const out = await said(); await p.evaluate(() => { window.__fast = false; });
+      return ok ? out : [];
+    };
+    await pickLevel(p, 'all');
+    const mid = await readCard('o-midday'), chick = await readCard('o-chick2'), steak = await readCard('o-steak'), slash = await readCard('o-slash');
+    check('a two-column table is read a row at a time, with degrees and parts per million said as words', mid.includes('Walk-in cooler: 36 to 41 degrees.') && mid.some(x => /200 to 500 parts per million/.test(x)) && !/°|ppm/.test(mid.join(' ')), mid.slice(6, 12).join(' | '));
+    check('a wider table names its columns', chick.join(' ').includes('Cheese slices. Regular: 3. Giant: 6.'), chick.join(' ').slice(0, 300));
+    check('how-to steps are read by number, and an amount like 1.25 ounces is said in one piece', steak.includes('Step 3.') && steak.some(x => /spread out 1\.25 ounces of onions/.test(x)) && steak.some(x => /^Spread 0\.75 ounces of peppers/.test(x)), steak.slice(12, 20).join(' | '));
+    check('the practice math stays out of the reading, and the card\'s own numbers stay in', slash.includes('1.5 minus 0.25 left means 1.25 cases used.') && !/Try it|Back to the example|On hand now/.test(slash.join(' ')), slash.join(' | ').slice(-300));
+    const which = QUICK ? ['o-wrap', 'o-words'] : (name === 'chromium' ? cards.map(c => c.id) : ['o-wrap', 'o-words', 'o-where', 'o-trainer', 'o-cksprk', 'o-dayclock']);
+    const slips = [];
+    for (const id of which) {
+      const out = await readCard(id);
+      if (!out.length) { slips.push(id + ': nothing was read'); continue; }
+      const head = (await p.evaluate(i => document.querySelector('#' + i + ' summary h2').textContent.replace(/\s+/g, ' ').trim(), id)).replace(/#(\d)/g, 'number $1');
+      if (out[0].replace(/[.?!]$/, '') !== head.replace(/[.?!]$/, '')) slips.push(id + ': starts with "' + out[0] + '"');
+      const text = out.join(' '), seen = new Set();
+      const odd = text.match(/undefined|NaN|\bnull\b|[<>°½¼¾#]|\.\.|\s[.,]|::|[.?!]["”]\.|Quiz me on this|Read this card|\d+ of \d+ ticked|Walk me through|\ban number\b/);
+      if (odd) slips.push(id + ': says "' + odd[0] + '"');
+      out.forEach(x => { if (x.length >= 28 && seen.has(x) && x !== 'Grill: chicken, then cheese.') slips.push(id + ': says twice "' + x.slice(0, 50) + '"'); seen.add(x); });
+    }
+    check(`${which.length} cards read through: each starts with its title, says nothing twice, and reads out no button or stray sign`, slips.length === 0, slips.slice(0, 6).join(' | '));
+    // the grill walkthrough reads its amounts in one piece too
+    await pickLevel(p, 'all'); await p.evaluate(() => { document.getElementById('o-steak').open = true; }); await p.waitForTimeout(100);
+    await p.click('#o-steak [data-walk="steak"]'); await p.waitForTimeout(450);
+    await clickBtn(p, 'Next', '#sheet'); await clickBtn(p, 'Next', '#sheet');
+    await p.evaluate(() => { window.__spoken.length = 0; }); await p.click('#sheet .walk .say-btn');
+    check('the walkthrough says "1.25 ounces" in one piece', await p.waitForFunction(() => window.__spoken.some(x => /1\.25 ounces of onions/.test(x)), null, { timeout: 3000 }).then(() => true, () => false), JSON.stringify(await said()));
+    await p.keyboard.press('Escape');
+    check('no script errors', p.__errs.length === 0, p.__errs.join(' | '));
+    await p.__close();
+  }
+
+  // ---------- 6g. the level reaches the Drill tab: the training bar, the quiz list, the daily session ----------
+  S('level and session');
+  {
+    const p = await open(browser, { hash: '#orient' });
+    const ready = async () => { await tab(p, 'drill'); return (await txt(p, '#ready-orient-label')) + ' | ' + (await txt(p, '#ready-orient')) + ' | ' + (await txt(p, '#ready-board')); };
+    let r = await ready();
+    check('the training bar starts on the crew level', r === `Training facts, crew level | 0 of ${factsAt(1)} locked in | 0 of 47 locked in`, r);
+    const ql = await p.evaluate(() => [...document.querySelectorAll('#quiz-list > *')].map(e => e.classList.contains('qz-h') ? '## ' + e.textContent : e.querySelector('[data-bank]').getAttribute('data-bank')).join());
+    const wantQl = Object.keys(DATA.BANKS).filter(b => !lvOfBank(b)).concat(...DATA.LEVELS.map(L => ['## Level ' + L.n + ': ' + L.title].concat(Object.keys(DATA.BANKS).filter(b => lvOfBank(b) === L.n)))).join();
+    check('the quiz list is grouped by level, with every quiz in it', ql === wantQl && ql.split(',').filter(x => !x.startsWith('##')).length === Object.keys(DATA.BANKS).length, ql);
+    await tab(p, 'orient'); await pickLevel(p, 3);
+    r = await ready();
+    check('pick Manager and the bar counts the manager facts, while the board bar stays as it was', r === `Training facts, manager level | 0 of ${factsAt(3)} locked in | 0 of 47 locked in`, r);
+    await tab(p, 'orient'); await pickLevel(p, 'all');
+    r = await ready();
+    check('with every level showing, the bar counts them all', r === `Training facts, every level | 0 of ${factsAt(0)} locked in | 0 of 47 locked in` && factsAt(0) === factsAt(1) + factsAt(2) + factsAt(3), r);
+    await tab(p, 'orient'); await p.evaluate(() => window.scrollTo(0, 0)); await pickLevel(p, 3);
+    // a session at manager level: the menu still comes, and the new facts beside it are manager facts
+    await tab(p, 'drill'); await p.click('#today-btn');
+    check('a first session at manager level is still ten cards', (await txt(p, '#q-area .prog .mono')) === '1 of 10', await txt(p, '#q-area .prog .mono'));
+    const factLv = [];
+    for (let i = 0; i < 40; i++) {
+      const k = await cardKind(p);
+      if (k === 'summary') break;
+      if (k === 'teach' && await vis(p, '#q-area .fact')) {
+        await clickBtn(p, 'Got it, ask me');
+        const q = ALLQ[await txt(p, '#q-area .q-text')];
+        factLv.push(q ? lvOfBank(bankOfQ(q)) : -1);
+      }
+      await answer(p, true);
+    }
+    check('its five new facts are manager facts', factLv.join() === '3,3,3,3,3', factLv.join());
+    // what you have met comes back whatever level is showing
+    await p.evaluate(() => { const sc = JSON.parse(localStorage.getItem('jm-sched-v1')); Object.keys(sc).forEach(k => { sc[k].due = Date.now() - 1000; }); localStorage.setItem('jm-sched-v1', JSON.stringify(sc)); });
+    await p.reload(); await p.waitForTimeout(250);
+    await tab(p, 'orient'); await p.evaluate(() => window.scrollTo(0, 0)); await pickLevel(p, 1); await tab(p, 'study');
+    check('back on the crew level, the manager facts you met are still due for review', (await txt(p, '#st-title')) === '10 to review today', await txt(p, '#st-title'));
+    await p.click('#study-today [data-today]');
+    let back = 0, fresh = [];
+    for (let i = 0; i < 60; i++) {
+      const k = await cardKind(p);
+      if (k === 'summary') break;
+      if (k === 'teach' && await vis(p, '#q-area .fact')) { await clickBtn(p, 'Got it, ask me'); const q = ALLQ[await txt(p, '#q-area .q-text')]; fresh.push(q ? lvOfBank(bankOfQ(q)) : -1); }
+      else if (k === 'bank') { const q = ALLQ[await txt(p, '#q-area .q-text')]; if (q && lvOfBank(bankOfQ(q)) === 3) back++; }
+      await answer(p, true);
+    }
+    check('and the next session brings all five back, with new facts that are not manager facts beside them', back === 5 && fresh.length >= 1 && fresh.every(l => l === 0 || l === 1), back + ' back, new at levels ' + fresh.join());
+    check('no script errors', p.__errs.length === 0, p.__errs.join(' | '));
+    await p.__close();
+  }
+
   S('today');
   {
     const p = await open(browser);
@@ -774,7 +1148,7 @@ async function engineSuite(name) {
     await p.keyboard.press('Escape');
     const bad = await p.evaluate(TAP_AUDIT); check('orientation tap targets are 44px', bad.length === 0, bad.slice(0, 6).join(' | '));
     // motion switch
-    await p.click('#motion-toggle');
+    await p.click('#ease-card summary'); await p.click('#motion-toggle');
     check('motion switch stops the pictures', await p.evaluate(() => document.body.classList.contains('nomotion')) && (await p.evaluate(() => { const s = document.querySelector('#o-wrap ol.howto li:nth-child(4) svg'); s.classList.add('play'); return s.getAnimations ? s.getAnimations({ subtree: true }).length : 0; })) === 0);
     await p.reload(); await p.waitForTimeout(200);
     check('motion choice is remembered', await p.evaluate(() => document.body.classList.contains('nomotion') && !document.getElementById('motion-toggle').checked));
@@ -815,6 +1189,7 @@ async function engineSuite(name) {
     await clickBtn(p, 'Close', '#sheet');
     await tab(p, 'orient'); await p.click('#o-cut summary'); await p.click('#o-cut [data-walk="cut"]');
     check('walkthrough still works without a voice', await clickBtn(p, 'Next', '#sheet') && (await p.evaluate(() => document.querySelectorAll('#sheet #walk-hands').length)) === 0);
+    check('no card offers to read itself where there is no voice, and the settings card does not promise it', (await p.evaluate(() => document.querySelectorAll('#view-orient .say-btn').length)) === 0 && (await p.evaluate(() => document.getElementById('listen-note').textContent)) === '');
     check('no script errors', p.__errs.length === 0, p.__errs.join(' | '));
     await p.__close();
   }
@@ -854,7 +1229,13 @@ async function engineSuite(name) {
     check('preview without script shows every sub with its picture', st.rows === 19 && st.pics === 19, JSON.stringify(st));
     check('preview shows the line and orientation, and hides what needs script', st.line && st.orient && !st.drill && !st.tabs && !st.today, JSON.stringify(st));
     check('preview keeps the how-to pictures', st.howto === 24, st.howto);
-    check('preview keeps every training module and its diagrams, and hides the games', st.mods === DATA.MODS.length && st.tpics === 37 && st.games === 0, JSON.stringify(st));
+    check('preview keeps every training module and its diagrams, and hides the games', st.mods === DATA.MODS.length && st.tpics === PIC_USES && st.games === 0, JSON.stringify(st) + ' want ' + PIC_USES);
+    await p.evaluate(() => document.querySelectorAll('#view-orient details').forEach(d => { d.open = true; }));
+    const lv = await p.evaluate(() => { const on = e => !!e && e.getClientRects().length > 0, v = document.getElementById('view-orient'); return {
+      heads: [...v.querySelectorAll('.level-head')].filter(on).length, shown: [...v.querySelectorAll(':scope > details.mod')].filter(on).length, path: on(document.getElementById('path')), ease: on(document.getElementById('ease-card')),
+      title: on(document.querySelector('#path-card h2')), words: on(document.getElementById('o-words')), ticks: [...document.querySelectorAll('ul.ticks')].filter(u => on(u) && !u.querySelector('[role]')).length, over: document.documentElement.scrollWidth - document.documentElement.clientWidth, calcs: [...document.querySelectorAll('.calc')].filter(on).length, now: on(document.getElementById('day-now')) }; });
+    check('preview shows all three levels one after the other, with the check lists as plain lists', lv.heads === 3 && lv.shown === DATA.MODS.length && lv.title && lv.words && lv.ticks >= 9 && lv.over <= 0, JSON.stringify(lv));
+    check('preview hides what cannot work without script: the level buttons, the switches, the practice math, the clock box', !lv.path && !lv.ease && lv.calcs === 0 && !lv.now, JSON.stringify(lv));
     check('preview has no sideways scroll', st.over <= 0, st.over);
     await p.__close();
   }
@@ -866,15 +1247,18 @@ async function engineSuite(name) {
       const p = await open(browser, { scheme });
       for (const t of ['study', 'line', 'drill', 'orient']) {
         await tab(p, t);
-        if (t === 'orient') await p.evaluate(() => document.querySelectorAll('#view-orient details').forEach(d => { d.open = true; }));
+        if (t === 'orient') { await showAllTraining(p); await p.evaluate(() => { document.querySelector('ul.ticks.live li').click(); }); }
         if (t === 'drill') { await p.click('#deck-seg button[data-deck="italian"]'); await p.click('#mode-seg [data-mode="num"]'); await answer(p, false); await p.click('#mode-seg [data-mode="build"]'); await tapChip(p, 'Onions'); await clickBtn(p, 'Check'); }
         await p.waitForTimeout(900);   // let the fade-in and button transitions finish, or the colors read mid-blend
         const bad = await p.evaluate(CONTRAST_AUDIT);
         check(`${t} text contrast`, bad.length === 0, bad.length + ' low: ' + bad.slice(0, 5).join(' | '));
       }
+      await pickLevel(p, 'all'); await p.click('#path-all'); await p.evaluate(() => window.scrollTo(0, 0));
+      await p.waitForTimeout(900);
+      let bad = await p.evaluate(CONTRAST_AUDIT); check('training contrast with one level picked', bad.length === 0, bad.length + ' low: ' + bad.slice(0, 5).join(' | '));
       await tab(p, 'study'); await p.click('#glance [data-sub="8"]');
       await p.waitForTimeout(900);
-      let bad = await p.evaluate(CONTRAST_AUDIT); check('sub sheet contrast', bad.length === 0, bad.slice(0, 5).join(' | '));
+      bad = await p.evaluate(CONTRAST_AUDIT); check('sub sheet contrast', bad.length === 0, bad.slice(0, 5).join(' | '));
       await clickBtn(p, 'Close', '#sheet');
       await tab(p, 'drill'); await p.click('#mode-seg [data-mode="order"]');
       await p.waitForTimeout(900);
@@ -919,6 +1303,11 @@ function staticChecks() {
   check('every training question belongs to exactly one module', stray.length === 0, stray.join(','));
   check('every module draws from its own station\'s bank', DATA.MODS.every(m => m.q.length > 0 && m.q.every(id => bankOf[id] === m.bank) && (!m.seq || !!DATA.SEQS[m.seq])));
   check('every station has a bank and every bank but sprinkling has a station', DATA.GROUPS.every(g => !!DATA.BANKS[g.bank]) && Object.keys(DATA.BANKS).filter(b => b !== 'amounts').every(b => DATA.GROUPS.some(g => g.bank === b)));
+  check('every station sits in a level, and the levels run crew, shift lead, manager', DATA.LEVELS.map(L => L.n).join() === '1,2,3' && DATA.GROUPS.every(g => [1, 2, 3].includes(g.level)) && DATA.GROUPS.map(g => g.level).join('') === DATA.GROUPS.map(g => g.level).sort().join(''), DATA.GROUPS.map(g => g.id + g.level).join(' '));
+  check('every level has cards, and every put-in-order game belongs to a card', [1, 2, 3].every(n => modsAt(n).length > 0) && Object.keys(DATA.SEQS).every(k => DATA.SEQS[k].board || seqLevel(k) > 0));
+  check('every quiz has a name for the quiz list', Object.keys(DATA.BANKS).every(b => typeof DATA.BANK_LABEL[b] === 'string' && DATA.BANK_LABEL[b].length > 2));
+  const unused = PIC_FILES.filter(n => !SRC_HTML.includes('<!--#include ' + n + '-->'));
+  check('every diagram the tools drew is on the page', PIC_FILES.length >= 85 && unused.length === 0, unused.join(' '));
   check('no put-in-order game repeats a step', Object.keys(DATA.SEQS).every(k => new Set(DATA.SEQS[k].steps).size === DATA.SEQS[k].steps.length && DATA.SEQS[k].recap));
   // a hot sub's amounts: the giant is double the regular wherever both are numbers
   const dbl = Object.keys(DATA.HOT_AMT.regular).filter(k => { const r = DATA.HOT_AMT.regular[k], g = DATA.HOT_AMT.giant[k], n = x => (x.match(/[\d.]+/g) || []).map(Number); if (/Tomatoes/.test(k)) return !(n(r)[0] === 3 && n(g)[0] === 5); return n(r).some((v, i) => Math.abs(n(g)[i] - 2 * v) > 1e-9); });

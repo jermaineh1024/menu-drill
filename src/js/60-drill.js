@@ -81,7 +81,7 @@ function runHeader(card, counted){
   ]));
 }
 function refreshProgress(){
-  renderWeak(); renderMastery(); renderReady(); renderToday(); renderMods(); renderQuizzes();
+  renderWeak(); renderMastery(); renderReady(); renderToday(); renderMods(); renderQuizzes(); renderPath();
 }
 function tally(id, ok){
   mark(id, ok);
@@ -976,6 +976,8 @@ function renderReady(){
   $("ready-once").style.width = r.board.oncePct + "%";
   $("ready-board").textContent = r.board.known + " of " + r.board.total + " locked in";
   $("ready-orient").textContent = r.orient.known + " of " + r.orient.total + " locked in";
+  var lab = $("ready-orient-label"), lv = levelNow();
+  if (lab) lab.textContent = lv ? "Training facts, " + LEVELS[lv - 1].title.toLowerCase() + " level" : "Training facts, every level";
   $("ready-orient-bar").style.width = r.orient.pct + "%";
   $("ready-orient-once").style.width = r.orient.oncePct + "%";
   var once = r.board.once + r.orient.once, parts = [];
@@ -1000,13 +1002,20 @@ function renderQuizzes(){
   var list = $("quiz-list");
   if (!list) return;
   clear(list);
-  Object.keys(BANKS).forEach(function(b){
-    var total = BANKS[b].length, known = BANKS[b].filter(function(q){ return locked("q:" + q.id); }).length;
-    list.appendChild(h("div", {class:"qz"}, [
-      h("div", {}, [h("b", {text:BANK_LABEL[b]}), h("span", {class:"qz-n", text:total + " questions, " + known + " locked in"})]),
-      h("button", {class:"btn small", "data-bank":b, text:"Start"}),
-      h("div", {class:"bar"}, h("i", {style:"width:" + Math.round(known / total * 100) + "%"}))
-    ]));
+  /* the menu's own quiz first, then each level's quizzes under its name */
+  var sets = [{title:"", banks:Object.keys(BANKS).filter(function(b){ return !bankLevel(b); })}];
+  LEVELS.forEach(function(L){ sets.push({title:"Level " + L.n + ": " + L.title, banks:Object.keys(BANKS).filter(function(b){ return bankLevel(b) === L.n; })}); });
+  sets.forEach(function(s){
+    if (!s.banks.length) return;
+    if (s.title) list.appendChild(h("h3", {class:"qz-h", text:s.title}));
+    s.banks.forEach(function(b){
+      var total = BANKS[b].length, known = BANKS[b].filter(function(q){ return locked("q:" + q.id); }).length;
+      list.appendChild(h("div", {class:"qz"}, [
+        h("div", {}, [h("b", {text:BANK_LABEL[b]}), h("span", {class:"qz-n", text:total + " questions, " + known + " locked in"})]),
+        h("button", {class:"btn small", "data-bank":b, text:"Start"}),
+        h("div", {class:"bar"}, h("i", {style:"width:" + Math.round(known / total * 100) + "%"}))
+      ]));
+    });
   });
 }
 function toQuestion(soft){

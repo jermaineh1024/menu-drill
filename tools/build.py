@@ -62,7 +62,7 @@ head = f"""<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<meta name="description" content="Unofficial study guide for the Jersey Mike's menu, build order, sprinkling amounts and orientation.">
+<meta name="description" content="Unofficial study guide for the Jersey Mike's menu, build order, sprinkling amounts and training.">
 <title>Menu Drill</title>
 <meta name="theme-color" content="#1F3A5F" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#16294A" media="(prefers-color-scheme: dark)">
@@ -86,7 +86,7 @@ html = html[:idx] + "\n</head>\n<body>\n" + html[idx:] + "\n" + sw_reg + "\n</bo
 manifest = {
     "name": "Menu Drill",
     "short_name": "Menu Drill",
-    "description": "Unofficial study guide for the Jersey Mike's menu and orientation.",
+    "description": "Unofficial study guide for the Jersey Mike's menu and training.",
     "start_url": "./",
     "scope": "./",
     "display": "standalone",

@@ -191,17 +191,28 @@ function universe(){
   Object.keys(BANKS).forEach(function(b){ BANKS[b].forEach(function(q){ u.push({kind:"q", bank:b, id:q.id, key:"q:" + q.id, board:b === "amounts"}); }); });
   return u;
 }
+/* Levels. Every training question and order game belongs to the level of its station; the board and the sprinkling amounts
+   belong to none, so they count at every level. The level picked on the Training tab decides which new facts a daily
+   session brings in and what the readiness bar counts. Anything already met still comes back for review, whatever its level. */
+function bankLevel(b){ for (var i = 0; i < GROUPS.length; i++){ if (GROUPS[i].bank === b) return GROUPS[i].level || 1; } return 0; }
+function itemLevel(it){
+  if (it.kind === "q") return bankLevel(it.bank);
+  if (it.kind === "seq"){ for (var i = 0; i < MODS.length; i++){ if (MODS[i].seq === it.id) return bankLevel(MODS[i].bank); } }
+  return 0;
+}
+function levelNow(){ return (typeof curLevel === "string" && /^[123]$/.test(curLevel)) ? +curLevel : 0; }   /* 0: every level */
+function inLevel(it){ var lv = levelNow(), il = itemLevel(it); return !lv || !il || il === lv; }
 /* known: locked in. once: right the last time, not yet on a second day. due: met before and ready to come back. fresh: never met. */
 function readiness(){
   var u = universe(), now = Date.now();
   var r = {board:{known:0,once:0,total:0}, orient:{known:0,once:0,total:0}, due:0, fresh:0, seen:0};
   u.forEach(function(it){
     var e = sched[it.key], g = it.board ? r.board : r.orient;
+    if (e){ r.seen++; if (e.due <= now) r.due++; }
+    if (!inLevel(it)) return;   /* another level's facts are counted when that level is the one on screen */
     g.total++;
     if (!e){ r.fresh++; return; }
-    r.seen++;
     if (e.iv >= 2) g.known++; else if (e.iv >= 1) g.once++;
-    if (e.due <= now) r.due++;
   });
   [r.board, r.orient].forEach(function(g){ g.pct = Math.round(g.known / g.total * 100); g.oncePct = Math.round((g.known + g.once) / g.total * 100); });
   return r;
@@ -231,15 +242,18 @@ function todayQueue(){
   due.sort(function(a, b){ return sched[a.key].due - sched[b.key].due; });
   var picks = shuffle(due.slice(0, 10));
   var newBoard = teachOrder().filter(function(k){ return byKey[k] && !sched[k]; }).map(function(k){ return byKey[k]; });
-  var newFacts = u.filter(function(it){ return !sched[it.key] && it.kind === "q"; });   /* sprinkling amounts, then the videos in order */
-  u.forEach(function(it){ if (it.kind === "seq" && !it.board && !sched[it.key]) newFacts.push(it); });   /* the put-in-order games come after the facts they rest on */
+  var newFacts = u.filter(function(it){ return !sched[it.key] && it.kind === "q" && inLevel(it); });   /* sprinkling amounts, then this level's cards in order */
+  u.forEach(function(it){ if (it.kind === "seq" && !it.board && !sched[it.key] && inLevel(it)) newFacts.push(it); });   /* the put-in-order games come after the facts they rest on */
+  if (levelNow() > 1){   /* at shift lead and manager level, that level's own facts and games come first; the sprinkling amounts wait behind them */
+    newFacts = newFacts.filter(function(it){ return itemLevel(it) > 0; }).concat(newFacts.filter(function(it){ return itemLevel(it) === 0; }));
+  }
   var a = newBoard.slice(0, 5), f = newFacts.slice(0, 5);
   while ((a.length || f.length) && picks.length < 16){
     if (a.length) picks.push(a.shift());
     if (f.length && picks.length < 16) picks.push(f.shift());
   }
   if (picks.length < 10){   /* nothing left to meet and little due: round the session out with practice */
-    var rest = shuffle(u.filter(function(it){ return picks.indexOf(it) < 0; })).slice(0, 10 - picks.length);
+    var rest = shuffle(u.filter(function(it){ return picks.indexOf(it) < 0 && (!!sched[it.key] || inLevel(it)); })).slice(0, 10 - picks.length);
     picks = picks.concat(rest);
   }
   return picks.map(function(it){ return it.kind === "sub" ? {kind:"sub", id:it.id, mode:modeFor(it.key)} : it; });

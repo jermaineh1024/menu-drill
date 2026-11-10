@@ -58,7 +58,7 @@
       </li>
       <li>
         <span class="iv"><svg viewBox="0 0 56 44" aria-hidden="true"><path d="M8 30 Q8 10 28 10 Q48 10 48 30" fill="none" class="ear-arc" stroke-width="4" stroke-linecap="round"/><rect x="3" y="26" width="11" height="15" rx="4" class="ear-pad"/><rect x="42" y="26" width="11" height="15" rx="4" class="ear-pad"/></svg></span>
-        <p><b>Your job is to hear a number and know what goes on it, in what order.</b> That comes first, and it's what Study and Drill train. The Training tab then goes station by station: register, prep, bread, the grill, the slicer.</p>
+        <p><b>Your job is to hear a number and know what goes on it, in what order.</b> That comes first, and it's what Study and Drill train. The Training tab then goes level by level: every station first, then running a shift, then running the store.</p>
       </li>
     </ul>
   </details>
@@ -260,7 +260,7 @@
     <div class="bar ready-bar"><b id="ready-once"></b><i id="ready-bar"></i></div>
     <div class="ready-two">
       <div><div class="lbl"><span>Subs and sprinkling</span><b id="ready-board"></b></div></div>
-      <div><div class="lbl"><span>Training facts</span><b id="ready-orient"></b></div><div class="bar"><b id="ready-orient-once"></b><i id="ready-orient-bar"></i></div></div>
+      <div><div class="lbl"><span id="ready-orient-label">Training facts</span><b id="ready-orient"></b></div><div class="bar"><b id="ready-orient-once"></b><i id="ready-orient-bar"></i></div></div>
     </div>
     <p class="fine" id="ready-line"></p>
     <div class="row"><button type="button" class="btn light" id="today-btn">Start today's session</button></div>
@@ -295,15 +295,21 @@
 </section>
 
 <section id="view-orient" class="view" role="tabpanel" aria-labelledby="tab-orient" hidden>
-  <div class="card">
-    <h2>Training, station by station</h2>
-    <p>The facts from the orientation and training videos that the quizzes ask about, grouped by where you'll use them. Open a module, read it, then quiz it. A module counts as locked in once you've had every question in it right on two different days.</p>
-    <div class="row needs-js">
-      <label class="switch inline"><input type="checkbox" id="motion-toggle" checked> Moving pictures and background motion</label>
-    </div>
+  <div class="card path-card" id="path-card">
+    <h2>Training: crew to manager</h2>
+    <p>Three levels. Each one is a job you can do without help. Open a card, read it, then quiz it. A card is locked in once you've had every question in it right on two different days.</p>
+    <div class="path needs-js" id="path" role="group" aria-label="Pick a level"></div>
+    <p class="path-now needs-js" id="path-now" aria-live="polite"></p>
+    <div class="row needs-js"><button type="button" class="btn light small" id="path-all" aria-pressed="false">Show every level</button></div>
   </div>
+  <details class="card ease-card needs-js" id="ease-card">
+    <summary><h2>Set it up your way</h2><span class="fold-x" aria-hidden="true"></span></summary>
+    <label class="switch"><input type="checkbox" id="focus-toggle" checked> One card open at a time</label>
+    <label class="switch"><input type="checkbox" id="motion-toggle" checked> Moving pictures and background motion</label>
+    <p class="fine mt-s"><span id="listen-note"></span>Your progress and your ticks are saved on this device only. Nothing is sent anywhere.</p>
+  </details>
 
-  <nav class="jump" aria-label="Jump to a station">
+  <nav class="jump" aria-label="Jump to a part of this level">
     <a href="#orient" data-jump="g-orient">Orientation</a>
     <a href="#orient" data-jump="g-kitchen">Food safety</a>
     <a href="#orient" data-jump="g-wrapper">Wrapper and register</a>
@@ -311,7 +317,19 @@
     <a href="#orient" data-jump="g-bread">Bread</a>
     <a href="#orient" data-jump="g-grill">The grill</a>
     <a href="#orient" data-jump="g-slicer">The slicer</a>
+    <a href="#orient" data-jump="g-team">Guests and the line</a>
+    <a href="#orient" data-jump="g-check">Pass the check</a>
+    <a href="#orient" data-jump="g-lead">Lead the shift</a>
+    <a href="#orient" data-jump="g-open">Opening</a>
+    <a href="#orient" data-jump="g-close">Closing</a>
+    <a href="#orient" data-jump="g-order">Ordering</a>
+    <a href="#orient" data-jump="g-count">Inventory</a>
+    <a href="#orient" data-jump="g-cost">Food cost</a>
+    <a href="#orient" data-jump="g-sched">Scheduling</a>
+    <a href="#orient" data-jump="g-market">Marketing</a>
+    <a href="#orient" data-jump="g-profit">Profit</a>
   </nav>
+  <div class="level-head" id="lv-1" data-level-head="1"><span class="lv-n" aria-hidden="true">1</span><h2>Crew</h2><p>Work every station.</p></div>
 
   <h2 class="section-title grp" id="g-orient">Orientation <span class="sub-title">Who they are, how you look, how the store makes money.</span></h2>
   <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="orient" data-label="Quiz all of Orientation">Quiz all of Orientation</button></div>
@@ -607,6 +625,7 @@
   <h2 class="section-title grp" id="g-bread">Bread <span class="sub-title">Pan it tonight, proof and bake it in the morning.</span></h2>
   <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="bread" data-label="Quiz all of bread">Quiz all of bread</button></div>
 <!--#include train-bread-->
+<!--#include train-bread2-->
 
   <h2 class="section-title grp" id="g-grill">The grill <span class="sub-title">Hot subs, start to finish, plus bacon and steaks.</span></h2>
   <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="grill" data-label="Quiz all of the grill">Quiz all of the grill</button></div>
@@ -615,6 +634,42 @@
   <h2 class="section-title grp" id="g-slicer">The slicer <span class="sub-title">Cutting bread, slicing in order, and keeping the machine clean.</span></h2>
   <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="slicer" data-label="Quiz all of the slicer">Quiz all of the slicer</button></div>
 <!--#include train-slicer-->
+  <h2 class="section-title grp" id="g-team">Guests and the line <span class="sub-title">Greeting, the slicer as quarterback, sprinkling three at once, the wrapper's other jobs.</span></h2>
+  <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="team" data-label="Quiz all of guests and the line">Quiz all of guests and the line</button></div>
+<!--#include train-team-->
+  <h2 class="section-title grp" id="g-check">Pass the check <span class="sub-title">What a trainer watches for at each station, as lists you can tick.</span></h2>
+  <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="check" data-label="Quiz all of the checks">Quiz all of the checks</button></div>
+<!--#include train-check-->
+  <div class="level-head" id="lv-2" data-level-head="2"><span class="lv-n" aria-hidden="true">2</span><h2>Shift lead</h2><p>Run a shift.</p></div>
+  <h2 class="section-title grp" id="g-lead">Lead the shift <span class="sub-title">The day by the clock, the mid-day checklist, training someone new.</span></h2>
+  <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="lead" data-label="Quiz all of leading the shift">Quiz all of leading the shift</button></div>
+<!--#include train-lead-->
+  <h2 class="section-title grp" id="g-open">Opening <span class="sub-title">Two hours, in order, with the prep clock and the sharpener.</span></h2>
+  <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="open" data-label="Quiz all of opening">Quiz all of opening</button></div>
+<!--#include train-open-->
+  <h2 class="section-title grp" id="g-close">Closing <span class="sub-title">Start early, reset for tomorrow, lead the team.</span></h2>
+  <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="close" data-label="Quiz all of closing">Quiz all of closing</button></div>
+<!--#include train-close-->
+  <div class="level-head" id="lv-3" data-level-head="3"><span class="lv-n" aria-hidden="true">3</span><h2>Manager</h2><p>Run the store.</p></div>
+<!--#include train-words-->
+  <h2 class="section-title grp" id="g-order">Ordering <span class="sub-title">CrunchTime, the order guide, the slash box.</span></h2>
+  <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="order" data-label="Quiz all of ordering">Quiz all of ordering</button></div>
+<!--#include train-order-->
+  <h2 class="section-title grp" id="g-count">Inventory <span class="sub-title">The weekly count and the math behind it.</span></h2>
+  <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="count" data-label="Quiz all of inventory">Quiz all of inventory</button></div>
+<!--#include train-count-->
+  <h2 class="section-title grp" id="g-cost">Food cost <span class="sub-title">The goal, the variances, and where to look.</span></h2>
+  <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="cost" data-label="Quiz all of food cost">Quiz all of food cost</button></div>
+<!--#include train-cost-->
+  <h2 class="section-title grp" id="g-sched">Scheduling and labor <span class="sub-title">Forecast, coverage, labor percent.</span></h2>
+  <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="sched" data-label="Quiz all of scheduling and labor">Quiz all of scheduling and labor</button></div>
+<!--#include train-sched-->
+  <h2 class="section-title grp" id="g-market">Guests and marketing <span class="sub-title">Four walls, rewards, grassroots.</span></h2>
+  <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="market" data-label="Quiz all of guests and marketing">Quiz all of guests and marketing</button></div>
+<!--#include train-market-->
+  <h2 class="section-title grp" id="g-profit">Profit and the P&amp;L <span class="sub-title">The four keys, bread math, the monthly report.</span></h2>
+  <div class="row grp-row needs-js"><button type="button" class="btn ghost" data-bank="profit" data-label="Quiz all of profit and the P&amp;L">Quiz all of profit and the P&amp;L</button></div>
+<!--#include train-profit-->
 </section>
 
 </main>

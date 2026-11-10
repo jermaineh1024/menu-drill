@@ -17,6 +17,7 @@ function showView(v){
     b.setAttribute("tabindex", on ? "0" : "-1");
   });
   shownView = v;
+  hushIfHidden();   /* a card being read out loud stops when you leave its tab */
 }
 function currentHashView(){ return (location.hash || "#study").slice(1); }
 function go(v){
@@ -224,6 +225,7 @@ document.addEventListener("click", function(e){
     e.preventDefault();
     var el = $(j.getAttribute("data-jump"));
     if (el){
+      revealFor(el);   /* the target may sit in a level that isn't on screen */
       if (el.tagName === "DETAILS") el.open = true;
       try { el.scrollIntoView({behavior:reducedMotion ? "auto" : "smooth", block:"start"}); } catch(err){ el.scrollIntoView(); }
     }
