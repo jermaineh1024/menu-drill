@@ -1,4 +1,5 @@
-/* ---------- the board (matched to the store's menu board, Nov 2, 2026) ---------- */
+/* ---------- the board (matched to the store's menu board, Nov 2, 2026). The order of each sub's cheese and meats is the
+   order the Slicing Reference Sheet lists them (Nov 12, 2026): that is the order they are sliced. ---------- */
 var MW = ['Onions','Lettuce','Tomatoes','Red wine vinegar','Olive oil blend','Oregano','Salt'];
 
 var SUBS = [
@@ -16,9 +17,9 @@ var SUBS = [
    delta:"Roast beef cooked in the store. The only sub that gets two rows of salt."},
   {id:7, n:7, name:"Turkey and Provolone", type:"cold", cheese:["Provolone"], meats:["Turkey"], fixed:[], mw:true, fam:"classic",
    delta:"One of the most popular, with the #13."},
-  {id:8, n:8, name:"Club Sub", type:"cold", cheese:["Provolone"], meats:["Turkey","Ham"], fixed:[], lid:["Mayo","Bacon"], mw:true, fam:"club",
-   delta:"Turkey and ham, with mayo and bacon on the lid automatically."},
-  {id:9, n:9, name:"Club Supreme", type:"cold", cheese:["Swiss"], meats:["Roast beef","Turkey"], fixed:[], lid:["Mayo","Bacon"], mw:true, fam:"club",
+  {id:8, n:8, name:"Club Sub", type:"cold", cheese:["Provolone"], meats:["Ham","Turkey"], fixed:[], lid:["Mayo","Bacon"], mw:true, fam:"club",
+   delta:"Ham and turkey, with mayo and bacon on the lid automatically."},
+  {id:9, n:9, name:"Club Supreme", type:"cold", cheese:["Swiss"], meats:["Turkey","Roast beef"], fixed:[], lid:["Mayo","Bacon"], mw:true, fam:"club",
    delta:"The Club Sub (the #8) with roast beef instead of ham and Swiss instead of provolone. Mayo and bacon on the lid."},
   {id:10, n:10, name:"Tuna Fish", type:"cold", cheese:[], meats:["Tuna salad"], fixed:[], mw:true, fam:"classic",
    delta:"Tuna salad made in the store. No cheese. Mike's Way."},
@@ -28,7 +29,7 @@ var SUBS = [
    delta:"Roast Beef and Provolone (the #6) plus pepperoni."},
   {id:13, n:13, name:"The Original Italian", type:"cold", cheese:["Provolone"], meats:["Ham","Prosciuttini","Cappacuolo","Salami","Pepperoni"], fixed:[], mw:true, fam:"italian",
    delta:"The Super Sub (the #5) plus salami and pepperoni. Five meats. When a guest says \"the Italian,\" this is it."},
-  {id:14, n:14, name:"The Veggie", type:"cold", cheese:["Swiss","Provolone"], meats:[], fixed:["Green bell peppers"], mw:true, fam:"classic",
+  {id:14, n:14, name:"The Veggie", type:"cold", cheese:["Provolone","Swiss"], meats:[], fixed:["Green bell peppers"], mw:true, fam:"classic",
    delta:"Two cheeses and green peppers, no meat. Mike's Way is what puts the onions, lettuce and tomatoes on it."},
 
   /* Hot subs, the way the grill video builds them. lid: goes on the inside of the lid BEFORE the meat hits the grill, in this order.

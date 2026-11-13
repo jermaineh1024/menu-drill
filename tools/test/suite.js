@@ -23,7 +23,7 @@ const HAS_KEY = new Set(AUDIO_KEYS);
 // (every file named 1x-*.js is data: the board, the stations, then the crew, shift lead and manager courses, in page order)
 const DATA_FILES = fs.readdirSync(path.resolve(ROOT, 'src/js')).filter(f => /^1\d[a-z]?-[\w-]+\.js$/.test(f)).sort();
 const DATA = new Function(DATA_FILES.map(f => fs.readFileSync(path.resolve(ROOT, 'src/js', f), 'utf8')).join('\n') +
-  '; return {SUBS, MW, TOP_EXTRAS, LID_ORDER, numbered, BANKS, MODS, SEQS, DECKS, MODES, hotOrder, HOT_AMT, GROUPS, HOWTO_NAME, LEVELS, BANK_LABEL, SHIFTS};')();
+  '; return {SUBS, MW, TOP_EXTRAS, LID_ORDER, numbered, BANKS, MODS, SEQS, DECKS, MODES, hotOrder, HOT_AMT, GROUPS, HOWTO_NAME, LEVELS, BANK_LABEL, SHIFTS, WEIGHTS, WT_TOP, WT_SIZES};')();
 const subByN = n => DATA.numbered.find(s => String(s.n) === String(n));
 const subByName = name => DATA.SUBS.find(s => s.name === name);
 const itemsOf = s => s.type === 'cold' ? s.cheese.concat(s.meats, s.fixed, s.mw ? DATA.MW : [], s.lid || []) : DATA.hotOrder(s);
@@ -545,8 +545,8 @@ async function engineSuite(name) {
     await clickBtn(p, 'Close');
     for (const [id, order, why] of [
       [14, ['Swiss', 'Provolone'].concat(DATA.MW, ['Green bell peppers']), /Green bell peppers goes on before Mike's Way/],
-      [13, ['Provolone', 'Pepperoni', 'Salami', 'Cappacuolo', 'Prosciuttini', 'Ham'].concat(DATA.MW), /order the board lists them/],
-      [14, ['Provolone', 'Swiss', 'Green bell peppers'].concat(DATA.MW), /board lists the cheese as swiss, then provolone/]]) {
+      [13, ['Provolone', 'Pepperoni', 'Salami', 'Cappacuolo', 'Prosciuttini', 'Ham'].concat(DATA.MW), /order the slicing sheet lists them/],
+      [14, ['Swiss', 'Provolone', 'Green bell peppers'].concat(DATA.MW), /slicing sheet lists the cheese as provolone, then swiss/]]) {
       await tab(p, 'study'); await p.click(`#glance [data-sub="${id}"]`); await clickBtn(p, 'Build this one', '#sheet');
       await playGame(p, order, true);
       check(`#${id} built out of the picture's order is caught`, why.test(await txt(p, '#q-area .fb')) && (await txt(p, '#q-area .fb b')) === 'Not yet.', await txt(p, '#q-area .fb'));
@@ -1574,6 +1574,108 @@ async function engineSuite(name) {
       check('a situation is read in the recorded voice', (!!lg && lg.recorded === true && HAS_KEY.has(lg.key)) || (ALLOW_UNRECORDED && !!lg), JSON.stringify(lg).slice(0, 200));
       await r.__close();
     }
+  }
+
+  // ---------- 7e3. know your slicer: the photo, its numbered parts, the GSP H's sharpening steps ----------
+  S('know your slicer');
+  {
+    const p = await open(browser, { hash: '#orient' });
+    await p.evaluate(() => { const d = document.getElementById('o-knowslicer'); d.open = true; d.scrollIntoView({ block: 'start' }); }); await p.waitForTimeout(300);
+    const k = await p.evaluate(async () => {
+      const d = document.getElementById('o-knowslicer'), svg = d.querySelector('svg[role="img"]'), im = svg && svg.querySelector('image');
+      const href = im ? (im.getAttribute('href') || '') : '';
+      const nums = svg ? [...svg.querySelectorAll('text.num')].map(t => t.textContent) : [];
+      const discs = svg ? [...svg.querySelectorAll('circle.disc')].map(c => [+c.getAttribute('cx'), +c.getAttribute('cy'), +c.getAttribute('r')]) : [];
+      const items = [...d.querySelectorAll(':scope > ol.steps > li')].map(li => (li.querySelector('b') || {}).textContent || '');
+      let exif = null, w = 0;
+      if (href.startsWith('data:image/jpeg;base64,')) {
+        const bin = atob(href.slice(23)); exif = bin.indexOf('Exif') >= 0 || bin.indexOf('GPS') >= 0;
+        const img = new Image(); img.src = href; await img.decode().catch(() => {}); w = img.naturalWidth;
+      }
+      const vb = svg ? svg.viewBox.baseVal : null;
+      return { label: svg ? svg.getAttribute('aria-label') : '', jpeg: href.startsWith('data:image/jpeg;base64,'), exif, w, nums, discs, items,
+        vb: vb ? [vb.width, vb.height] : [0, 0], lv: d.getAttribute('data-lv'), shown: d.getClientRects().length > 0 };
+    });
+    const NAMES = ['Pusher deck.', 'Green handle,', 'Guard.', 'Red handle,', 'Spike plate,', 'Black knob on the side.', 'Dial.', 'Buttons.', 'Blade end.', 'The sticker:'];
+    check('Know your slicer is on the crew level, with its photo', k.shown && k.lv === '1' && /^Photo of the slicer, a Bizerba GSP H/.test(k.label) && k.jpeg && k.w === 680, JSON.stringify({ lv: k.lv, w: k.w, label: k.label.slice(0, 60) }));
+    check('the slicer photo carries no camera data (no EXIF, so no location)', k.exif === false, String(k.exif));
+    check('the photo has ten numbered parts, and the list names them in order', k.nums.join() === '1,2,3,4,5,6,7,8,9,10' && k.items.join('|') === NAMES.join('|'), k.nums.join() + ' / ' + k.items.join('|'));
+    const clash = []; k.discs.forEach((a, i) => k.discs.forEach((b, j) => { if (j > i && Math.hypot(a[0] - b[0], a[1] - b[1]) < a[2] + b[2] + 2) clash.push((i + 1) + '&' + (j + 1)); }));
+    const off = k.discs.filter(c => c[0] - c[2] < 0 || c[1] - c[2] < 0 || c[0] + c[2] > k.vb[0] || c[1] + c[2] > k.vb[1]).length;
+    check('the numbers sit inside the photo and none overlap', k.discs.length === 10 && clash.length === 0 && off === 0, clash.join() + ' off:' + off);
+    let ov = await overflow(p); check('Know your slicer has no sideways scroll', ov <= 0, ov);
+    const t = await p.evaluate(() => { const tb = document.querySelector('#o-knowslicer table'); return { rows: [...tb.querySelectorAll('tbody tr')].map(r => r.children[0].textContent + '=' + r.children[1].textContent), wide: tb.scrollWidth - tb.parentElement.clientWidth }; });
+    check('the table of Bizerba\'s names has its eight rows and fits the card', t.rows.length === 8 && t.rows[0] === 'Pusher deck=Carriage' && t.rows[2] === 'Spike plate=Remnant holder plate' && t.wide <= 0, JSON.stringify(t).slice(0, 200));
+    await p.evaluate(() => { window.__spoken.length = 0; window.__fast = true; });
+    await p.click('#o-knowslicer .say-btn'); await p.waitForTimeout(600);
+    const read = await p.evaluate(() => window.__spoken.join(' '));
+    check('the voice reads the parts and leaves the photo\'s description out', read.includes('Pusher deck. The ribbed tray') && read.includes('Green I switches the blade on') && !read.includes('Photo of the slicer'), read.slice(0, 200));
+    await p.evaluate(() => { window.__fast = false; });
+    const sh = await p.evaluate(() => ({ s: document.getElementById('o-sharpen').textContent.replace(/\s+/g, ' '), g: document.getElementById('o-guard').textContent.replace(/\s+/g, ' ') }));
+    check('the sharpening steps are the GSP H\'s: blade open all the way, sharpener on the adjustable deck, small knob tightened', sh.s.includes('Open the blade all the way.') && sh.s.includes('placed on the adjustable deck') && sh.s.includes('Tighten its small knob.') && sh.s.includes('Loosen the small knob, pull the pusher deck back and lift the sharpener out.') && sh.s.includes('Bizerba machine oil'), sh.s.slice(0, 160));
+    check('a slicer with its own sticker times sends you to your manager', sh.s.includes('such as 30 seconds and 3 seconds') && sh.s.includes("write it in Your store's way"));
+    check('the guard card names the red and green handles', sh.g.includes("Don't drive the slicer from the red or green handle"));
+    const bad = await p.evaluate(TAP_AUDIT); check('Know your slicer tap targets are 44px', bad.length === 0, bad.slice(0, 6).join(' | '));
+    check('no script errors', p.__errs.length === 0, p.__errs.join(' | '));
+    await p.__close();
+  }
+
+  // ---------- 7e2. slice weights: the slicing sheet's numbers, the look-up, the table on each cold sub ----------
+  S('slice weights');
+  {
+    const WTS = DATA.WEIGHTS, cell = v => v === null ? '' : (typeof v === 'number' ? v + ' oz' : v);
+    const nameOf = w => w.name || DATA.SUBS.find(s => s.n === w.n).name;
+    const offSum = WTS.filter(w => w.t).filter(w => [0, 1, 2].some(i => w.t[i] !== null && w.rows.some(r => typeof r[i + 1] === 'number') && Math.abs(w.rows.reduce((a, r) => a + (typeof r[i + 1] === 'number' ? r[i + 1] : 0), 0) - w.t[i]) > 0.0001)).map(w => w.n);
+    check('on every sub the cheese and meats add up to the sheet\'s total, in all three sizes', WTS.length === 15 && offSum.length === 0, offSum.join());
+    const offOrder = WTS.filter(w => !w.name).filter(w => { const s = DATA.SUBS.find(x => x.n === w.n), core = s.cheese.concat(s.meats); return w.rows.map(r => r[0]).filter(k => core.includes(k)).join() !== core.join(); }).map(w => w.n);
+    check('every cold sub lists its cheese and meats in the order the slicing sheet does', offOrder.length === 0, offOrder.join());
+    check('the top sellers are the six on the sign', DATA.WT_TOP.join() === '7,13,8,9,6,3' && DATA.WT_TOP.every(n => WTS.some(w => w.n === n)));
+    const p = await open(browser, { hash: '#orient' });
+    await p.evaluate(() => { const d = document.getElementById('o-weights'); d.open = true; d.scrollIntoView({ block: 'start' }); }); await p.waitForTimeout(300);
+    const chips = await p.evaluate(() => [...document.querySelectorAll('#wt-pick .wt-chip')].map(b => ({ n: +b.getAttribute('data-wt'), t: b.textContent, top: b.classList.contains('top'), on: b.getAttribute('aria-pressed') === 'true', label: b.getAttribute('aria-label') })));
+    check('the look-up has a button for every sub on the sheet, top sellers outlined, the #7 showing first', chips.map(c => c.n).join() === WTS.map(w => w.n).join() && chips.every(c => c.t === '#' + c.n && c.top === DATA.WT_TOP.includes(c.n) && c.on === (c.n === 7) && c.label.startsWith('Number ' + c.n + ', ')), JSON.stringify(chips).slice(0, 200));
+    const shown = () => p.evaluate(() => ({ title: document.getElementById('wt-title').textContent, head: [...document.querySelectorAll('#wt-table thead th')].map(t => t.textContent), rows: [...document.querySelectorAll('#wt-table tbody tr')].map(r => [...r.children].map(c => c.textContent)), also: (document.querySelector('#wt-table p.fine') || {}).textContent || '', on: [...document.querySelectorAll('#wt-pick .wt-chip[aria-pressed="true"]')].map(b => b.getAttribute('data-wt')).join() }));
+    const want = w => { const k = w.rows.every(r => r[3] === null) ? 2 : 3; const rows = w.rows.map(r => [r[0]].concat(r.slice(1, 1 + k).map(cell))); if (w.t) rows.push(['The whole sub'].concat(w.t.slice(0, k).map(cell))); return { head: ['In slicing order'].concat(DATA.WT_SIZES.slice(0, k)), rows }; };
+    const wrong = [];
+    for (const w of WTS) {
+      await p.click(`#wt-pick .wt-chip[data-wt="${w.n}"]`); await p.waitForTimeout(60);
+      const s = await shown(), x = want(w);
+      if (s.title !== '#' + w.n + ' ' + nameOf(w) || s.head.join('|') !== x.head.join('|') || JSON.stringify(s.rows) !== JSON.stringify(x.rows) || s.also !== (w.also || '') || s.on !== String(w.n)) wrong.push(w.n + ': ' + JSON.stringify(s).slice(0, 160));
+    }
+    check('every sub\'s look-up shows the slicing sheet\'s numbers under its own name', wrong.length === 0, wrong.slice(0, 3).join(' | '));
+    await p.click('#wt-pick .wt-chip[data-wt="7"]'); await p.waitForTimeout(60);
+    const seven = await shown();
+    check('the #7 reads 9.2, 5.5 and 2.95 ounces, as the sheet and the sign both say', JSON.stringify(seven.rows[seven.rows.length - 1]) === JSON.stringify(['The whole sub', '9.2 oz', '5.5 oz', '2.95 oz']), JSON.stringify(seven.rows));
+    let bad = await p.evaluate(TAP_AUDIT); check('look-up tap targets are 44px', bad.length === 0, bad.slice(0, 6).join(' | '));
+    let ov = await overflow(p); check('look-up has no sideways scroll', ov <= 0, ov);
+    const wide = await p.evaluate(() => { const t = document.querySelector('#wt-table table'); return t.scrollWidth - t.parentElement.clientWidth; });
+    check('the weights table fits the card', wide <= 0, wide);
+    await p.evaluate(() => { window.__spoken.length = 0; window.__fast = true; });
+    await p.click('#o-weights .say-btn'); await p.waitForTimeout(600);
+    const read = await p.evaluate(() => window.__spoken.join(' '));
+    check('the voice reads the card and leaves the look-up table out', read.includes('Provolone is the same on almost every sub') && !read.includes('In slicing order') && !read.includes('Look one up'), read.slice(-160));
+    const cards = await p.evaluate(() => ({ case: document.getElementById('o-meatcase').textContent, area: document.getElementById('o-sprkarea').textContent, clean: document.getElementById('o-sclean').textContent, pics: ['o-weights', 'o-meatcase', 'o-sprkarea'].map(id => document.querySelectorAll('#' + id + ' svg[role="img"][aria-label]').length).join() }));
+    check('the meat case, the sprinkling area and the four full cleans are on their cards, each with its picture', cards.case.includes('3-inch gap') && cards.case.includes('every week') && cards.area.includes('15 by 20 inches') && cards.area.includes("Don't cut on the sprinkling board") && cards.clean.includes('slicer cleaning tracking form') && cards.clean.includes('before the dinner rush (5 to 6 p.m.)') && cards.pics === '1,1,1', JSON.stringify(cards.pics));
+    check('no script errors', p.__errs.length === 0, p.__errs.join(' | '));
+    // on a cold sub's own sheet
+    await tab(p, 'study');
+    const sheetOf = async n => { const there = await p.evaluate(k => { const e = [...document.querySelectorAll('[data-sub]')].find(e => e.getAttribute('data-sub') === String(k)); if (e) e.click(); return !!e; }, n); if (!there) return null; await p.waitForTimeout(450);
+      const r = await p.evaluate(() => { const s = document.getElementById('sheet'), t = s.querySelector('.wt-sheet table'); return { has: !!t, head: t ? [...t.querySelectorAll('thead th')].map(x => x.textContent) : [], rows: t ? [...t.querySelectorAll('tbody tr')].map(r => [...r.children].map(c => c.textContent)) : [], order: [...s.querySelectorAll('ol.sr li')].map(l => l.textContent.split(',')[0]), wide: t ? t.scrollWidth - t.parentElement.clientWidth : 0 }; });
+      await p.keyboard.press('Escape'); await p.waitForTimeout(250); return r; };
+    const offSheet = [], offPic = []; let seenSheets = 0;
+    for (const w of WTS.filter(x => !x.name)) {
+      const s = await sheetOf(DATA.SUBS.find(x => x.n === w.n).id), x = want(w);
+      if (!s) continue;   // a sub that is off the board has no row on the Study tab
+      seenSheets++;
+      if (!s.has || JSON.stringify(s.rows) !== JSON.stringify(x.rows) || s.head.join('|') !== x.head.join('|') || s.wide > 0) offSheet.push(w.n);
+      const sub = DATA.SUBS.find(x => x.n === w.n), core = sub.cheese.concat(sub.meats);
+      if (s.order.filter(k => core.includes(k)).join() !== core.join()) offPic.push(w.n + ': ' + s.order.join('>'));
+    }
+    check('every cold sub\'s sheet carries its weights', offSheet.length === 0 && seenSheets === DATA.SUBS.filter(x => x.type === 'cold' && !x.offBoard).length, offSheet.join() + ' seen ' + seenSheets);
+    check('and its picture stacks the cheese and meats in slicing-sheet order', offPic.length === 0, offPic.slice(0, 3).join(' | '));
+    const hot = await sheetOf(17); check('a hot sub has no slicing weights', !hot.has);
+    check('no script errors', p.__errs.length === 0, p.__errs.join(' | '));
+    await p.__close();
   }
 
   // ---------- 7f. your own notes, the backup code, the short landing, the honest label ----------

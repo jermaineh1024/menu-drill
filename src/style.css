@@ -754,3 +754,12 @@ ul.ticks.live li[aria-checked="true"]::after{content:"";position:absolute;left:2
 .note-ta.code{font:500 16px ui-monospace,Menlo,Consolas,monospace;word-break:break-all;margin-top:8px}
 .note-pill{margin-left:8px;vertical-align:middle}
 .path-mini p{margin:0 0 10px}
+
+/* ---- slice weights ---- */
+.wt-pick{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 4px}
+.wt-chip{min-width:48px;min-height:44px;padding:0 10px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:600 15px var(--body);font-variant-numeric:tabular-nums;cursor:pointer}
+.wt-chip.top{border-color:var(--ui)}
+.wt-chip[aria-pressed="true"]{background:var(--ui);border-color:var(--ui);color:var(--on-navy)}
+table.amt.wt th:not(:first-child),table.amt.wt td:not(:first-child){text-align:right;padding-right:0;padding-left:8px}
+table.amt.wt td:first-child{white-space:normal}
+table.amt.names td{white-space:normal}   /* two columns of names: both wrap, so the table fits a 320 px phone */

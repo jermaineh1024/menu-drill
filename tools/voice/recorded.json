@@ -277,13 +277,6 @@
 "sounds": "ˌæt ɐ bˌɪɡbˈɑks stˈɔɹ, hˌu dˈu ju ɡɛt tə nˈO? ðə mˈænɪʤəɹ. ðˌA kæn lˈɛt ju ˈɪntu ɐ mˈiTɪŋ ɔɹ pˈæs kˈɑɹdz tə ðə stˈæf.",
 "voice": "af_heart"
 },
-"0785b0708cc1c5a4": {
-"id": "9-name",
-"kind": "tell",
-"seconds": 5.12,
-"sounds": "nˈʌmbəɹ nˈIn. swˈɪs, ɹˈOst bˈif, tˈɜɹki. ðˈɛn mˈIks wˈA. mˈAO ænd bˈAkən ˌɔn ðə lˈɪd.",
-"voice": "af_heart"
-},
 "087caebdbd5240e4": {
 "id": "o39",
 "kind": "lesson",
@@ -518,6 +511,14 @@
 "sounds": "ʧəpˈOtlA ʧˈɪkən. ˌɔn ðə lˈɪd fˈɜɹst: ʧəpˈOtlA mˈAO. ˌɔn ðə ɡɹˈɪl: ɡɹˈɪld ˈʌnjᵊnz, ɡɹˈɪld pˈɛpəɹz, ʧˈɪkən. wˈIt əmˈɛɹəkᵊn mˈɛltᵻd ˌɔn tˈɑp.",
 "voice": "af_heart"
 },
+"0fc9574f8aec7c8d": {
+"id": "o-sclean",
+"kind": "card",
+"peak": 1.1,
+"seconds": 108.2,
+"sounds": "klˈinɪŋ ðə slˈIsəɹ, ˈɛvəɹi fˈɔɹ ˈWəɹz. lˈIk ˈɛvəɹi fˈud kˈɑntækt sˈɜɹfəs, ðə slˈIsəɹ ɡɛts fˈʊli tˈAkən əpˈɑɹt, wˈɔʃt, ɹˈɪnst ænd sˈænətˌIzd ˈɛvəɹi fˈɔɹ ˈWəɹz. ðə fˈɔɹ fˈʊl klˈinz ˌɔn ðə sˈIn bI ðə slˈIsəɹ: ˈæftəɹ pɹˈɛpɪŋ ænd ʃˈɑɹpənɪŋ (tˈɛn tʊ əlˈɛvᵊn ˌAˈɛm), ˈæftəɹ ðə lˈʌnʧ ɹˈʌʃ (tˈu tə θɹˈi pˌiˈɛm), bəfˈɔɹ ðə dˈɪnəɹ ɹˈʌʃ (fˈIv tə sˈɪks pˌiˈɛm), ænd æt klˈOzɪŋ. ɹˈIt ˈiʧ tˈIm ˌɔn ðə slˈIsəɹ klˈinɪŋ tɹˈækɪŋ fˈɔɹm. hˌæv ɹˈɛdi: tˈu mˈɛTᵊl mˈɛʃ sˈAfti ɡlˈʌvz, ɐ kəntˈAnəɹ ʌv wˈɔɹm sˈOpi wˈɔTəɹ, wˈʌn ʌv ɹˈɪns wˈɔTəɹ, wˈʌn ʌv wˈɔɹm sˈænətˌIzəɹ səlˈuʃən, ænd klˈin tˈWᵊlz, wɪð wˈʌn kˈɛpt bˈæk tə dɹˈI ðə slˈIsəɹ. wˈɔʃ jʊɹ hˈændz ænd pˌʊt ˌɔn klˈin ɡlˈʌvz fˈɜɹst. dˈIᵊl klˈɑkwˌIz, blˈAd klˈOzd, slˈIsəɹ ˈɔf. ðˈɛn ˌʌnplˈʌɡ ɪt. blˈæk nˈɑb lˈus, pˈʊʃəɹ dˈɛk swˈʌŋ ˈOpᵊn. smˈɔl blˈæk nˈɑb ˌɔn ðə ɡˈɑɹd: tˈAk ˈɔf ðə spˈIk plˈAt. ðˈɛn tˈAk ˈɔf ðə blˈAd plˈAt. kˈɛɹi bˈOθ tə ðə θɹˌikəmpˈɑɹtmənt sˈɪŋk tə bi wˈɔʃt, ɹˈɪnst ænd sˈænətˌIzd. mˈɛTᵊl mˈɛʃ ɡlˈʌvz ˌɔn. ðə blˈAd: ɐ sˈOpi tˈWᵊl fˈOldᵻd ɪn twˈɛlv, fɹʌm ðə sˈɛntəɹ ˈWtwəɹd, slˈOli. ðə bˈæk ʌv ðə blˈAd ðə sˈAm wˈA. θɹˈɛd ðə tˈWᵊl fɹʌm ðə fɹˈʌnt bətwˈin ðə blˈAd ænd ðə ɡˈɑɹd ɹˈɪŋ, ænd tˈɜɹn ðə blˈAd ænd tˈWᵊl bI hˈænd, pɹˈɛsɪŋ ðə tˈWᵊl lˈItli əɡˈɛnst ði ɪnsˈId ʌv ðə ɹˈɪŋ. ðə ɹˈɛst, tˈɑp dˌWn: pˈʊʃəɹ dˈɛk fɹʌm ði ˌWtsˈId ˈɪn, əʤˈʌstəbᵊl dˈɛk fɹˈʌnt tə bˈæk, ðə sˈId, ðə tˈWᵊl fˈɛd θɹu ˌʌndəɹnˈiθ fɹʌm fɹˈʌnt tə bˈæk, ðˈɛn ðə bˈA. ɹˈɪns: ˈɔl ðə sˈAm stˈɛps wɪð ɐ tˈWᵊl sˈOkt ɪn ɹˈɪns wˈɔTəɹ. sˈænətˌIz: ˈɔl ðə sˈAm stˈɛps wɪð ɐ tˈWᵊl sˈOkt ɪn wˈɔɹm sˈænətˌIzəɹ. dɹˈI ɪt wɪð ðə klˈin tˈWᵊl, pˌʊt ɪt bˈæk təɡˈɛðəɹ, plˈʌɡ ɪt ˈɪn. ðˈɛn klˈin ðə mˈɛʃ ɡlˈʌvz bI ðɛɹ ˈOn ɪnstɹˈʌkʃənz. ðə sˈInz sˈɛkənd kjˌuˈɑɹ kˈOd ˈOpᵊnz ðə fˈʊl klˈin ʌv ðə slˈIsəɹ vˈɪdiO ɪn ði ˌɛlˌɛmˈɛs (sˈInɪn nˈidᵻd).",
+"voice": "af_heart"
+},
 "0fd027f32c781a72": {
 "id": "g5",
 "kind": "lesson",
@@ -539,11 +540,27 @@
 "sounds": "ʧˈizstˌAks: sˌɛvəntˈin, fˈɔɹTi θɹˈi, fˈɪfti sˈɪks. ˈɔl θɹˈi ɑɹ bˈɪlt ˌɔn ðə ɹˈɛɡjələɹ nˈʌmbəɹ sˌɛvəntˈin. lˈɜɹn ðæt wˈʌn ænd ði ˈʌðəɹ tˈu ɑɹ smˈɔl ʧˈAnʤᵻz. stˈɛp wˈʌn. bɹˈɛd ˌɔn ðə ɡɹˈɪl tə tˈɛmpəɹ. ðə pɹˌikˈʌt lˈOf ɡˈOz ˌɔn ðə ɡɹˈɪl bˈɑTəm sˈId dˌWn, tə wˈɔɹm ɪt, nˌɑt tˈOst ɪt. ˈOpᵊn ænd klˈOz ɪt fˈɜɹst sˌO ðə hˈit kæn ɹˈiʧ ðə mˈɪdᵊl. kˈip tˈɜɹnɪŋ ɪt θɹu ðə hˈOl kˈʊk, ænd lˈiv ɪt ˌɔn æz lˈɔŋ æz ju kˈæn. stˈɛp tˈu. pˈApəɹ tˈɔɹn, ʧˈiz lˈAd ˈWt. tˈɛɹ ðə pˈApəɹ: fˌɪftˈin ˈɪnʧᵻz fɔɹ ɐ ɹˈɛɡjələɹ. lˈA ˈWt ðə ʧˈiz: θɹˈi slˈIsᵻz. ɐ bˈɪɡ kəhˈunə ɡɛts fˈɔɹ. stˈɛp θɹˈi. ˈʌnjᵊnz dˌWn, æz lˈɔŋ æz ðə bɹˈɛd. jˈuzɪŋ ðə lˈɛŋθ ʌv ðə bɹˈɛd ˌɔn ðə ɡɹˈɪl æz jʊɹ ɡˈId, spɹˈɛd ˈWt wˈʌn pYnt tˈu fˈIv ˈWnsᵻz ʌv ˈʌnjᵊnz. stˈɛp fˈɔɹ. pˈɛpəɹz ˌɔn tˈɑp ʌv ði ˈʌnjᵊnz. spɹˈɛd zˈɪɹO pYnt sˈɛvən fˈIv ˈWnsᵻz ʌv pˈɛpəɹz tə ðə sˈAm lˈɛŋθ, ˌɔn tˈɑp ʌv ði ˈʌnjᵊnz. ðə pˈɛpəɹz hˈɛlp kˈʊk ænd mˈɛɹənˌAt ði ˈʌnjᵊnz. stˈɛp fˈIv. stˈAk ˌɔn, flˈɪpt, lˈItli sˈɑltᵻd. plˈAs ðə stˈAk ˌɔn ðə ɡɹˈɪl wɪð ðə ɹˌɛdhˈændəld tˈɔŋz, ænd əvˈYd tˈʌʧɪŋ ðə ɹˈɔ mˈit. wˈʌns ɪts ˌɔn, flˈɪp ɪt ænd lˈItli sˈɔlt ɪt. ɐ ɡˈʊd mˈOmᵊnt tə tˈɜɹn ðə bɹˈɛd. stˈɛp sˈɪks. bɹˈAk fˈɔɹ, bɹˈɪŋ təɡˈɛðəɹ, bɹˈAk fˈɔɹ. wˌɪð ðə ɹˈɛd spˈæʧələ ænd ðə ɹˈɛd dˈO kˈʌTəɹ, bɹˈAk ðə stˈAk fˈɔɹ tˈImz. bɹˈɪŋ ɪt təɡˈɛðəɹ ænd bɹˈAk ɪt fˈɔɹ mˈɔɹ. stˈɛp sˈɛvən. ˈʌnjᵊnz ænd pˈɛpəɹz ˌɔn tˈɑp, bɹˈAk ˈAt mˈɔɹ. pˌʊt ðə pˈɛpəɹz ænd ˈʌnjᵊnz ˌɔn tˈɑp ʌv ðə stˈAk ænd bɹˈAk ɪt ˈAt mˈɔɹ tˈImz, ðə sˈAm fˈɔɹ ænd fˈɔɹ æz bəfˈɔɹ. ðˌæts sˌɪkstˈin ɪn ˈɔl. stˈɛp ˈAt. ʧˈiz ˌɔn tˈɑp, ɐ fjˈu slˈɪts. lˈA ðə slˈIsᵻz ʌv ʧˈiz ˌɔn tˈɑp ʌv ðə stˈAk tə mˈɛlt, ænd kˈʌt ɐ fjˈu slˈɪts ɪn ðə ʧˈiz sˌO ɪt mˈɛlts fˈæstəɹ. dˈOnt ˌOvəɹkˈʊk ðə stˈAk wˌIl ju wˈAt fɔɹ ɪt. stˈɛp nˈIn. ˈɑntˌu ðə bɹˈɛd, lˈus bˈɪts skɹˈApt ˌɔn. jˈuz ðə dˈO kˈʌTəɹ tə ɡɛt ˈɔl ʌv ðə stˈAk ˈɑntˌu ðə spˈæʧələ, ænd plˈAs ɪt ˈɑntˌu ðə bɹˈɛd. skɹˈAp ðə lˈus bˈɪts ˈɔf ðə ɡɹˈɪl ænd ˈɑntˌu ðə sˈʌb. ðə bɹˈAk kˈWnt. ði ˈʌðəɹ tˈu. nˈʌmbəɹ fˈɔɹTi θɹˈi ʧəpˈOtlA: wˈʌns ðə ʧˈiz ɪz lˈAd ˈWt, tˈAk ðə bɹˈɛd ˈɔf ðə ɡɹˈɪl, pˌʊt θɹˈi lˈInz ʌv ʧəpˈOtlA mˈAO ˌɔn ði ɪnsˈId ʌv ðə lˈɪd, ænd sˈɛt ðə bɹˈɛd əsˈId. ðˈɛn kˈʊk ɪt ɪɡzˈæktli lˈIk ɐ sˌɛvəntˈin. nˈʌmbəɹ fˈɪfti sˈɪks bˈɪɡ kəhˈunə: fˈɔɹ slˈIsᵻz ʌv ʧˈiz ɪnstˈɛd ʌv θɹˈi, plˈʌs mˈʌʃɹˌumz ænd hˌɑləpˈAnjOz. ðə vˈɪdiO ɡˈɪvz ðOz əmˈWnts ˌɔn ðə ʧˈɪkən kəhˈunə: zˈɪɹO pYnt sˈɛvən fˈIv ˈWnsᵻz ʌv mˈʌʃɹˌumz ænd fˈɔɹ tə fˈIv hˌɑləpˈAnjOz, dˌWn wɪð ði ˈʌnjᵊnz ænd pˈɛpəɹz. ʤˈIənts: dˈʌbᵊl ˈɛvəɹi pˈɔɹʃən, ænd twˈɛnti wˈʌn ˈɪnʧᵻz ʌv pˈApəɹ. stˈɪl kˈʊk ɪt æz tˈu ɹˈɛɡjələɹ pˈɔɹʃənz, sˌO ɪt ɡˈOz ˈɑntˌu ðə bɹˈɛd ˈivənli.",
 "voice": "af_heart"
 },
+"10a4a077a9f2a835": {
+"id": "s111",
+"kind": "lesson",
+"peak": 0.65,
+"seconds": 5.04,
+"sounds": "wˌɪʧ hˈændəl ɪz ˌɔn ðə ɡˈɑɹd? ðə ɹˈɛd wˈʌn. ɹˈɛd ˌɔn ðə ɡˈɑɹd, ɡɹˈin ˌɔn ðə pˈʊʃəɹ dˈɛk.",
+"voice": "af_heart"
+},
 "10d8c69e578d2bf3": {
 "id": "o-gf",
 "kind": "card",
 "seconds": 107.94,
 "sounds": "ɡlˌutnfɹˈi bɹˈɛd. wˈʌn ɹˈul ɹˈʌnz ðə hˈOl θˈɪŋ: nˈʌθɪŋ ðæt tˈʌʧt ɹˈɛɡjələɹ bɹˈɛd tˈʌʧᵻz ðɪs sˈʌb. klˈin fˈɜɹst, fɹˈɛʃ ɡlˈʌvz, ɪts ˈOn pˈApəɹ, ɪts ˈOn nˈIf. ðə ɹˈOlz. ðˌA kˈʌm fˈʊli bˈAkt, ˈiʧ wˈʌn ɹˈæpt, twˈɛlv tə ɐ kˈAs. ˈɪntu ðə fɹˈizəɹ ˌɔn dəlˈɪvəɹi. ɡˈʊd fɔɹ ˌʌp tə sˈɪks mˈʌnθs fɹˈOzən. tə θˈɔ: pˈʊl wˌʌt ju nˈid ˈɑntˌu ðə bˈæk kˈWntəɹ. nˈɛvəɹ ðə bɹˈɛd ɹˈæk. lˈiv ˈiʧ ɹˈOl ɪn ɪts ɹˈæpəɹ ˌʌntˈɪl ɪts sˈɜɹvd. əbˈWt fˈɔɹTi mˈɪnəts tə θˈɔ, sˌO pˈʊl ðˌɛm æt nˈIn fˌɪftˈin ˌAˈɛm æz pˈɑɹt ʌv ˈOpᵊnɪŋ. θˈɔd ænd stˈɪl ɹˈæpt: ɡˈʊd fɔɹ fˈIv tə sˈɛvən dˈAz. ˈOpᵊnd: ɹˈæp wˌʌts lˈɛft ɪn plˈæstɪk ɹˈIt əwˈA ænd jˈuz ɪt ðæt dˈA. ɐ kˈOld sˈʌb. klˈin ðə slˈIsəɹ ænd ðə kˈWntəɹz. ˈɛvɹiwən hˌu wɪl tˈʌʧ ðə sˈʌb wˈɔʃᵻz ðɛɹ hˈændz ænd pˌʊts ˌɔn fɹˈɛʃ ɡlˈʌvz. tˈɛɹ ɐ ʃˈit ʌv pˈɑɹʧmᵊnt pˈApəɹ. ðə sˈʌb ɪz mˌAd ˌɔn ɪt, stˈɑɹt tə fˈɪnəʃ. ˌʌnɹˈæp ðə ɹˈOl. kˈʌt ɪt wɪð ðə klˈin nˈIf ðæt ɪz ˈOnli fɔɹ ɡlˌutnfɹˈi. ðə lˈɪd stˈAz ˌɔn ðə pˈApəɹ. slˈIs ɪt. ðə ɹˈOl ɪz ɐ lˈɪTᵊl smˈɔləɹ, bˌʌt ðə mˈit ænd ʧˈiz pˈɔɹʃənz ɑɹ ðə sˈAm æz ɐ ɹˈɛɡjələɹ ɔɹ ɐ ʤˈIənt. pˈæs ðə pˈApəɹ, ðə sˈʌb ænd ðə nˈIf tə ðə spɹˈɪŋkᵊləɹ, hˌu spɹˈɪŋkəlz ɪt ɹˈIt ˌɔn ðə pˈApəɹ. ɹˈæp ɪt ˌɔn ɐ fɹˈɛʃ ʃˈit, kˈʌTɪŋ ɪt wɪð ðə sˈAm ɡlˌutnfɹˈi nˈIf. lˈAbəl ɪt ʤˌiˈɛf. ˈɔl ðə tˈɑpɪŋz ɑɹ ɡlˌutnfɹˈi. fˌɔɹ mˈAO ɔɹ ʧˈɛɹi pˈɛpəɹ ɹˈɛlɪʃ, jˈuz ðə skwˈiz bˈɑTəlz ɪn ðə mˈit kˈAs, nˌɑt ðə spˈæʧələz. ɐ hˈɑt sˈʌb. sˈAm ɹˈulz. klˈin ðə ɡɹˈɪl tˈɑp, ðə kˈWntəɹz ænd ðə tˈulz. wˈɔʃ hˈændz, fɹˈɛʃ ɡlˈʌvz, ɪts ˈOn pˈɑɹʧmᵊnt, ðə ɡlˌutnfɹˈi nˈIf. nˈO pˈɑkət. kˈʌt ðə ɹˈOl ˈɔl ðə wˈA θɹˈu, lˈIk ɐ kˈOld sˈʌb. wˈʌns ðə fˈɪlɪŋz ɑɹ ˌɔn ðə bˈɑTəm hˈæf, kˈʌt ɹˈɛɡjələɹz ɪn hˈæf ænd ʤˈIənts ɪn kwˈɔɹTəɹz. ɡˈɛsts hˌu ˈɔɹdəɹ ɡlˌutnfɹˈi wˈɑʧ ˈɛvəɹi stˈɛp. smˈIl, bi pɹəfˈɛʃᵊnəl, ænd dˈu ˈɛvəɹi stˈɛp ˈɛvəɹi tˈIm.",
+"voice": "af_heart"
+},
+"10d9a22e6b01ceaa": {
+"id": "o-thick",
+"kind": "card",
+"peak": 0.66,
+"seconds": 49.41,
+"sounds": "sˈɛTɪŋ ðə θˈɪknəs, ˈɛvəɹi dˈA. θˈɪknəs ʧˈAnʤᵻz ðə flˈAvəɹ ænd ðə vˈælju. tˈu θˈɪk: ðə flˈAvəɹ ɪz ˈɔf, ðə mˈit ɪz hˈɑɹd tə flˈWəɹ, ænd ɪt kˈɔsts ðə stˈɔɹ. tˈu θˈɪn: ðɛɹ ˈɪzᵊnt ɪnˈʌf mˈit ˌɔn ðə sˈʌb, ænd ðə ɡˈɛst mˈA nˌɑt kˈʌm bˈæk. ðə skˈAl fˈɜɹst: pˈWəɹ ˌɔn, ɐ ʃˈit ʌv pˈApəɹ dˌWn, ðˈɛn tˈɛɹ sˌO ðə pˈApəɹ dˈʌzᵊnt kˈWnt. ʧˈiz (pɹˈOvəlˌOn ænd swˈɪs) ɪz sˈɛt wɪð pɹˈOvəlˌOn: fˈIv slˈIsᵻz ʃˌʊd wˈA tˈu ˈWnsᵻz. mˈit ɪz sˈɛt wɪð bˈYld hˈæm: ˈAt slˈIsᵻz ʃˌʊd wˈA fˈɔɹ pYnt sˈɛvən fˈIv ˈWnsᵻz. ðə slˈIsɪŋ ʃˈit ɡˈɪvz ɐ ʃˈɔɹTəɹ ʧˈɛk tˈu: θɹˈi slˈIsᵻz ʌv hˈæm ʃˌʊd wˈA wˈʌn pYnt ˈAt ˈWnsᵻz. hˈɛvi ɔɹ lˈIt? mˈuv ðə dˈIᵊl ænd slˈIs əɡˈɛn ˌʌntˈɪl ɪt lˈændz. ˈɛvəɹi mˈɔɹnɪŋ. ðə tˈɛst slˈIsᵻz ɡɛt jˈuzd: pɹˈOvəlˌOn ɡˈOz tə ðə ɡɹˈɪl fɔɹ hˈɑt sˈʌbz, hˈæm ɡˈOz ˌɔn kˈɔlˌɪn ˈɔɹdəɹz ɔɹ ˌɛmplˌYˈi mˈilz.",
 "voice": "af_heart"
 },
 "10e5a73c509a4d48": {
@@ -637,6 +654,14 @@
 "sounds": "ðə “kənsˈɑlədˌATᵻd” kˈWnt kˈʌvəɹz: bɹˈɛdz, mˈits ænd ʧˈizᵻz. ˈɔl ɪz ˈɔl fˈud ænd pˈApəɹ. kənsˈɑlədˌATᵻd ɪz bɹˈɛdz, mˈits ænd ʧˈizᵻz.",
 "voice": "af_heart"
 },
+"122a0c927f54b1c0": {
+"id": "s110",
+"kind": "lesson",
+"peak": 0.52,
+"seconds": 12.08,
+"sounds": "wˌɛn kæn ðə pˈʊʃəɹ dˈɛk swˈɪŋ ˈOpᵊn? ˈOnli wɪð ðə dˈIᵊl klˈOzd ˈɔl ðə wˈA. klˈOz ðə dˈIᵊl, ðˈɛn lˈusᵊn ðə blˈæk nˈɑb ˌɔn ðə sˈId. wˈʌns ðə dˈɛk ɪz ˈOpᵊn, ðə dˈIᵊl ænd blˈAd stˈA lˈɑkt klˈOzd.",
+"voice": "af_heart"
+},
 "123d47446f2097f8": {
 "id": "l16",
 "kind": "lesson",
@@ -714,6 +739,22 @@
 "sounds": "bˈAkən flˈɪpt tˈu ˈɜɹli ɔɹ tˈu ˈɔfᵊn wˈɪl: stˈɪk ænd ʃɹˈɪvᵊl. lˈiv ɪt əlˈOn ˌʌntˈɪl ɪt ɹəlˈisᵻz.",
 "voice": "af_heart"
 },
+"157261f4c602aeb4": {
+"id": "9-name",
+"kind": "tell",
+"peak": 0.48,
+"seconds": 5.09,
+"sounds": "nˈʌmbəɹ nˈIn. swˈɪs, tˈɜɹki, ɹˈOst bˈif. ðˈɛn mˈIks wˈA. mˈAO ænd bˈAkən ˌɔn ðə lˈɪd.",
+"voice": "af_heart"
+},
+"1580e36ae92cc108": {
+"id": "8-number",
+"kind": "tell",
+"peak": 0.58,
+"seconds": 4.96,
+"sounds": "klˈʌb sˈʌb. pɹˈOvəlˌOn, hˈæm, tˈɜɹki. ðˈɛn mˈIks wˈA. mˈAO ænd bˈAkən ˌɔn ðə lˈɪd.",
+"voice": "af_heart"
+},
 "15853d2482cfd487": {
 "id": "p66",
 "kind": "lesson",
@@ -785,6 +826,14 @@
 "sounds": "nˈʌmbəɹ sˈɪksti sˈɪks. ˌɔn ðə ɡɹˈɪl: pˌɔɹTəbˈɛlə mˈʌʃɹˌumz, ɡɹˈɪld pˈɛpəɹz, ɡɹˈɪld ˈʌnjᵊnz, stˈAk. wˈIt əmˈɛɹəkᵊn mˈɛltᵻd ˌɔn tˈɑp.",
 "voice": "af_heart"
 },
+"183c96d08a2dbe0e": {
+"id": "s84",
+"kind": "lesson",
+"peak": 0.67,
+"seconds": 12.73,
+"sounds": "ɐ ɹˈɛɡjələɹ nˈʌmbəɹ ˈAt, ðə klˈʌb sˈʌb, ʃˌʊd wˈA: fˈIv pYnt sˈɛvən fˈIv ˈWnsᵻz. pɹˈOvəlˌOn wˈʌn pYnt tˈu, hˈæm tˈu pYnt fˈɔɹ, tˈɜɹki tˈu pYnt wˈʌn fˈIv. ðə tˈu slˈIsᵻz ʌv bˈAkən ɑɹ kˈWntᵻd, nˌɑt wˈAd.",
+"voice": "af_heart"
+},
 "18571afde377fcd0": {
 "id": "p56",
 "kind": "lesson",
@@ -834,6 +883,14 @@
 "kind": "lesson",
 "seconds": 10.7,
 "sounds": "ˈæftəɹ ɐ wˈik ˈɛndz, ðə fˈɜɹst kwˈɛsʧᵊn tʊ ˈæsk əbˈWt ɪts skˈɛʤˌul: wˌʌz ðə sˈAlz fˈɔɹkˌæst ˈækjəɹət? ðˈɛn: wɜɹ ðɛɹ ɐ lˈɑt ʌv ʧˈAnʤᵻz, dˈɪd wˈɛðəɹ ʧˈAnʤ ɪt, wˌʌt kʊd hæv bɪn plˈænd fɔɹ.",
+"voice": "af_heart"
+},
+"19d2a91b7bb52f37": {
+"id": "s93",
+"kind": "lesson",
+"peak": 0.57,
+"seconds": 10.0,
+"sounds": "ɐ kwˈɪk ʧˈɛk ˌɔn mˈit θˈɪknəs: θɹˈi slˈIsᵻz ʌv hˈæm ʃˌʊd wˈA: wˈʌn pYnt ˈAt ˈWnsᵻz. ðə ʃˈits ʧˈɛk. fˌɔɹ ʧˈiz ɪts fˈIv slˈIsᵻz ʌv pɹˈOvəlˌOn tə tˈu ˈWnsᵻz.",
 "voice": "af_heart"
 },
 "19ec83f79a5c61da": {
@@ -977,6 +1034,14 @@
 "sounds": "hˌW dˈu ju ˈOpᵊn ɐ tˈɜɹki? ɐ ʃˈælO ˈɛks ˌɔn ðə bˈɑTəm. kˈʌt ɐn ˈɛks ˌɔn ðə bˈɑTəm, nˌɑt tˈu dˈip, ænd pˈil əwˈA bˈOθ lˈAəɹz.",
 "voice": "af_heart"
 },
+"1dd0e2bd1ca468f8": {
+"id": "o-knowslicer",
+"kind": "card",
+"peak": 0.77,
+"seconds": 139.48,
+"sounds": "nˈO jʊɹ slˈIsəɹ. ðə slˈIsəɹ ˌɔn ðə lˈIn ɪz ɐ bɪzˈɜɹbə ʤˌiˌɛspˈi ˈAʧ, ɐ ɡɹˈævəTi slˈIsəɹ wɪð ɐ θˌɜɹtˈin ˈɪnʧ blˈAd. ðə mˈAkəɹz nˈAm ɪz ˌɔn ðə fɹˈʌnt ʌv ðə bˈAs. hˈɪɹ ɑɹ ɪts pˈɑɹts, bI ðə nˈAmz ðə tɹˈAnɪŋ jˈuzᵻz. pˈʊʃəɹ dˈɛk. ðə ɹˈɪbd tɹˈA ðə pɹˈɑdˌʌkt lˈIz ˌɔn. jˌu pˈʊʃ ɪt tə slˈIs. ɡɹˈin hˈændəl, ˌɔn ðə pˈʊʃəɹ dˈɛk. ɡˈɑɹd. ˌɪt kˈʌmz dˌWn ˌɔn tˈɑp ʌv ðə pɹˈɑdˌʌkt, hˈOldz ɪt ɪn plˈAs ænd kˈips jʊɹ hˈænd ˈɔf ðə blˈAd. ɹˈɛd hˈændəl, ˌɔn ðə ɡˈɑɹd. spˈIk plˈAt, ˈʌndəɹ ðə ɡˈɑɹd. ˌɪts spˈIks ɡɹˈɪp ðə pɹˈɑdˌʌkt. ðə smˈɔl blˈæk nˈɑb ˌɔn ðə ɡˈɑɹd hˈOldz ɪt ˌɔn, ænd ɪt kˈʌmz ˈɔf fɔɹ ðə fˈɔɹ ˈWəɹ klˈin. blˈæk nˈɑb ˌɔn ðə sˈId. lˈusᵊn ɪt ænd ðə pˈʊʃəɹ dˈɛk swˈɪŋz ˈOpᵊn fɔɹ wˈIpɪŋ ænd klˈinɪŋ. dˈIᵊl. sˈɛts ðə θˈɪknəs. klˈɑkwˌIz ˈɔl ðə wˈA klˈOzᵻz ðə blˈAd. ðə nˈʌmbəɹz ɑɹ mˈɪləmˌiTəɹz, ˌʌp tə twˈɛnti fˈɔɹ. bˈʌtnz. ɡɹˈin ˌI swˈɪʧᵻz ðə blˈAd ˌɔn, ænd ðə wˈIt lˈIt stˈAz ˌɔn wˌIl ɪt ɹˈʌnz. ɹˈɛd ˈO swˈɪʧᵻz ɪt ˈɔf. blˈAd ˈɛnd. ðə blˈAd ɪz bˈæk hˈɪɹ, wɪð ðə ɡˈɑɹd ɹˈɪŋ əɹˈWnd ɪts ˈɛʤ ænd ðə blˈAd plˈAt ˈOvəɹ ɪts sˈɛntəɹ. ðə stˈɪkəɹ: ʃˈɑɹpən ænd lˈub dˈAli. sˈi ʃˈɑɹpən ænd ˈYl ðə slˈIsəɹ. hˌW ɪt bəhˈAvz. klˈOzɪŋ ðə dˈIᵊl swˈɪʧᵻz ðə blˈAd ˈɔf. tˈɜɹn ɪt klˈɑkwˌIz ˌʌntˈɪl ðə blˈAd ɪz kəmplˈitli klˈOzd. ðə pˈʊʃəɹ dˈɛk ˈOnli swˈɪŋz ˈOpᵊn wɪð ðə dˈIᵊl klˈOzd ˈɔl ðə wˈA. wˈʌns ɪts ˈOpᵊn, ðə dˈIᵊl ænd ðə blˈAd stˈA lˈɑkt klˈOzd. dˈOnt dɹˈIv ɪt fɹʌm ðə ɹˈɛd ɔɹ ɡɹˈin hˈændəl. ˌɪt pˈʊlz jʊɹ ˈɛlbˌO ˌʌp. θˈʌm lˈɑkt ɪn bəhˈInd ðə pˈʊʃəɹ dˈɛk, ˈɪndˌɛks fˈɪŋɡəɹ pˈYntɪŋ fˈɔɹwəɹd, ði ˈʌðəɹ fˈɪŋɡəɹz ˌɔn tˈɑp ʌv ðə ɡˈɑɹd. ɡˌO bI ðə skˈAl ænd ðə təmˈATO slˈIs, nˈɛvəɹ ðə nˈʌmbəɹ ˌɔn ðə dˈIᵊl. ðə θˈɪknəs ɡɛts ʧˈɛkt ˈɛvəɹi mˈɔɹnɪŋ. fˌɔɹ huˈɛvəɹ ɪz ɪn ʧˈɑɹʤ. ʃˈɑɹpənɪŋ ɡɹˈIndz ðə blˈAd dˌWn ˈOvəɹ tˈIm. wˌɛn ðə ɡˈæp bətwˈin ɪts ˈɛʤ ænd ðə ɡˈɑɹd ɹˈɪŋ ɹˈiʧᵻz sˈɪks mˈɪləmˌiTəɹz (əbˈWt wˈʌn kwˈɔɹTəɹ ʌv ɐn ˈɪnʧ), ðə ʃˈɑɹpᵊnəɹ kˈænt ʃˈɑɹpən ɪt ˈɛni mˈɔɹ ænd ðə blˈAd hæz tə bi ɹəplˈAst. ˈOnli bɪzˈɜɹbəz sˈɜɹvəs ʧˈAnʤᵻz ɐ blˈAd. ðˌæts bɪzˈɜɹbəz sˈAfti ɹˈul, fɹʌm ɪts mˈænjəwəl. ðə sˈAm pˈɑɹts ɪn bɪzˈɜɹbəz mˈænjəwəl. pˈʊʃəɹ dˈɛk: kˈɛɹɪʤ. ɡˈɑɹd: pɹˈɑdˌʌkt hˈOldəɹ. spˈIk plˈAt: ɹˈɛmnənt hˈOldəɹ plˈAt. əʤˈʌstəbᵊl dˈɛk: ɡˈAʤ plˈAt. blˈAd plˈAt: blˈAd kˈʌvəɹ. ɡˈɑɹd ɹˈɪŋ: blˈAd ɡˈɑɹd ɹˈɪŋ. blˈæk nˈɑb ˌɔn ðə sˈId: stˈɑɹ nˈɑb skɹˈu ˌɔn ðə kˈɛɹɪʤ fˈʊt. dˈIᵊl: slˈIs θˈɪknəs nˈɑb.",
+"voice": "af_heart"
+},
 "1dfa3671270e56ab": {
 "id": "56-name",
 "kind": "tell",
@@ -997,6 +1062,14 @@
 "kind": "lesson",
 "seconds": 10.94,
 "sounds": "ðə ʤˈus ɡˈOl ɐ tɹˈAnəɹ kˈips kˈOʧɪŋ: tˈu ɹˈOz kˈʌm ˈWt tə tˈu ˈWnsᵻz æt lˈist: ˈAt tˈImz ˈWt ʌv tˈɛn. tˈu ɹˈOz fɔɹ tˈu ˈWnsᵻz ˌɔn ɐ ʤˈIənt, hˈɪt æt lˈist ˈAt tˈImz ˈWt ʌv tˈɛn.",
+"voice": "af_heart"
+},
+"1e58b2fe2165069c": {
+"id": "l36",
+"kind": "lesson",
+"peak": 0.58,
+"seconds": 10.15,
+"sounds": "ðə lˈɛTəs pˈæn ɪz ɹˈʌnɪŋ lˈO ɪn ɐ ɹˈʌʃ. wˌɛɹ dˈu ju ɹistˈɑk ɪt? ˌɔn ðə bˈæk kˈWntəɹ ɔɹ ɪn ðə kˈɪʧᵊn. kˈip ðə dɹˈɑpˌɪn fˈʊli stˈɑkt, ænd dˈu ðə ɹistˈɑkɪŋ ˈɔf ðə lˈIn.",
 "voice": "af_heart"
 },
 "1e833116ffd59b60": {
@@ -1098,6 +1171,14 @@
 "kind": "card",
 "seconds": 43.4,
 "sounds": "sˈʌb ɪn ɐ tˈʌb. dˈɛli ʃˈit flˈæt ˌɔn ðə kˈWntəɹ. ɐ tˈʌb ˈɔlwˌAz ɡɛts ðə ɹˈɛɡjələɹsˌIz pˈɔɹʃən. ʧˈiz fˈɜɹst, lˈAd flˈæt ˌɔn ðə ʃˈit. ðə flˈWəɹd mˈits, flˈæt ˌɔn ðə ʧˈiz. ˌɔn ɐ nˈʌmbəɹ θˌɜɹtˈin: bˈYld hˈæm, ðˈɛn pɹəʃutˈini. ðə ɹˈWnd mˈits, dIˈæɡᵊnəli ˌɔn tˈɑp. ˌɔn ɐ nˈʌmbəɹ θˌɜɹtˈin: kˌæpəkˈOlə, ðˈɛn səlˈɑmi, ðˈɛn pˌɛpəɹˈOni. ɹˈOl ɪt ˌʌp, nˈit ænd tˈIt. kˈʌt fˈIv tˈImz: sˈɪks ˈikwᵊl pˈisᵻz. tˈu pˈɪnʧᵻz ʌv lˈɛTəs ɪn ðə tˈʌb (tˈu suflˈA kˈʌps), ænd ðə pˈisᵻz lˈAd nˈitli ˌɔn tˈɑp. ðə spɹˈɪŋkᵊləɹ dˈʌz ɪt mˈIks wˈA, ðə sˈAm æz ˈɛni ɹˈɛɡjələɹ. lˈɪd klˈOzd tˈIt. fˈɔɹk ænd nˈIf. hˈɑt sˈʌbz: ˈæsk ɪf ðAd lˈIk lˈɛTəs ˌɔn ðə bˈɑTəm, ðˈɛn ðə hˈɑt sˈʌb mˈɪksʧəɹ ɡˈOz ɪn ðə kəntˈAnəɹ.",
+"voice": "af_heart"
+},
+"221a87b540c24e29": {
+"id": "s83",
+"kind": "lesson",
+"peak": 0.68,
+"seconds": 6.82,
+"sounds": "ɐ mˈɪni nˈʌmbəɹ θˌɜɹtˈin ʃˌʊd wˈA: θɹˈi pYnt nˈIn ˈWnsᵻz. sˈɪks θˈɪŋz ˌɔn ɐ mˈɪni, θɹˈi pYnt nˈIn ˈWnsᵻz ɪn ˈɔl.",
 "voice": "af_heart"
 },
 "2277f4369160cd2f": {
@@ -1496,13 +1577,6 @@
 "sounds": "wˌɪʧ kˈʌləɹ tˈulz hˈændəl ðə stˈAk? ɹˈɛd. ɹˈɛd tˈɔŋz, spˈæʧələ ænd dˈO kˈʌTəɹ fɔɹ stˈAk. jˈɛlO fɔɹ ʧˈɪkən.",
 "voice": "af_heart"
 },
-"311c8371f472c107": {
-"id": "o-thick",
-"kind": "card",
-"seconds": 43.58,
-"sounds": "sˈɛTɪŋ ðə θˈɪknəs, ˈɛvəɹi dˈA. θˈɪknəs ʧˈAnʤᵻz ðə flˈAvəɹ ænd ðə vˈælju. tˈu θˈɪk: ðə flˈAvəɹ ɪz ˈɔf, ðə mˈit ɪz hˈɑɹd tə flˈWəɹ, ænd ɪt kˈɔsts ðə stˈɔɹ. tˈu θˈɪn: ðɛɹ ˈɪzᵊnt ɪnˈʌf mˈit ˌɔn ðə sˈʌb, ænd ðə ɡˈɛst mˈA nˌɑt kˈʌm bˈæk. ðə skˈAl fˈɜɹst: pˈWəɹ ˌɔn, ɐ ʃˈit ʌv pˈApəɹ dˌWn, ðˈɛn tˈɛɹ sˌO ðə pˈApəɹ dˈʌzᵊnt kˈWnt. ʧˈiz (pɹˈOvəlˌOn ænd swˈɪs) ɪz sˈɛt wɪð pɹˈOvəlˌOn: fˈIv slˈIsᵻz ʃˌʊd wˈA tˈu ˈWnsᵻz. mˈit ɪz sˈɛt wɪð bˈYld hˈæm: ˈAt slˈIsᵻz ʃˌʊd wˈA fˈɔɹ pYnt sˈɛvən fˈIv ˈWnsᵻz. hˈɛvi ɔɹ lˈIt? mˈuv ðə dˈIᵊl ænd slˈIs əɡˈɛn ˌʌntˈɪl ɪt lˈændz. ˈɛvəɹi mˈɔɹnɪŋ. ðə tˈɛst slˈIsᵻz ɡɛt jˈuzd: pɹˈOvəlˌOn ɡˈOz tə ðə ɡɹˈɪl fɔɹ hˈɑt sˈʌbz, hˈæm ɡˈOz ˌɔn kˈɔlˌɪn ˈɔɹdəɹz ɔɹ ˌɛmplˌYˈi mˈilz.",
-"voice": "af_heart"
-},
 "31226fa9705aee1a": {
 "id": "v1",
 "kind": "lesson",
@@ -1803,6 +1877,14 @@
 "sounds": "ɐ fˈɔɹ ˈɪnʧ dˈip θˈɜɹd pˈæn hˈOldz əbˈWt: fˈɔɹ ˈʌnjᵊnz. tˈu pYnt fˈIv ˈɪnʧ pˈæn əbˈWt tˈu, fˈɔɹ ˈɪnʧ əbˈWt fˈɔɹ, sˈɪks ˈɪnʧ əbˈWt sˈɪks.",
 "voice": "af_heart"
 },
+"3a3b004df164cc97": {
+"id": "s100",
+"kind": "lesson",
+"peak": 0.54,
+"seconds": 8.19,
+"sounds": "wˌɛn ɐ mˈit ɔɹ ʧˈiz ɪz dəlˈɪvəɹd, ju: wˈA ɪt ænd dˈAt ɪt. wˈA ɪt ænd ɹˈIt ðə dəlˈɪvəɹi dˈAt ˌɔn ɪt. ðə jˈusbˌI dˈAt ɪz ˌɔlɹˈɛdi pɹˈɪntᵻd.",
+"voice": "af_heart"
+},
 "3a48d1df89d745cd": {
 "id": "o-thaw",
 "kind": "card",
@@ -1915,6 +1997,14 @@
 "sounds": "nˈʌmbəɹ sˈɪksti fˈIv.",
 "voice": "af_heart"
 },
+"3f03b3a508b4442d": {
+"id": "s87",
+"kind": "lesson",
+"peak": 0.65,
+"seconds": 8.33,
+"sounds": "ɐ ɹˈɛɡjələɹ nˈʌmbəɹ sˈɪks ʃˌʊd wˈA: fˈIv pYnt θɹˈi ˈWnsᵻz. wˈʌn pYnt tˈu ˈWnsᵻz ʌv pɹˈOvəlˌOn ænd fˈɔɹ pYnt wˈʌn ˈWnsᵻz ʌv ɹˈOst bˈif.",
+"voice": "af_heart"
+},
 "3f440b3e78668f65": {
 "id": "temps-2",
 "kind": "shiftwhy",
@@ -1935,14 +2025,6 @@
 "kind": "lesson",
 "seconds": 5.3,
 "sounds": "wˌɛn dˈʌz ðə tˌivˈi ɡˌO ˌɔn? ɹˈIt bəfˈɔɹ ðə stˈɔɹ ˈOpᵊnz. bəfˈɔɹ ðæt ɪts ɐ dəstɹˈækʃən.",
-"voice": "af_heart"
-},
-"4013831526647332": {
-"id": "o-sclean",
-"kind": "card",
-"peak": 1.1,
-"seconds": 85.46,
-"sounds": "klˈinɪŋ ðə slˈIsəɹ, ˈɛvəɹi fˈɔɹ ˈWəɹz. lˈIk ˈɛvəɹi fˈud kˈɑntækt sˈɜɹfəs, ðə slˈIsəɹ ɡɛts fˈʊli tˈAkən əpˈɑɹt, wˈɔʃt, ɹˈɪnst ænd sˈænətˌIzd ˈɛvəɹi fˈɔɹ ˈWəɹz. hˌæv ɹˈɛdi: tˈu mˈɛTᵊl mˈɛʃ sˈAfti ɡlˈʌvz, ɐ kəntˈAnəɹ ʌv wˈɔɹm sˈOpi wˈɔTəɹ, wˈʌn ʌv ɹˈɪns wˈɔTəɹ, wˈʌn ʌv wˈɔɹm sˈænətˌIzəɹ səlˈuʃən, ænd klˈin tˈWᵊlz, wɪð wˈʌn kˈɛpt bˈæk tə dɹˈI ðə slˈIsəɹ. wˈɔʃ jʊɹ hˈændz ænd pˌʊt ˌɔn klˈin ɡlˈʌvz fˈɜɹst. dˈIᵊl klˈɑkwˌIz, blˈAd klˈOzd, slˈIsəɹ ˈɔf. ðˈɛn ˌʌnplˈʌɡ ɪt. blˈæk nˈɑb lˈus, pˈʊʃəɹ dˈɛk swˈʌŋ ˈOpᵊn. smˈɔl blˈæk nˈɑb ˌɔn ðə ɡˈɑɹd: tˈAk ˈɔf ðə spˈIk plˈAt. ðˈɛn tˈAk ˈɔf ðə blˈAd plˈAt. kˈɛɹi bˈOθ tə ðə θɹˌikəmpˈɑɹtmənt sˈɪŋk tə bi wˈɔʃt, ɹˈɪnst ænd sˈænətˌIzd. mˈɛTᵊl mˈɛʃ ɡlˈʌvz ˌɔn. ðə blˈAd: ɐ sˈOpi tˈWᵊl fˈOldᵻd ɪn twˈɛlv, fɹʌm ðə sˈɛntəɹ ˈWtwəɹd, slˈOli. ðə bˈæk ʌv ðə blˈAd ðə sˈAm wˈA. θɹˈɛd ðə tˈWᵊl fɹʌm ðə fɹˈʌnt bətwˈin ðə blˈAd ænd ðə ɡˈɑɹd ɹˈɪŋ, ænd tˈɜɹn ðə blˈAd ænd tˈWᵊl bI hˈænd, pɹˈɛsɪŋ ðə tˈWᵊl lˈItli əɡˈɛnst ði ɪnsˈId ʌv ðə ɹˈɪŋ. ðə ɹˈɛst, tˈɑp dˌWn: pˈʊʃəɹ dˈɛk fɹʌm ði ˌWtsˈId ˈɪn, əʤˈʌstəbᵊl dˈɛk fɹˈʌnt tə bˈæk, ðə sˈId, ðə tˈWᵊl fˈɛd θɹu ˌʌndəɹnˈiθ fɹʌm fɹˈʌnt tə bˈæk, ðˈɛn ðə bˈA. ɹˈɪns: ˈɔl ðə sˈAm stˈɛps wɪð ɐ tˈWᵊl sˈOkt ɪn ɹˈɪns wˈɔTəɹ. sˈænətˌIz: ˈɔl ðə sˈAm stˈɛps wɪð ɐ tˈWᵊl sˈOkt ɪn wˈɔɹm sˈænətˌIzəɹ. dɹˈI ɪt wɪð ðə klˈin tˈWᵊl, pˌʊt ɪt bˈæk təɡˈɛðəɹ, plˈʌɡ ɪt ˈɪn. ðˈɛn klˈin ðə mˈɛʃ ɡlˈʌvz bI ðɛɹ ˈOn ɪnstɹˈʌkʃənz.",
 "voice": "af_heart"
 },
 "40a727367a7ede0b": {
@@ -2136,11 +2218,28 @@
 "sounds": "hˌW fˈɑɹ əbˈʌv ðə sˈʌb dˈu ju hˈOld ðə vˈɪnəɡəɹ ænd ˈYl bˈɑTəl? əbˈWt tˈu ˈɪnʧᵻz. kˈæp əbˈWt tˈu ˈɪnʧᵻz ˈɔf ðə sˈʌb. hˈIəɹ ænd ɪt splˈæʃᵻz. lˈɪsᵊn fɔɹ ɐ swˈɪʃ, nˌɑt ɐ ʧˈɑp.",
 "voice": "af_heart"
 },
-"4a8be251e8f39ed2": {
-"id": "o-slice",
-"kind": "card",
-"seconds": 45.79,
-"sounds": "slˈIsɪŋ ðə sˈʌb. ðə tɹˈænzkɹˌɪpt ʌv ðə vˈɪdiO spˈɛlz ɪt “flˈWəɹ.” ðə mˈuv ɪz flˈWəɹɪŋ: ðə slˈIs ɡˈæðəɹz ˌɔn jʊɹ fˈɪŋɡəɹtˌɪps ɪnstˈɛd ʌv lˈIɪŋ flˈæt. ðə slˈIs ɡˈId ɪz ɐ ɡˈId, nˌɑt ɐ ɹˈul. ˌɪt lˈɪsts ðə slˈIsᵻz fɔɹ ˈiʧ sˈʌb. ˌɪf ɐ slˈIs kˈʌmz ˈWt æz hˈæf ɐ slˈIs, ˈæd ənˈʌðəɹ. ˈikwᵊl dˌɪstɹəbjˈuʃən. ˈɛvəɹi mˈit kˈʌvəɹz ðə sˈʌb ˈɛnd tʊ ˈɛnd: ði ˈɛnd nˈɪɹɪst ðə ɡˈɛst ænd ði ˈɛnd nˈɪɹɪst ju. ˈɛvəɹi bˈIt hæz ˈɛvəɹi pɹˈɑdˌʌkt. pɹˈɑpəɹ sˈikwəns. slˈIs ɪn ði ˈɔɹdəɹ ðə slˈIs ɡˈId lˈɪsts ðˌɛm. wˌʌnmˈit sˈʌbz ɡˌO ˌɔn ɪn lˈAəɹz. ðə nˈʌmbəɹ sˈɛvən ɡɛts əbˈWt tˈɛn slˈIsᵻz ʌv tˈɜɹki, ɪn tˈu lˈAəɹz ʌv əbˈWt fˈIv. nˈO dˈʌbᵊl pˈʌmpɪŋ: pˈʊʃɪŋ θɹu twˈIs ænd kˈæʧɪŋ wˈʌns. ˌɪt tˈAks hˈIt ˈɔf ðə sˈʌb, ænd hˈIt ɪz ðə vˈælju ðə ɡˈɛst sˈiz.",
+"48d74d8580b43925": {
+"id": "s82",
+"kind": "lesson",
+"peak": 0.8,
+"seconds": 10.33,
+"sounds": "ɐ ɹˈɛɡjələɹ nˈʌmbəɹ θˌɜɹtˈin ʃˌʊd wˈA: sˈɪks pYnt fˈɔɹ ˈWnsᵻz. wˈʌn pYnt tˈu ˈWnsᵻz ʌv pɹˈOvəlˌOn, ðˈɛn hˈæm, pɹəʃutˈini, kˌæpəkˈOlə, səlˈɑmi ænd pˌɛpəɹˈOni.",
+"voice": "af_heart"
+},
+"4932ae943819f344": {
+"id": "l33",
+"kind": "lesson",
+"peak": 0.85,
+"seconds": 10.87,
+"sounds": "ˌæt ðə spɹˈɪŋkᵊlɪŋ ˈɛɹiə, wˌɪʧ pˈæn sˈɪts nˈɪɹɪst ðə slˈIsəɹ? təmˈATOz. fɹˌʌm ðə slˈIsəɹ: təmˈATOz, lˈɛTəs, ˈʌnjᵊnz, ðˈɛn mˈAO ænd ðə ɹˈɛlɪʃ. bˈAkən ɪz æt ðə fˈɑɹ ˈɛnd.",
+"voice": "af_heart"
+},
+"49990fe9ddd16129": {
+"id": "s86",
+"kind": "lesson",
+"peak": 0.68,
+"seconds": 10.01,
+"sounds": "ɐ ʤˈIənt nˈʌmbəɹ sˈɪks, ɹˈOst bˈif ænd pɹˈOvəlˌOn, ʃˌʊd wˈA: tˈɛn pYnt wˈʌn fˈIv ˈWnsᵻz. tˈu ˈWnsᵻz ʌv pɹˈOvəlˌOn ænd ˈAt pYnt wˈʌn fˈIv ˈWnsᵻz ʌv ɹˈOst bˈif.",
 "voice": "af_heart"
 },
 "4aac1cc174af6fe1": {
@@ -2176,6 +2275,14 @@
 "kind": "lesson",
 "seconds": 8.36,
 "sounds": "wˌʌt ɹəlˈisᵻz ðə pˈʊʃəɹ dˈɛk sˌO ɪt swˈɪŋz ˈOpᵊn? ðə blˈæk nˈɑb ˌɔn ðə sˈId. swˈɪŋɪŋ ðə dˈɛk ˈOpᵊn lˈɑks ðə dˈIᵊl ænd ðə blˈAd klˈOzd.",
+"voice": "af_heart"
+},
+"4c53577faf08d5b9": {
+"id": "s79",
+"kind": "lesson",
+"peak": 0.65,
+"seconds": 8.37,
+"sounds": "ɐ ɹˈɛɡjələɹ nˈʌmbəɹ sˈɛvən ʃˌʊd wˈA: fˈIv pYnt fˈIv ˈWnsᵻz. wˈʌn pYnt tˈu ˈWnsᵻz ʌv pɹˈOvəlˌOn ænd fˈɔɹ pYnt θɹˈi ˈWnsᵻz ʌv tˈɜɹki.",
 "voice": "af_heart"
 },
 "4cf9e5147fdb2d48": {
@@ -2292,6 +2399,14 @@
 "sounds": "pɹˈuft dˈO hæz ɡɹˈOn tʊ əbˈWt: tˈu tə tˈu pYnt fˈIv tˈImz ɪts sˈIz. tˈu tə tˈu ænd ɐ hˈæf tˈImz ɪts əɹˈɪʤənᵊl sˈIz.",
 "voice": "af_heart"
 },
+"52a3875b34cb3b29": {
+"id": "14-name",
+"kind": "tell",
+"peak": 0.54,
+"seconds": 4.65,
+"sounds": "nˈʌmbəɹ fˌɔɹtˈin. pɹˈOvəlˌOn, swˈɪs, ɡɹˈin bˈɛl pˈɛpəɹz. ðˈɛn mˈIks wˈA.",
+"voice": "af_heart"
+},
 "52aac0bcf38f9573": {
 "id": "o-schedtips",
 "kind": "card",
@@ -2312,6 +2427,14 @@
 "peak": 1.04,
 "seconds": 17.54,
 "sounds": "jˌu lˈɜɹn bɹˈɛd ænd bˈAkən ɑɹ lˈO, ænd ðɛɹ ɪz ɐ kˈATəɹɪŋ ˈɔɹdəɹ fɔɹ təmˈɑɹO. wˌɛn dˈʌz ði ˈɛkstɹə pɹˈɛp hˈæpən? wˈʌn. bəfˈɔɹ ðə dˈɪnəɹ ɹˈʌʃ ɪz ɪn fˈʊl swˈɪŋ. tˈu. dˈʊɹɪŋ ðə dˈɪnəɹ ɹˈʌʃ, ɐ lˈɪTᵊl æt ɐ tˈIm, wənˈɛvəɹ ðɛɹ ɪz ɐ ɡˈæp ɪn ðə lˈIn. θɹˈi. ˈæftəɹ klˈOz, wˈʌns ðə dˈɔɹz ɑɹ lˈɑkt.",
+"voice": "af_heart"
+},
+"5309cfdd382ee56f": {
+"id": "s92",
+"kind": "lesson",
+"peak": 0.58,
+"seconds": 7.67,
+"sounds": "hˌW mˈɛni slˈIsᵻz ʌv bˈAkən ɡˌO ˌɔn ɐ mˈɪni bˌiˌɛltˈi? fˈɔɹ slˈIsᵻz. twˈɛlv ˌɔn ɐ ʤˈIənt, sˈɪks ˌɔn ɐ ɹˈɛɡjələɹ, fˈɔɹ ˌɔn ɐ mˈɪni.",
 "voice": "af_heart"
 },
 "53938505561b7a5a": {
@@ -2622,6 +2745,14 @@
 "sounds": "θˌiəɹˈɛTəkᵊl twˈɛnti sˈɪks pYnt fˈɔɹ pəɹsˈɛnt. ˈækʧəwəl twˈɛnti nˈIn pYnt zˈɪɹO pəɹsˈɛnt. hˌW fˈɑɹ ˈOvəɹ ɡˈOl? zˈɪɹO pYnt sˈɪks. ɡˈOl ɪz twˈɛnti sˈɪks pYnt fˈɔɹ plˈʌs tˈu ˈikwᵊlz twˈɛnti ˈAt pYnt fˈɔɹ. twˈɛnti nˈIn pYnt zˈɪɹO mˈInəs twˈɛnti ˈAt pYnt fˈɔɹ ˈikwᵊlz zˈɪɹO pYnt sˈɪks.",
 "voice": "af_heart"
 },
+"5fb3f8ba1249f43a": {
+"id": "s94",
+"kind": "lesson",
+"peak": 0.55,
+"seconds": 7.45,
+"sounds": "ˌɔn ðə nˈʌmbəɹ nˈIn, ðə fˈɜɹst θˈɪŋ slˈIst ɪz: swˈɪs ʧˈiz. swˈɪs, ðˈɛn tˈɜɹki, ðˈɛn ɹˈOst bˈif. bˈAkən ɡˈOz ˌɔn ðə lˈɪd.",
+"voice": "af_heart"
+},
 "5fc39bf8fc7d60ec": {
 "id": "n25",
 "kind": "lesson",
@@ -2662,6 +2793,14 @@
 "kind": "lesson",
 "seconds": 9.26,
 "sounds": "fˈɔɹ wˈɔlz mˈɑɹkəTɪŋ ɪz: ˈɛvəɹiθˌɪŋ ɪnsˈId ðə stˈɔɹ ðæt mˌAks ɐn ɪmpɹˈɛʃən ˌɔn ɐ ɡˈɛst. ˈɛvəɹi klˈin sˈɜɹfəs, fˈʊl dəsplˈA, ɡɹˈiTɪŋ ænd θˈæŋk ju.",
+"voice": "af_heart"
+},
+"616cff07b88a6207": {
+"id": "l37",
+"kind": "lesson",
+"peak": 0.77,
+"seconds": 9.28,
+"sounds": "ɐ ɡˈɛst wˈɑnts ðɛɹ sˈʌb kˈʌt ɪn θˈɜɹdz. wˌɛɹ dˈu ju kˈʌt ɪt? ˌæt ðə ɹˈæpɪŋ stˈAʃən. dˈOnt kˈʌt ˌɔn ðə spɹˈɪŋkᵊlɪŋ bˈɔɹd. ðə ɹˈæpəɹ klˈOzᵻz ðə sˈʌb ænd kˈʌts ɪt.",
 "voice": "af_heart"
 },
 "61c433989453e80b": {
@@ -2712,6 +2851,14 @@
 "kind": "lesson",
 "seconds": 7.63,
 "sounds": "tˈu mˈʌʧ kˈɔɹnmˌil: blˈɑks ðə hˈit fɹʌm bəlˈO. ɐ bˈɪldˌʌp blˈɑks ðə hˈit kˈʌmɪŋ ˌʌp θɹu ðə pˈæn, ænd ðə bɹˈɛd dˈʌzᵊnt bˈAk ɹˈIt.",
+"voice": "af_heart"
+},
+"63fb74151d90f642": {
+"id": "s108",
+"kind": "lesson",
+"peak": 0.5,
+"seconds": 10.36,
+"sounds": "bəsˈIdz ðə ɹˈɛd ˈO, wˌʌt ˈɛls swˈɪʧᵻz ðə blˈAd ˈɔf? tˈɜɹnɪŋ ðə dˈIᵊl bˈæk tə zˈɪɹO. tˈɜɹn ðə dˈIᵊl klˈɑkwˌIz ˌʌntˈɪl ðə blˈAd ɪz kəmplˈitli klˈOzd, ænd ðə slˈIsəɹ swˈɪʧᵻz ˈɔf.",
 "voice": "af_heart"
 },
 "64186d2f2583ad30": {
@@ -2803,13 +2950,6 @@
 "kind": "lesson",
 "seconds": 8.3,
 "sounds": "hˌW mˈʌʧ mˈAO ɪn ɐ bˈæʧ ʌv tˈunə? θɹˈi kwˈɔɹTəɹz ʌv ɐ ɡˈælən. θɹˈi kwˈɔɹTəɹz ʌv ɐ ɡˈælən. ðə vˈɪdiO ˈɔlsO ɡˈɪvz ɪt æz ˈATi fˈɔɹ ˈWnsᵻz.",
-"voice": "af_heart"
-},
-"67138dc6112df386": {
-"id": "8",
-"kind": "sub",
-"seconds": 15.61,
-"sounds": "nˈʌmbəɹ ˈAt. klˈʌb sˈʌb. pɹˈOvəlˌOn, tˈɜɹki, hˈæm. ðˈɛn mˈIks wˈA. mˈAO ænd bˈAkən ˌɔn ðə lˈɪd. mˈIks wˈA ɪz ˈʌnjᵊnz, lˈɛTəs, təmˈATOz, ɹˈɛd wˈIn vˈɪnəɡəɹ, ˈɑləv ˈYl blˈɛnd, əɹˈɛɡənˌO, sˈɔlt. tˈɜɹki ænd hˈæm, wɪð mˈAO ænd bˈAkən ˌɔn ðə lˈɪd ˌɔTəmˈæTəkᵊli.",
 "voice": "af_heart"
 },
 "671c3d80e40e5407": {
@@ -2957,13 +3097,6 @@
 "kind": "lesson",
 "seconds": 6.71,
 "sounds": "wˌɪʧ ʌv ðiz ɡɛts flˈWəɹd (kˈɛʧ, flˈWəɹ, flˈɪp)? tˈɜɹki. flˈWəɹd: hˈæm, pɹəʃutˈini, tˈɜɹki, ɹˈOst bˈif.",
-"voice": "af_heart"
-},
-"6ade850fca0be7a7": {
-"id": "8-name",
-"kind": "tell",
-"seconds": 4.83,
-"sounds": "nˈʌmbəɹ ˈAt. pɹˈOvəlˌOn, tˈɜɹki, hˈæm. ðˈɛn mˈIks wˈA. mˈAO ænd bˈAkən ˌɔn ðə lˈɪd.",
 "voice": "af_heart"
 },
 "6af59375d3bc145a": {
@@ -3129,6 +3262,14 @@
 "sounds": "ðə dˈɪnəɹ ɹˈʌʃ dˈIz dˌWn. ɐ ʃˈɪft lˈidəɹ: ɹˈæliz ðə tˈim əɹˈWnd ðə ʧˈɛklˌɪst. stˈA ˈæktɪv ɪn slˈO tˈImz. stˈɑɹt ɐ tˈæsk, fˈɪnəʃ ðə tˈæsk.",
 "voice": "af_heart"
 },
+"7106117e1d6ba66f": {
+"id": "s95",
+"kind": "lesson",
+"peak": 0.73,
+"seconds": 7.82,
+"sounds": "ˌɔn ðə nˈʌmbəɹ ˈAt klˈʌb sˈʌb, wˌʌt ɪz slˈIst ɹˈIt ˈæftəɹ ðə pɹˈOvəlˌOn? hˈæm. pɹˈOvəlˌOn, hˈæm, tˈɜɹki: ði ˈɔɹdəɹ ðə ʃˈit lˈɪsts ðˌɛm.",
+"voice": "af_heart"
+},
 "711a26a26ce00dc7": {
 "id": "h21",
 "kind": "lesson",
@@ -3176,13 +3317,6 @@
 "kind": "ask",
 "seconds": 1.15,
 "sounds": "nˈʌmbəɹ ˈAt.",
-"voice": "af_heart"
-},
-"71f4cf2505a61bef": {
-"id": "o-wipe",
-"kind": "card",
-"seconds": 33.57,
-"sounds": "wˈIpɪŋ dˌWn ðə slˈIsəɹ. wˌɛn: ˈæftəɹ ˈiʧ ˈɔɹdəɹ. bəfˈɔɹ ɐ vˈɛʤi sˈʌb. ˈæftəɹ ˈɛni sˈʌb wɪð ɹˈOst bˈif. ˌɪn ˈɛni bɹˈAk ɪn ðə ɹˈʌʃ. ˌænd ˈɔlwˌAz bəfˈɔɹ ju wˈɔk əwˈA. tˈɜɹn ðə dˈIᵊl klˈɑkwˌIz ˌʌntˈɪl ðə blˈAd ɪz kəmplˈitli klˈOzd. ðˌæt tˈɜɹnz ðə slˈIsəɹ ˈɔf. lˈusᵊn ðə blˈæk nˈɑb ˌɔn ðə sˈId ænd lˈɛt ðə pˈʊʃəɹ dˈɛk swˈɪŋ ˈOpᵊn. ðˌæt lˈɑks ðə dˈIᵊl ænd ðə blˈAd klˈOzd. ðə tˈWᵊl: sˈOkt ɪn wˈɔɹm sˈænətˌIzəɹ səlˈuʃən, ɹˈʌŋ ˈWt wˈɛl, fˈOldᵻd ˈɪntu twˈɛlv. ðˈɛn wˈIp, ɪn ðɪs ˈɔɹdəɹ: swˈɪŋ ðə pˈʊʃəɹ dˈɛk bˈæk ˈɪntu plˈAs ænd tˈItn ðə blˈæk nˈɑb.",
 "voice": "af_heart"
 },
 "71ff2d752d195464": {
@@ -3299,6 +3433,14 @@
 "sounds": "hˌW dˈʌz ðə kæʃˈɪɹ nˈO wˌʌt ðə ɡˈɛst ˈɔɹdəɹd? ðə ɹˈæpəɹ kˈɔlz ɪt dˌWn ðə lˈIn. kəmjˈunəkˌAt dˌWn ðə lˈIn ænd ju nˈɛvəɹ hæv tʊ ˈæsk ðə ɡˈɛst wˌʌt ðA hˌæd.",
 "voice": "af_heart"
 },
+"75df554b755e68a8": {
+"id": "8-name",
+"kind": "tell",
+"peak": 0.52,
+"seconds": 5.0,
+"sounds": "nˈʌmbəɹ ˈAt. pɹˈOvəlˌOn, hˈæm, tˈɜɹki. ðˈɛn mˈIks wˈA. mˈAO ænd bˈAkən ˌɔn ðə lˈɪd.",
+"voice": "af_heart"
+},
 "76696f058580a1bd": {
 "id": "c10",
 "kind": "lesson",
@@ -3311,13 +3453,6 @@
 "kind": "lesson",
 "seconds": 11.21,
 "sounds": "wˈʌn hˈʌndɹəd fˈɪfti lˈOvz ɐ dˈA nˈidz əbˈWt hˌW mˈɛni təmˈATOz? wˈʌn hˈʌndɹəd. wˈʌn hˈʌndɹəd fˈɪfti lˈOvz æt əbˈWt wˈʌn pYnt fˈIv lˈOvz ɐ təmˈATO ɪz əbˈWt wˈʌn hˈʌndɹəd təmˈATOz.",
-"voice": "af_heart"
-},
-"76a05d1d3a9e8689": {
-"id": "14-name",
-"kind": "tell",
-"seconds": 4.69,
-"sounds": "nˈʌmbəɹ fˌɔɹtˈin. swˈɪs, pɹˈOvəlˌOn, ɡɹˈin bˈɛl pˈɛpəɹz. ðˈɛn mˈIks wˈA.",
 "voice": "af_heart"
 },
 "76b3266f710b50f4": {
@@ -3409,6 +3544,14 @@
 "kind": "lesson",
 "seconds": 6.12,
 "sounds": "wˌI skɹˈAp ðə ɡɹˈɪl æz ˈɔfᵊn æz ju kˈæn? ɐ klˈin ɡɹˈɪl kˈʊks kwˈɪkəɹ. skɹˈAp ɪt æz mˈʌʧ æz pˈɑsəbᵊl.",
+"voice": "af_heart"
+},
+"793379e9da4428a5": {
+"id": "o-weights",
+"kind": "card",
+"peak": 0.7,
+"seconds": 73.45,
+"sounds": "slˈIs wˈAts, sˈʌb bI sˈʌb. wˌʌt ðə ʧˈiz ænd mˈit ˌɔn ˈiʧ kˈOld sˈʌb ʃˌʊd wˈA, fɔɹ ɐ ʤˈIənt, ɐ ɹˈɛɡjələɹ ænd ɐ mˈɪni. ðˌiz ɑɹ ðə nˈʌmbəɹz ˌɔn ðə slˈIsɪŋ ʃˈit ˌɔn ðə mˈit kˈAs dˈɔɹ. lˈɜɹn ðə tˈɑp sˈɛləɹz fˈɜɹst. ðə sˈIn bI ðə slˈIsəɹ lˈɪsts sˈɪks: ðə nˈʌmbəɹ sˈɛvən, nˈʌmbəɹ θˌɜɹtˈin, nˈʌmbəɹ ˈAt, nˈʌmbəɹ nˈIn, nˈʌmbəɹ sˈɪks ænd nˈʌmbəɹ θɹˈi. pɹˈOvəlˌOn ɪz ðə sˈAm ˌɔn ˈɔlmOst ˈɛvəɹi sˈʌb: tˈu ˈWnsᵻz ˌɔn ɐ ʤˈIənt, wˈʌn pYnt tˈu ˈWnsᵻz ˌɔn ɐ ɹˈɛɡjələɹ, zˈɪɹO pYnt ˈAt ˈWnsᵻz ˌɔn ɐ mˈɪni. ðə nˈʌmbəɹ fˌɔɹtˈin vˈɛʤi ɡɛts mˈɔɹ: fˈɔɹ ˈWnsᵻz, tˈu ˈWnsᵻz ænd wˈʌn pYnt tˈu ˈWnsᵻz. kˌæpəkˈOlə nˈɛvəɹ ʧˈAnʤᵻz: wˈʌn pYnt fˈɔɹ ˈWnsᵻz, zˈɪɹO pYnt ˈAt fˈIv ˈWnsᵻz, zˈɪɹO pYnt fˈIv fˈIv ˈWnsᵻz, ˌɔn ˈɛvəɹi sˈʌb ðæt hæz ɪt. ɐ ʤˈIənt ɪz nˌɑt dˈʌbᵊl ɐ ɹˈɛɡjələɹ. ðə nˈʌmbəɹ sˈɛvən ɪz nˈIn pYnt tˈu ˈWnsᵻz æz ɐ ʤˈIənt ænd fˈIv pYnt fˈIv ˈWnsᵻz æz ɐ ɹˈɛɡjələɹ. lˈɜɹn ˈiʧ sˈIz. bˈAkən ɪz kˈWntᵻd, nˌɑt wˈAd. ɐ bˌiˌɛltˈi ɡɛts twˈɛlv slˈIsᵻz, sˈɪks ɔɹ fˈɔɹ. ɐ klˈʌb ɡɛts fˈɔɹ, tˈu ɔɹ wˈʌn. tˈunə ɡˈOz ˌɔn ɪn ɐn ˈivən lˈAəɹ: tˈɛn ˈWnsᵻz, fˈIv pYnt fˈIv ˈWnsᵻz, θɹˈi pYnt tˈu fˈIv ˈWnsᵻz. pˈɛpəɹz ˌɔn ðə nˈʌmbəɹ fˌɔɹtˈin ɑɹ kˈWntᵻd ɪn ɹˈɪŋz: fˈIv, θɹˈi ɔɹ tˈu.",
 "voice": "af_heart"
 },
 "794a75b2dcc4e5cb": {
@@ -3628,6 +3771,14 @@
 "sounds": "nˈʌmbəɹ twˈɛlv.",
 "voice": "af_heart"
 },
+"7f175832ed15484c": {
+"id": "s102",
+"kind": "lesson",
+"peak": 0.92,
+"seconds": 8.73,
+"sounds": "nˈu pɹˈɑdˌʌkt ɡˈOz ˈɪntu ðə dəsplˈA. wˌɛɹ dˈʌz ði ˈɛkstɹə ɡˌO? ˌɪn ðə wˈɔkˌɪn. ɹˈOtˌAt nˈu pɹˈɑdˌʌkt ˈɪntu ðə dəsplˈA ænd ði ɛksˈɛs ˈɪntu ðə wˈɔkˌɪn.",
+"voice": "af_heart"
+},
 "7f1aa3ea0a80b2a0": {
 "id": "16-number",
 "kind": "tell",
@@ -3671,6 +3822,14 @@
 "sounds": "wˌI ɪz ðə ɹˈæpəɹ kˈɔld ðə lˈæst lˈIn ʌv dəfˈɛns? ðˌA kæn stˈɪl kˈɛʧ ɐ ɹˈɔŋ sˈʌb bəfˈɔɹ ɪt lˈivz. lˈɪsᵊn æz ðə ɡˈɛst ˈɔɹdəɹz. ʧˈɛk ðæt klˈʌbz ɡɑt ðɛɹ bˈAkən bI lˈɪftɪŋ ðə lˈɪd.",
 "voice": "af_heart"
 },
+"8069bf1aa937d231": {
+"id": "o-slice",
+"kind": "card",
+"peak": 0.71,
+"seconds": 50.03,
+"sounds": "slˈIsɪŋ ðə sˈʌb. ðə tɹˈænzkɹˌɪpt ʌv ðə vˈɪdiO spˈɛlz ɪt “flˈWəɹ.” ðə mˈuv ɪz flˈWəɹɪŋ: ðə slˈIs ɡˈæðəɹz ˌɔn jʊɹ fˈɪŋɡəɹtˌɪps ɪnstˈɛd ʌv lˈIɪŋ flˈæt. ðə slˈIs ɡˈId ɪz ɐ ɡˈId, nˌɑt ɐ ɹˈul. ˌɪt lˈɪsts ðə slˈIsᵻz fɔɹ ˈiʧ sˈʌb. ˌɪf ɐ slˈIs kˈʌmz ˈWt æz hˈæf ɐ slˈIs, ˈæd ənˈʌðəɹ. ˈikwᵊl dˌɪstɹəbjˈuʃən. ˈɛvəɹi mˈit kˈʌvəɹz ðə sˈʌb ˈɛnd tʊ ˈɛnd: ði ˈɛnd nˈɪɹɪst ðə ɡˈɛst ænd ði ˈɛnd nˈɪɹɪst ju. ˈɛvəɹi bˈIt hæz ˈɛvəɹi pɹˈɑdˌʌkt. stˈɑɹt æt ði ˈɛnd klˈOsɪst tə ðə ɡˈɛst, kˈʌvəɹ jʊɹ ˈɛndz, ænd bˈɪld ˌʌp, nˌɑt ˈWt. pɹˈɑpəɹ sˈikwəns. slˈIs ɪn ði ˈɔɹdəɹ ðə slˈIs ɡˈId lˈɪsts ðˌɛm. wˌʌnmˈit sˈʌbz ɡˌO ˌɔn ɪn lˈAəɹz. ðə nˈʌmbəɹ sˈɛvən ɡɛts əbˈWt tˈɛn slˈIsᵻz ʌv tˈɜɹki, ɪn tˈu lˈAəɹz ʌv əbˈWt fˈIv. nˈO dˈʌbᵊl pˈʌmpɪŋ: pˈʊʃɪŋ θɹu twˈIs ænd kˈæʧɪŋ wˈʌns. ˌɪt tˈAks hˈIt ˈɔf ðə sˈʌb, ænd hˈIt ɪz ðə vˈælju ðə ɡˈɛst sˈiz.",
+"voice": "af_heart"
+},
 "80cbe549e9cbbc7c": {
 "id": "43",
 "kind": "sub",
@@ -3683,6 +3842,14 @@
 "kind": "ask",
 "seconds": 2.06,
 "sounds": "pˌɔɹTəbˈɛlə ʧˈɪkən ʧˈiz stˈAk.",
+"voice": "af_heart"
+},
+"811d77d4348b2de5": {
+"id": "s106",
+"kind": "lesson",
+"peak": 0.54,
+"seconds": 6.78,
+"sounds": "wˌɪʧ bˈʌtn swˈɪʧᵻz ðə slˈIsəɹz blˈAd ˌɔn? ðə ɡɹˈin ˌI. ɡɹˈin ˌI swˈɪʧᵻz ðə blˈAd ˌɔn. ɹˈɛd ˈO swˈɪʧᵻz ɪt ˈɔf.",
 "voice": "af_heart"
 },
 "8127291b647c97a7": {
@@ -3818,6 +3985,14 @@
 "sounds": "jutˈɪləTiz jˈuʒəwəli ɹˈʌn: wˈʌn pYnt fˈIv tə tˈu pYnt fˈIv pəɹsˈɛnt ʌv sˈAlz. əlˈɛktɹɪk, ɡˈæs, fˈOn ænd ˈɪntəɹnˌɛt, ði əlˈɑɹm, wˈɔTəɹ ænd sˈuəɹ.",
 "voice": "af_heart"
 },
+"841e7cb1834e46c8": {
+"id": "s105",
+"kind": "lesson",
+"peak": 0.7,
+"seconds": 8.09,
+"sounds": "ˈæftəɹ ɐ fˈʊl klˈin, ðə tˈIm ɪz: ɹˈɪtn ˌɔn ðə slˈIsəɹ klˈinɪŋ tɹˈækɪŋ fˈɔɹm. ɹˈɛkəɹd ðə tˈIm ˌɔn ðə fˈɔɹm ˈæftəɹ ˈɛvəɹi fˈʊl klˈin.",
+"voice": "af_heart"
+},
 "8424bca5b3beee57": {
 "id": "p74",
 "kind": "lesson",
@@ -3846,13 +4021,6 @@
 "sounds": "kˈʌTɪŋ bɹˈɛd, wˌɪʧ fˈɪŋɡəɹz lˈɪft ˈɔf ðə lˈOf? θˈʌm ænd pˈɪŋki. kˈipɪŋ ðˌɛm ˌʌp pɹətˈɛkts ðˌɛm.",
 "voice": "af_heart"
 },
-"8499c3cdec1230fb": {
-"id": "9-number",
-"kind": "tell",
-"seconds": 5.31,
-"sounds": "klˈʌb səpɹˈim. swˈɪs, ɹˈOst bˈif, tˈɜɹki. ðˈɛn mˈIks wˈA. mˈAO ænd bˈAkən ˌɔn ðə lˈɪd.",
-"voice": "af_heart"
-},
 "84c7236ccde01bb0": {
 "id": "o20",
 "kind": "lesson",
@@ -3867,6 +4035,14 @@
 "sounds": "ɡˈɛsts nˈɛvəɹ tˈʌʧ ðə slˈIsəɹ. wˌI dˈʌz ɪts klˈɛnlinəs kˈWnt? ðˌA sˈi ɪt ðə hˈOl tˈIm ðɛɹ ɪn lˈIn. kˈip ɪt klˈin θɹu ðə hˈOl ɹˈʌʃ.",
 "voice": "af_heart"
 },
+"857130d93cb782cd": {
+"id": "s99",
+"kind": "lesson",
+"peak": 0.47,
+"seconds": 11.76,
+"sounds": "wˌɪʧ sˈɪks sˈʌbz dˈʌz ðə sˈIn bI ðə slˈIsəɹ lˈɪst? ðə tˈɑp sˈɛlɪŋ kˈOld sˈʌbz. ðə nˈʌmbəɹ sˈɛvən, nˈʌmbəɹ θˌɜɹtˈin, nˈʌmbəɹ ˈAt, nˈʌmbəɹ nˈIn, nˈʌmbəɹ sˈɪks ænd nˈʌmbəɹ θɹˈi. lˈɜɹn ðOz wˈAts fˈɜɹst.",
+"voice": "af_heart"
+},
 "8587739ae3b1f8d9": {
 "id": "s5",
 "kind": "lesson",
@@ -3879,6 +4055,14 @@
 "kind": "ask",
 "seconds": 1.16,
 "sounds": "tˈunə fˈɪʃ.",
+"voice": "af_heart"
+},
+"86062d895ed2d811": {
+"id": "9-number",
+"kind": "tell",
+"peak": 0.63,
+"seconds": 5.31,
+"sounds": "klˈʌb səpɹˈim. swˈɪs, tˈɜɹki, ɹˈOst bˈif. ðˈɛn mˈIks wˈA. mˈAO ænd bˈAkən ˌɔn ðə lˈɪd.",
 "voice": "af_heart"
 },
 "86623805606c6bc6": {
@@ -3900,6 +4084,14 @@
 "kind": "lesson",
 "seconds": 10.85,
 "sounds": "ɹˈOst bˈif hæz tə hˈOld: wˈʌn hˈʌndɹəd fˈɔɹTi dəɡɹˈiz fɔɹ twˈɛlv mˈɪnəts. ɹˈOst bˈif wˈʌn hˈʌndɹəd fˈɔɹTi fɔɹ twˈɛlv mˈɪnəts. mˈitbˌɔlz wˈʌn hˈʌndɹəd sˈɪksti fˈIv fɔɹ fˌɪftˈin sˈɛkəndz.",
+"voice": "af_heart"
+},
+"86f990124c8c41f4": {
+"id": "s96",
+"kind": "lesson",
+"peak": 0.63,
+"seconds": 11.03,
+"sounds": "tˈunə ˌɔn ɐ ɹˈɛɡjələɹ nˈʌmbəɹ tˈɛn ʃˌʊd wˈA: fˈIv pYnt fˈIv ˈWnsᵻz. tˈɛn ˈWnsᵻz ˌɔn ɐ ʤˈIənt, fˈIv pYnt fˈIv ˌɔn ɐ ɹˈɛɡjələɹ, θɹˈi pYnt tˈu fˈIv ˌɔn ɐ mˈɪni, ɪn ɐn ˈivən lˈAəɹ.",
 "voice": "af_heart"
 },
 "86fa79e1dbbfe916": {
@@ -4015,11 +4207,27 @@
 "sounds": "wˈʌn təmˈATO ɡˈɪvz hˌW mˈɛni jˈuzəbᵊl slˈIsᵻz? ˈAt tə nˈIn. ˈAt tə nˈIn jˈuzəbᵊl slˈIsᵻz, ɪnˈʌf fɔɹ əbˈWt ɐ lˈOf ænd ɐ hˈæf.",
 "voice": "af_heart"
 },
+"8bfa4b592aab6602": {
+"id": "s90",
+"kind": "lesson",
+"peak": 0.63,
+"seconds": 7.8,
+"sounds": "hˌW mˈʌʧ pɹˈOvəlˌOn ɡˈOz ˌɔn ɐ mˈɪni? zˈɪɹO pYnt ˈAt ˈWnsᵻz. tˈu, wˈʌn pYnt tˈu ænd zˈɪɹO pYnt ˈAt: ʤˈIənt, ɹˈɛɡjələɹ, mˈɪni.",
+"voice": "af_heart"
+},
 "8c19f31ce057a309": {
 "id": "m26",
 "kind": "lesson",
 "seconds": 10.71,
 "sounds": "ˌɪz sˈɛlɪŋ kˈATəɹɪŋ ðə pˈYnt ʌv ɐ ɡɹˈæsɹˌuts vˈɪzət? nˈO. kˈATəɹɪŋ fˈɑlOz wˈʌns ðAv tɹˈId ðə fˈud. ɡˌɛt ðˌɛm ɪn wɪð ɐ fɹˈi sˈʌb. wˈʌns ðɛɹ hˈʊkt, kˈATəɹɪŋ sˈɛlz ɪtsˈɛlf.",
+"voice": "af_heart"
+},
+"8c3a1134f56f0781": {
+"id": "l35",
+"kind": "lesson",
+"peak": 0.64,
+"seconds": 7.17,
+"sounds": "hˌW bˈɪɡ ɪz ðə spɹˈɪŋkᵊlɪŋ bˈɔɹd? fˌɪftˈin bI twˈɛnti ˈɪnʧᵻz. fˌɪftˈin ˈɪnʧᵻz bI twˈɛnti, ɔɹ ˌʌp tə θˈɜɹTi lˈɔŋ.",
 "voice": "af_heart"
 },
 "8c9d430a3f5ba10d": {
@@ -4063,6 +4271,14 @@
 "kind": "lesson",
 "seconds": 6.26,
 "sounds": "ˌænd æt ðə pˈik ʌv dˈɪnəɹ, sˈɪks tə sˈɛvən θˈɜɹTi? θɹˈi. θɹˈi θɹu ðə pˈik, ðˈɛn tˈu tə fˈɪnəʃ klˈOzɪŋ.",
+"voice": "af_heart"
+},
+"8d0ce6e1eadaafd3": {
+"id": "s116",
+"kind": "lesson",
+"peak": 0.52,
+"seconds": 11.94,
+"sounds": "bəfˈɔɹ ðə ʃˈɑɹpᵊnəɹ ɡˈOz ˌɔn ɐ ʤˌiˌɛspˈi ˈAʧ, ðə blˈAd ɪz: ˈOpᵊnd ˈɔl ðə wˈA. slˈIsəɹ ˈɔf, pˈʊʃəɹ dˈɛk ˈɔl ðə wˈA bˈæk, blˈAd ˈOpᵊnd ˈɔl ðə wˈA. ðˈɛn ðə ʃˈɑɹpᵊnəɹ ɡˈOz ˌɔn, sˈɛt tə zˈɪɹO.",
 "voice": "af_heart"
 },
 "8db687db105bea8b": {
@@ -4219,6 +4435,14 @@
 "sounds": "nˈʌmbəɹ θɹˈi. hˈæm ænd pɹˈOvəlˌOn. pɹˈOvəlˌOn, hˈæm. ðˈɛn mˈIks wˈA. mˈIks wˈA ɪz ˈʌnjᵊnz, lˈɛTəs, təmˈATOz, ɹˈɛd wˈIn vˈɪnəɡəɹ, ˈɑləv ˈYl blˈɛnd, əɹˈɛɡənˌO, sˈɔlt. ðə bˈɑTəm ʌv ði ɪtˈæljən lˈædəɹ. ˌɔn ðə bˈɔɹd ɪt sˈɪts ˈʌndəɹ əmˈɛɹəkᵊn klˈæsɪks.",
 "voice": "af_heart"
 },
+"937afa3ca77a5100": {
+"id": "s103",
+"kind": "lesson",
+"peak": 0.76,
+"seconds": 8.32,
+"sounds": "hˌW mˈʌʧ ɹˈum ɪz lˈɛft bətwˈin ðə dəsplˈA ænd ðə fɹˈʌnt ɡlˈæs? θɹˈi ˈɪnʧᵻz. ɐ θɹˈi ˈɪnʧ ɡˈæp lˈɛts ˈɛɹ flˈO. dˈOnt lˈIn ðə kˈAs wɪð pˈApəɹ.",
+"voice": "af_heart"
+},
 "93b736551d6a6043": {
 "id": "b29",
 "kind": "lesson",
@@ -4255,6 +4479,14 @@
 "sounds": "ɐ vˈɛndəɹ jˈunət ʌv “fˈɔɹ slˈæʃ wˈʌn ɡˈælən” mˈinz: fˈɔɹ wˌʌnɡˈælən bˈɑTəlz ɪn ɐ kˈAs. fˈɔɹ wˈʌn ɡˈælən bˈɑTəlz tə ɐ kˈAs.",
 "voice": "af_heart"
 },
+"94756513a5f830ec": {
+"id": "9",
+"kind": "sub",
+"peak": 0.65,
+"seconds": 19.82,
+"sounds": "nˈʌmbəɹ nˈIn. klˈʌb səpɹˈim. swˈɪs, tˈɜɹki, ɹˈOst bˈif. ðˈɛn mˈIks wˈA. mˈAO ænd bˈAkən ˌɔn ðə lˈɪd. mˈIks wˈA ɪz ˈʌnjᵊnz, lˈɛTəs, təmˈATOz, ɹˈɛd wˈIn vˈɪnəɡəɹ, ˈɑləv ˈYl blˈɛnd, əɹˈɛɡənˌO, sˈɔlt. ðə klˈʌb sˈʌb (ðə nˈʌmbəɹ ˈAt) wɪð ɹˈOst bˈif ɪnstˈɛd ʌv hˈæm ænd swˈɪs ɪnstˈɛd ʌv pɹˈOvəlˌOn. mˈAO ænd bˈAkən ˌɔn ðə lˈɪd.",
+"voice": "af_heart"
+},
 "9477d9c8e66b32cf": {
 "id": "b10",
 "kind": "lesson",
@@ -4288,6 +4520,22 @@
 "kind": "lesson",
 "seconds": 9.12,
 "sounds": "jˌu ʤˈʌst tˈʊk ɐ ɡˈɛsts kˈæʃ. nˈɛkst ju: wˈɔʃ jʊɹ hˈændz ænd pˌʊt ˌɔn nˈu ɡlˈʌvz. nˈɛvəɹ tˈʌʧ mˈʌni wɪð ɡlˈʌvz ænd ðˈɛn tˈʌʧ fˈud. ɡˈɛsts wˈɑʧ fɔɹ ðˈɪs.",
+"voice": "af_heart"
+},
+"953cbc3d48196624": {
+"id": "o-sprkarea",
+"kind": "card",
+"peak": 1.08,
+"seconds": 47.91,
+"sounds": "ðə spɹˈɪŋkᵊlɪŋ ˈɛɹiə, sˈɛt ˌʌp. wˌɛɹ ˈɛvəɹiθˌɪŋ sˈɪts ænd wˌʌt hæz tə bi ɹˈɛdi, fɹʌm ðə pˈOstəɹ ˌɔn ðə mˈit kˈAs dˈɔɹ. jˌu. hˈændz wˈɔʃt, ɡlˈʌvz wəðˈɪn ɹˈiʧ. ɡlˈʌvz ˌɔn wənˈɛvəɹ ju hˈændəl ɹˈɛditʊˈit fˈud. ɐ sˈænətˌIzəɹ bˈʌkət wɪð ɐ tˈWᵊl ɪn ðə səlˈuʃən. ðə bˈɔɹd. fˌɪftˈin bI twˈɛnti ˈɪnʧᵻz, ɔɹ ˌʌp tə θˈɜɹTi lˈɔŋ, wɪð ɐ tˈWᵊl ˈʌndəɹ ɪt. ðə tɹˈɔf, ðə hˈOldəɹz, ðə bɹˈWn dˈO kˈʌTəɹ ænd ðə bˈɔɹd skɹˈApəɹ. ɐ spˈæʧələ fɔɹ ðə mˈAO ænd wˈʌn fɔɹ ðə ʧˈɑpt pˈɛpəɹ ɹˈɛlɪʃ. dˈOnt kˈʌt ˌɔn ðə spɹˈɪŋkᵊlɪŋ bˈɔɹd. stˈɑkt. vˈɪnəɡəɹ, ˈYl, əɹˈɛɡənˌO ænd sˈɔlt fˈʊl. bˈækˌʌps ʌv ˈʌnjᵊnz, lˈɛTəs, təmˈATOz, vˈɪnəɡəɹ ænd ˈYl ɹˈɛdi. bˈækˌʌps ʌv ˈɛkstɹəz pɹipˈɛɹd wɪð ðə ʤˈusᵻz dɹˈAnd. kˈip ðə dɹˈɑpˌɪn fˈʊli stˈɑkt. ɹistˈɑk ˌɔn ðə bˈæk kˈWntəɹ ɔɹ ɪn ðə kˈɪʧᵊn. klˈin ðə tɹˈɔf ˈɔfᵊn.",
+"voice": "af_heart"
+},
+"955708fb33d3ec46": {
+"id": "l34",
+"kind": "lesson",
+"peak": 0.55,
+"seconds": 4.24,
+"sounds": "wˌʌt ɡˈOz ˈʌndəɹ ðə spɹˈɪŋkᵊlɪŋ bˈɔɹd? ɐ tˈWᵊl. ðə bˈɔɹd sˈɪts ˌɔn ɐ tˈWᵊl.",
 "voice": "af_heart"
 },
 "958f87a3eb14eedd": {
@@ -4376,6 +4624,14 @@
 "sounds": "ʧˈɪkən bˈAkən ɹˈænʧ.",
 "voice": "af_heart"
 },
+"971b58fade17b6c1": {
+"id": "s112",
+"kind": "lesson",
+"peak": 0.86,
+"seconds": 13.62,
+"sounds": "ʃˌʊd ju pˈʊʃ ðə slˈIsəɹ bI ɪts ɹˈɛd ɔɹ ɡɹˈin hˈændəl? nˈO, kˈip jʊɹ hˈænd ˌɔn ðə ɡˈɑɹd. dɹˈIvɪŋ ɪt fɹʌm ðə hˈændəlz pˈʊlz jʊɹ ˈɛlbˌO ˌʌp. θˈʌm lˈɑkt ˈɪn, ˈɪndˌɛks fˈɪŋɡəɹ pˈYntɪŋ fˈɔɹwəɹd, ði ˈʌðəɹ fˈɪŋɡəɹz ˌɔn tˈɑp ʌv ðə ɡˈɑɹd.",
+"voice": "af_heart"
+},
 "9772444409c75ca7": {
 "id": "e16",
 "kind": "lesson",
@@ -4453,13 +4709,6 @@
 "sounds": "“vˈɛɹiəns” ˌɔn ðə ɹəvjˈu ʃˈit ɪz ðə ɡˈæp bətwˈin: ˈækʧəwəl ænd θˌiəɹˈɛTəkᵊl fˈud kˈɔst. ˈækʧəwəl fˈud kˈɔst, θˌiəɹˈɛTəkᵊl fˈud kˈɔst, ænd ðə dˈɪfəɹəns.",
 "voice": "af_heart"
 },
-"998b18389b9fb265": {
-"id": "o-sharpen",
-"kind": "card",
-"seconds": 108.2,
-"sounds": "ʃˈɑɹpən ænd ˈYl ðə slˈIsəɹ. ˈɛvəɹi mˈɔɹnɪŋ, æz pˈɑɹt ʌv ˈOpᵊnɪŋ: ʃˈɑɹpən fɔɹ tˈɛn sˈɛkəndz, hˈOn fɔɹ ɐ sˈɛkənd ænd ɐ hˈæf, klˈin ˈɔf ðə mˈɛTᵊl dˈʌst, ðˈɛn ɐ fjˈu dɹˈɑps ʌv ˈYl. wˌI: ɐ ʃˈɑɹp, ˈYld slˈIsəɹ ɡˈɪvz ðə bˈɛst slˈIs, dˈʌzᵊnt ʃɹˈɛd ðə mˈit, ænd kˈips fˈud kˈɔst ɪn lˈIn. jˌu nˈid. ɐ klˈin slˈIsəɹ. ðə ʃˈɑɹpᵊnəɹ, wɪð klˈin, dɹˈI stˈOnz. ðə slˈIsəɹz məʃˈin ˈYl, ɔɹ ɐ fˌudɡɹˈAd lˈubɹəkˌATɪŋ ˈYl. kˌʌtɹəzˈɪstᵊnt mˈɛTᵊl mˈɛʃ ɡlˈʌvz ænd ˈI pɹətˈɛkʃən. bˈOθ ɑɹ ɹəkwˈIəɹd. ʃˈɑɹpən. pˌʊt ˌɔn ðə mˈɛTᵊl mˈɛʃ ɡlˈʌvz. slˈIsəɹ ˈɔf. ətˈæʧ ðə ʃˈɑɹpᵊnəɹ, sˈɛt tə zˈɪɹO, ænd tˈItn ɪts smˈɔl nˈɑb. ðə blˈAd ɪz ˈOpᵊnd ˈɔl ðə wˈA. pˌʊt ˌɔn ˈI pɹətˈɛkʃən. swˈɪʧ ðə slˈIsəɹ ˌɔn. tˈɜɹn ðə ʃˈɑɹpᵊnəɹz dˈIᵊl tə ðə fˈɜɹst sˈɛTɪŋ fɔɹ tˈɛn sˈɛkəndz. dˈIᵊl bˈæk tə zˈɪɹO. slˈIsəɹ ˈɔf. wˈAt ˌʌntˈɪl ðə blˈAd stˈɑps tˈɜɹnɪŋ. swˈɪʧ ˌɔn əɡˈɛn. sˈɛkənd sˈɛTɪŋ fɔɹ wˈʌn pYnt fˈIv sˈɛkəndz. ðˌɪs hˈOnz ði ˈɛʤ. slˈIsəɹ ˈɔf. wˈAt fɔɹ ðə blˈAd tə stˈɑp. tˈAk ðə ʃˈɑɹpᵊnəɹ ˈɔf ænd klˈOz ðə blˈAd ɹˈIt əwˈA. bɹˈʌʃ ðə stˈOnz kwˈɪkli. ˌʌnplˈʌɡ ðə slˈIsəɹ ænd dˈu ɐ kəmplˈit klˈin. ʃˈɑɹpənɪŋ lˈivz mˈɛTᵊl dˈʌst. ˈYl. ɐ fjˈu dɹˈɑps ˌɔn ðə ʃˈæft ˌʌndəɹnˈiθ. slˈId ðə pˈʊʃəɹ dˈɛk bˈæk ænd fˈɔɹθ tə spɹˈɛd ɪt. ɐ fjˈu dɹˈɑps ˌɔn ðə ʃˈæft ðə ɡˈɑɹd ɡlˈIdz ˌɔn. wˈɜɹk ðə ɡˈɑɹd ˌʌp ænd dˌWn ɐ fjˈu tˈImz. ˌɪt dˈʌzᵊnt tˈAk mˈʌʧ. lˈʊkɪŋ ˈæftəɹ ðə ʃˈɑɹpᵊnəɹ. dˈɜɹTi stˈOnz stˈɑp wˈɜɹkɪŋ. ðə ɡɹˈIndɪŋ stˈOn ʃˌʊd fˈil slˈItli ɹˈʌf. ˌɪt kæn bi wˈɔʃt ænd sˈænətˌIzd æt ðə θɹˈi kəmpˈɑɹtmənt sˈɪŋk. jˈuz ɪts bɹˈʌʃ, ɔɹ ɐ tˈuθbɹˌʌʃ lˈIk ɪt, ˌɔn ðə stˈOnz. lˈɛt ðə stˈOnz dɹˈI bəfˈɔɹ ðə nˈɛkst jˈus. wˈɛt stˈOnz kˈænt ʃˈɑɹpən. slˈIsəɹz kˈʌm wɪð wˈʌn ʌv tˈu kˈIndz ʌv ʃˈɑɹpᵊnəɹ, ænd ðA ətˈæʧ ɪn dˈɪfəɹənt wˈAz. hˌæv ɐ tɹˈAnd pˈɜɹsᵊn ʃˈO ju jˈɔɹz ˌɔn ðə məʃˈin. dˈOnt lˈɜɹn ðæt pˈɑɹt fɹʌm ɐ pˈAʤ.",
-"voice": "af_heart"
-},
 "99d06491eeb337c9": {
 "id": "k4",
 "kind": "lesson",
@@ -4472,6 +4721,14 @@
 "kind": "lesson",
 "seconds": 6.45,
 "sounds": "hˌW lˈɔŋ kæn fˈAʃᵊl hˈɛɹ bˈi? ɐ kwˈɔɹTəɹ ˈɪnʧ. tɹˈɪmd tə ɐ kwˈɔɹTəɹ ˈɪnʧ ɔɹ lˈɛs, ʃˈAvd əɹˈWnd ˈɛvəɹi ʃˈɪft.",
+"voice": "af_heart"
+},
+"9a7172826a4de1d3": {
+"id": "o-guard",
+"kind": "card",
+"peak": 0.89,
+"seconds": 52.02,
+"sounds": "mˈit kˈAs, ɡˈɑɹd, hˈændz. fjˈu stˈɛps tə ðə mˈit kˈAs ænd bˈæk, ænd klˈOz ðə mˈit kˈAs dˈɔɹ ˈɛvəɹi tˈIm ju tˈAk sˈʌmθˌɪŋ ˈWt. plˈAs pɹˈɑdˌʌkt ɪn ʤˈɛntli. dɹˈɑpɪŋ ɔɹ tˈɔsɪŋ ɪt ɪn wˈɛɹz ðə slˈIsəɹ ˈWt. “bɹˈɪŋ ðə ɡˈɑɹd tə ðə pˈɑɹTi.” ðə ɡˈɑɹd ɡˈOz ˌɔn tˈɑp ʌv ðə pɹˈɑdˌʌkt ˈɛvəɹi tˈIm. ˌɪt hˈOldz ðə pɹˈɑdˌʌkt ɪn plˈAs ænd kˈips ju ˈɔf ðə blˈAd. ˌæz ðə ɡˈɑɹd kˈʌmz dˌWn, ðə lˈɛft hˈænd sˈɛts ðə dˈIᵊl. sˈɛTɪŋ ɪt tˈɜɹnz ðə slˈIsəɹ ˌɔn. ɹˈIt θˈʌm lˈɑkt ɪn bəhˈInd ðə pˈʊʃəɹ dˈɛk, ˈɪndˌɛks fˈɪŋɡəɹ pˈYntɪŋ fˈɔɹwəɹd, ði ˈʌðəɹ fˈɪŋɡəɹz ɹˈɛstɪŋ ˌɔn tˈɑp ʌv ðə ɡˈɑɹd. dˈOnt dɹˈIv ðə slˈIsəɹ fɹʌm ðə ɹˈɛd ɔɹ ɡɹˈin hˈændəl: ɪt pˈʊlz jʊɹ ˈɛlbˌO ˌʌp. ɐ lˈɪTᵊl pɹˈɛʃəɹ fɹʌm jʊɹ fˈɪŋɡəɹz ɡˈɪvz ɐ slˈItli θˈɪkəɹ slˈIs wˌɛn ju nˈid wˈʌn. tˈAkɪŋ pɹˈɑdˌʌkt ˈWt: ɡˈɑɹd ˈɔf, ɹˈIt hˈænd slˈIdz ðə pɹˈɑdˌʌkt ˈɪntu jʊɹ lˈɛft, bˈæk tə ðə mˈit kˈAs, dˈɔɹ klˈOzd. nˈɛvəɹ ɹˈiʧ ɪn wɪð jʊɹ lˈɛft hˈænd.",
 "voice": "af_heart"
 },
 "9a9accec04687859": {
@@ -4598,6 +4855,14 @@
 "kind": "lesson",
 "seconds": 8.68,
 "sounds": "wˌʌts ðə lˈidɪŋ kˈɔz ʌv fˈudbˌɔɹn ˈɪlnəs ɪn ðə jˌuˈɛs? nˈɔɹəvˌIɹəs. nˈɔɹəvˌIɹəs. ðə fˈud sˈAfti vˈɪdiO kˈɔlz ɪt ðə bˈæd bˈY ʌv ðə fˈIv.",
+"voice": "af_heart"
+},
+"9dc131af182d6bda": {
+"id": "s81",
+"kind": "lesson",
+"peak": 0.51,
+"seconds": 8.51,
+"sounds": "ɐ ʤˈIənt nˈʌmbəɹ θˌɜɹtˈin, ði əɹˈɪʤənᵊl ɪtˈæljən, ʃˌʊd wˈA: əlˈɛvᵊn ˈWnsᵻz. ðə hˈɛviɪst ʤˈIənt ˌɔn ðə ʃˈit: pɹˈOvəlˌOn ænd fˈIv mˈits.",
 "voice": "af_heart"
 },
 "9e3218c8432a80fe": {
@@ -4994,6 +5259,14 @@
 "sounds": "nˈʌmbəɹ fˈIv. ðə sˈupəɹ sˈʌb. pɹˈOvəlˌOn, hˈæm, pɹəʃutˈini, kˌæpəkˈOlə. ðˈɛn mˈIks wˈA. mˈIks wˈA ɪz ˈʌnjᵊnz, lˈɛTəs, təmˈATOz, ɹˈɛd wˈIn vˈɪnəɡəɹ, ˈɑləv ˈYl blˈɛnd, əɹˈɛɡənˌO, sˈɔlt. ʤˈɜɹzi ʃˈɔɹz fˈAvəɹət (ðə nˈʌmbəɹ tˈu) plˈʌs pɹəʃutˈini. θɹˈi mˈits.",
 "voice": "af_heart"
 },
+"aa5d4ec54a64789f": {
+"id": "s78",
+"kind": "lesson",
+"peak": 0.75,
+"seconds": 8.97,
+"sounds": "ɐ ʤˈIənt nˈʌmbəɹ sˈɛvən, tˈɜɹki ænd pɹˈOvəlˌOn, ʃˌʊd wˈA: nˈIn pYnt tˈu ˈWnsᵻz. tˈu ˈWnsᵻz ʌv pɹˈOvəlˌOn ænd sˈɛvən pYnt tˈu ˈWnsᵻz ʌv tˈɜɹki.",
+"voice": "af_heart"
+},
 "aab2458e98604731": {
 "id": "p3",
 "kind": "lesson",
@@ -5043,6 +5316,14 @@
 "kind": "lesson",
 "seconds": 7.5,
 "sounds": "pˈɪnʧ, pˈʊl ˈOvəɹ, pˈʌnʧ ɪz: ðə fˈɜɹst fˈOld ʌv ðə ɹˈæp. pˈɪnʧ ðə nˌɪɹ kˈɔɹnəɹ, pˈʊl ɪt ˈOvəɹ ðə sˈʌb, pˈʌnʧ ɪt ˈɪntu ðə kˈWntəɹ.",
+"voice": "af_heart"
+},
+"ac7959c8d593e95a": {
+"id": "s91",
+"kind": "lesson",
+"peak": 0.52,
+"seconds": 7.89,
+"sounds": "hˌW mˈɛni slˈIsᵻz ʌv bˈAkən ɡˌO ˌɔn ɐ ʤˈIənt bˌiˌɛltˈi? twˈɛlv slˈIsᵻz. twˈɛlv ˌɔn ɐ ʤˈIənt, sˈɪks ˌɔn ɐ ɹˈɛɡjələɹ, fˈɔɹ ˌɔn ɐ mˈɪni.",
 "voice": "af_heart"
 },
 "ac9dc54730f0787a": {
@@ -5156,6 +5437,14 @@
 "kind": "lesson",
 "seconds": 9.77,
 "sounds": "ɐ ɡˈɛst wˈɑnts mˈAO ˌɔn ɐ ɡlˌutnfɹˈi sˈʌb. jˌu jˈuz: ðə skwˈiz bˈɑTəl fɹʌm ðə mˈit kˈAs. skwˈiz bˈɑTəlz fɔɹ mˈAO ænd ʧˈɛɹi pˈɛpəɹ ɹˈɛlɪʃ, nˌɑt ðə spˈæʧələz.",
+"voice": "af_heart"
+},
+"b019408240a1b790": {
+"id": "s98",
+"kind": "lesson",
+"peak": 0.58,
+"seconds": 12.2,
+"sounds": "ˌɪz ɐ ʤˈIənt twˈIs ðə wˈAt ʌv ɐ ɹˈɛɡjələɹ? nˈO, ˈiʧ sˈIz hæz ɪts ˈOn wˈAt. ðə nˈʌmbəɹ sˈɛvən ɪz nˈIn pYnt tˈu ˈWnsᵻz æz ɐ ʤˈIənt ænd fˈIv pYnt fˈIv ˈWnsᵻz æz ɐ ɹˈɛɡjələɹ. lˈɜɹn ˈiʧ sˈIz.",
 "voice": "af_heart"
 },
 "b03cbe3a8a43d4d2": {
@@ -5306,6 +5595,14 @@
 "kind": "lesson",
 "seconds": 6.62,
 "sounds": "bɹˈɛd ɪz dˈʌn pɹˈufɪŋ wˌɛn: ˌɪt ʤˈʌst tˈʌʧᵻz ðə bɹˈɛd tˈulz kˈɜɹv. ðə bɹˈɛd tˈul mˈɛʒəɹz ðə hˈIt ʌv ðə lˈOf.",
+"voice": "af_heart"
+},
+"b6ecc18d80739bfe": {
+"id": "s109",
+"kind": "lesson",
+"peak": 0.68,
+"seconds": 10.35,
+"sounds": "ðə nˈʌmbəɹz ˌɔn ðə slˈIsəɹz dˈIᵊl, zˈɪɹO tə twˈɛnti fˈɔɹ, ɑɹ: mˈɪləmˌiTəɹz ʌv θˈɪknəs. zˈɪɹO klˈOzᵻz ðə blˈAd. stˈɪl ɡˌO bI ðə skˈAl, nˈɛvəɹ ðə nˈʌmbəɹ ˌɔn ðə dˈIᵊl.",
 "voice": "af_heart"
 },
 "b727e415fc25b22c": {
@@ -5470,6 +5767,14 @@
 "sounds": "ˌɪn ðə ɹˈWnd ɹˈɑbən ɹˈæpɪŋ dɹˈɪl, ðə tɹˈAnəɹ: ˌʌnɹˈæps ˈiʧ sˈʌb ænd slˈIdz ɪt bˈæk tə bi ɹˈæpt əɡˈɛn. tˈu pˈApəɹz, tˈu bɹˈɛdz, əɹˈWnd ænd əɹˈWnd. ˌɪt fˈilz lˈIk ɐ lˈʌnʧ ɹˈʌʃ.",
 "voice": "af_heart"
 },
+"bd3d9a17cd477e7d": {
+"id": "l38",
+"kind": "lesson",
+"peak": 0.63,
+"seconds": 7.3,
+"sounds": "bˈækˌʌp pˈænz ʌv ˈɛkstɹəz ɑɹ pɹipˈɛɹd wɪð: ðə ʤˈusᵻz dɹˈAnd. bˈækˌʌps ʌv ˈɛkstɹəz ɑɹ pɹipˈɛɹd wɪð ðɛɹ ʤˈusᵻz dɹˈAnd.",
+"voice": "af_heart"
+},
 "bd431469f9e03521": {
 "id": "o-where",
 "kind": "card",
@@ -5506,6 +5811,14 @@
 "sounds": "“bɹˈɪŋ ðə ʤˈus” mˈinz: ði ˈɛkstɹə ænd ði ˌʌnəkspˈɛktᵻd. ˌɪn hˌW ju sˈɜɹv ɡˈɛsts, səpˈɔɹt ðə tˈim ænd kˈip ðə stˈændəɹdz.",
 "voice": "af_heart"
 },
+"be47fe9343dc0410": {
+"id": "o-wipe",
+"kind": "card",
+"peak": 0.83,
+"seconds": 41.74,
+"sounds": "wˈIpɪŋ dˌWn ðə slˈIsəɹ. wˌɛn: ˈæftəɹ ˈiʧ ˈɔɹdəɹ. bəfˈɔɹ ɐ vˈɛʤi sˈʌb. ˈæftəɹ ˈɛni sˈʌb wɪð ɹˈOst bˈif. ˌɪn ˈɛni bɹˈAk ɪn ðə ɹˈʌʃ. ˌænd ˈɔlwˌAz bəfˈɔɹ ju wˈɔk əwˈA. tˈɜɹn ðə dˈIᵊl klˈɑkwˌIz ˌʌntˈɪl ðə blˈAd ɪz kəmplˈitli klˈOzd. ðˌæt tˈɜɹnz ðə slˈIsəɹ ˈɔf. lˈusᵊn ðə blˈæk nˈɑb ˌɔn ðə sˈId ænd lˈɛt ðə pˈʊʃəɹ dˈɛk swˈɪŋ ˈOpᵊn. ðˌæt lˈɑks ðə dˈIᵊl ænd ðə blˈAd klˈOzd. ðə tˈWᵊl: sˈOkt ɪn wˈɔɹm sˈænətˌIzəɹ səlˈuʃən, ɹˈʌŋ ˈWt wˈɛl, fˈOldᵻd ˈɪntu twˈɛlv. ðˈɛn wˈIp, ɪn ðɪs ˈɔɹdəɹ: swˈɪŋ ðə pˈʊʃəɹ dˈɛk bˈæk ˈɪntu plˈAs ænd tˈItn ðə blˈæk nˈɑb. ðə sˈIn bI ðə slˈIsəɹ hæz ɐ kjˌuˈɑɹ kˈOd fɔɹ ðə wˈIpɪŋ dˌWn ðə slˈIsəɹ vˈɪdiO. ˌɪt ˈOpᵊnz ɪn ði ˌɛlˌɛmˈɛs, sˌO ju sˈIn ɪn tə wˈɑʧ.",
+"voice": "af_heart"
+},
 "be76db288427578a": {
 "id": "h9",
 "kind": "lesson",
@@ -5540,13 +5853,6 @@
 "kind": "lesson",
 "seconds": 7.8,
 "sounds": "kˌæn ju pˈʊl ɐ ɡˈɛst tə ðə ɹˈɛʤəstəɹ bəfˈɔɹ ðɛɹ kˈOld sˈʌb ɪz mˌAd? nˈɛvəɹ. ðˌA ʤˈʌst ɡɛt pˈʊld bˈæk, ænd ɪt kənfjˈuzᵻz ðə hˈOl lˈIn.",
-"voice": "af_heart"
-},
-"bfa927ff57451d32": {
-"id": "9",
-"kind": "sub",
-"seconds": 20.1,
-"sounds": "nˈʌmbəɹ nˈIn. klˈʌb səpɹˈim. swˈɪs, ɹˈOst bˈif, tˈɜɹki. ðˈɛn mˈIks wˈA. mˈAO ænd bˈAkən ˌɔn ðə lˈɪd. mˈIks wˈA ɪz ˈʌnjᵊnz, lˈɛTəs, təmˈATOz, ɹˈɛd wˈIn vˈɪnəɡəɹ, ˈɑləv ˈYl blˈɛnd, əɹˈɛɡənˌO, sˈɔlt. ðə klˈʌb sˈʌb (ðə nˈʌmbəɹ ˈAt) wɪð ɹˈOst bˈif ɪnstˈɛd ʌv hˈæm ænd swˈɪs ɪnstˈɛd ʌv pɹˈOvəlˌOn. mˈAO ænd bˈAkən ˌɔn ðə lˈɪd.",
 "voice": "af_heart"
 },
 "bfcb68be686bf52d": {
@@ -5697,6 +6003,14 @@
 "sounds": "ˈɔɹdəɹz ɑɹ bˈɛst wˈɜɹkt ˈWt: ˌæt ðə sˈAm tˈIm ˈiʧ wˈik. ˌɪt bˈɪldz ɐ hˈæbət, ænd stˈɑk lˈɛvᵊlz stˈA kənsˈɪstᵊnt.",
 "voice": "af_heart"
 },
+"c3bf7b384eab9581": {
+"id": "o-sharpen",
+"kind": "card",
+"peak": 1.03,
+"seconds": 157.06,
+"sounds": "ʃˈɑɹpən ænd ˈYl ðə slˈIsəɹ. ˈɛvəɹi mˈɔɹnɪŋ, æz pˈɑɹt ʌv ˈOpᵊnɪŋ: ʃˈɑɹpən fɔɹ tˈɛn sˈɛkəndz, hˈOn fɔɹ ɐ sˈɛkənd ænd ɐ hˈæf, klˈin ˈɔf ðə mˈɛTᵊl dˈʌst, ðˈɛn ɐ fjˈu dɹˈɑps ʌv ˈYl. wˌI: ɐ ʃˈɑɹp, ˈYld slˈIsəɹ ɡˈɪvz ðə bˈɛst slˈIs, dˈʌzᵊnt ʃɹˈɛd ðə mˈit, ænd kˈips fˈud kˈɔst ɪn lˈIn. tˈɛn sˈɛkəndz ænd ɐ sˈɛkənd ænd ɐ hˈæf ɑɹ fɔɹ ɐ bɪzˈɜɹbə slˈIsəɹ. ðə slˈIsɪŋ ʃˈit ɡˈɪvz ˈʌðəɹ mˌAks sˈɛvən sˈɛkəndz ˌɔn ðə fˈɜɹst sˈɛTɪŋ ænd θɹˈi ˌɔn ðə sˈɛkənd. sˌʌm slˈIsəɹz kˈɛɹi ðɛɹ ˈOn stˈɪkəɹ wɪð ˈʌðəɹ tˈImz, sˈʌʧ æz θˈɜɹTi sˈɛkəndz ænd θɹˈi sˈɛkəndz. ˌɪf jˈɔɹz dˈʌz, ˈæsk jʊɹ mˈænɪʤəɹ wˌɪʧ jʊɹ stˈɔɹ fˈɑlOz, ænd ɹˈIt ɪt ɪn jˌʊɹ stˈɔɹz wˈA. jˌu nˈid. ɐ klˈin slˈIsəɹ. ðə ʃˈɑɹpᵊnəɹ, wɪð klˈin, dɹˈI stˈOnz. bɪzˈɜɹbə məʃˈin ˈYl, ɔɹ ɐ fˌudɡɹˈAd lˈubɹəkˌATɪŋ ˈYl. kˌʌtɹəzˈɪstᵊnt mˈɛTᵊl mˈɛʃ ɡlˈʌvz ænd ˈI pɹətˈɛkʃən. bˈOθ ɑɹ ɹəkwˈIəɹd. ʃˈɑɹpən. pˌʊt ˌɔn ðə mˈɛTᵊl mˈɛʃ ɡlˈʌvz. slˈIsəɹ ˈɔf, pˈʊʃəɹ dˈɛk ˈɔl ðə wˈA bˈæk. ˈOpᵊn ðə blˈAd ˈɔl ðə wˈA. ʃˈɑɹpᵊnəɹ sˈɛt tə zˈɪɹO, plˈAst ˌɔn ði əʤˈʌstəbᵊl dˈɛk. pˈʊʃ ðə ʃˈɑɹpᵊnəɹ ænd ðə pˈʊʃəɹ dˈɛk fˈɔɹwəɹd ˌʌntˈɪl ɪt sˈɪts ɪn ði ˌɪndˌɛntˈAʃən ænd tˈʌʧᵻz ðə fɹˈʌnt ʌv ðə ɡˈɑɹd ɹˈɪŋ. tˈItn ɪts smˈɔl nˈɑb. pˌʊt ˌɔn ˈI pɹətˈɛkʃən. swˈɪʧ ðə slˈIsəɹ ˌɔn. tˈɜɹn ðə ʃˈɑɹpᵊnəɹz dˈIᵊl tə ðə fˈɜɹst sˈɛTɪŋ fɔɹ tˈɛn sˈɛkəndz. dˈIᵊl bˈæk tə zˈɪɹO. slˈIsəɹ ˈɔf. wˈAt ˌʌntˈɪl ðə blˈAd stˈɑps tˈɜɹnɪŋ. swˈɪʧ ˌɔn əɡˈɛn. sˈɛkənd sˈɛTɪŋ fɔɹ wˈʌn pYnt fˈIv sˈɛkəndz. ðˌɪs hˈOnz ði ˈɛʤ. slˈIsəɹ ˈɔf. wˈAt fɔɹ ðə blˈAd tə stˈɑp. lˈusᵊn ðə smˈɔl nˈɑb, pˈʊl ðə pˈʊʃəɹ dˈɛk bˈæk ænd lˈɪft ðə ʃˈɑɹpᵊnəɹ ˈWt. klˈOz ðə blˈAd ɹˈIt əwˈA. bɹˈʌʃ ðə stˈOnz kwˈɪkli. ˌʌnplˈʌɡ ðə slˈIsəɹ ænd dˈu ɐ kəmplˈit klˈin. ʃˈɑɹpənɪŋ lˈivz mˈɛTᵊl dˈʌst. ˈYl. ɐ fjˈu dɹˈɑps ˌɔn ðə ʃˈæft ˌʌndəɹnˈiθ. slˈId ðə pˈʊʃəɹ dˈɛk bˈæk ænd fˈɔɹθ tə spɹˈɛd ɪt. ɐ fjˈu dɹˈɑps ˌɔn ðə ʃˈæft ðə ɡˈɑɹd ɡlˈIdz ˌɔn. wˈɜɹk ðə ɡˈɑɹd ˌʌp ænd dˌWn ɐ fjˈu tˈImz. ˌɪt dˈʌzᵊnt tˈAk mˈʌʧ. lˈʊkɪŋ ˈæftəɹ ðə ʃˈɑɹpᵊnəɹ. dˈɜɹTi stˈOnz stˈɑp wˈɜɹkɪŋ. ðə ɡɹˈIndɪŋ stˈOn ʃˌʊd fˈil slˈItli ɹˈʌf. ˌɪt kæn bi wˈɔʃt ænd sˈænətˌIzd æt ðə θɹˈi kəmpˈɑɹtmənt sˈɪŋk. jˈuz ɪts bɹˈʌʃ, ɔɹ ɐ tˈuθbɹˌʌʃ lˈIk ɪt, ˌɔn ðə stˈOnz. ˌɪt kæn ˈɔlsO ɡˌO θɹu ɐ dˈɪʃwˌɔʃəɹ, æz lˈɔŋ æz ðə wˈɔʃ ænd ðə dɹˈIɪŋ stˈA ˈʌndəɹ wˈʌn hˈʌndɹəd sˈɛvənti dəɡɹˈiz. bˈædli sˈYld stˈOnz: ɐ wˌɔTəɹsˈɑljəbᵊl diɡɹˈisəɹ. lˈɛt ðə stˈOnz dɹˈI bəfˈɔɹ ðə nˈɛkst jˈus. wˈɛt stˈOnz kˈænt ʃˈɑɹpən. bɪzˈɜɹbə ʃˈɑɹpᵊnəɹz kˈʌm ɪn tˈu kˈIndz ðæt ɡˌO ˌɔn dˈɪfəɹəntli. ðˌiz stˈɛps ɑɹ fɔɹ ðə kˈInd ˌɔn ɐ ʤˌiˌɛspˈi ˈAʧ, ðə slˈIsəɹ ɪn nˈO jʊɹ slˈIsəɹ. ˌɪf jˈɔɹz hæz ɐ lˈɑk bˈOlt ðæt snˈæps ˈɪntu plˈAs, ɪts ði ˈʌðəɹ kˈInd: hæv ɐ tɹˈAnd pˈɜɹsᵊn ʃˈO ju ˌɔn ðə məʃˈin.",
+"voice": "af_heart"
+},
 "c3f74d331439f7f5": {
 "id": "o-leadclose",
 "kind": "card",
@@ -5731,13 +6045,6 @@
 "kind": "step",
 "seconds": 16.61,
 "sounds": "stˈɛp tˈu. hˌW mˈɛni pˈisᵻz. mˈɪniz ɪn hˈæf, ɹˈɛɡjələɹz ɪn hˈæf, ʤˈIənts ɪn kwˈɔɹTəɹz. dˈOnt ˈæsk hˌW ðA wˈɑnt ɪt kˈʌt. ˌɪf ɐ ɡˈɛst ˈæsks fɔɹ sˈɪks, kˈʌt ɪt ɪn hˈæf ænd ˈiʧ hˈæf ɪn θˈɜɹdz. fˌɔɹ ˈAt, kˈʌt kwˈɔɹTəɹz ænd ðˈɛn ˈiʧ kwˈɔɹTəɹ ɪn hˈæf. tˈAk ðə mˈOmᵊnt tə mˌAk ðə pˈisᵻz ˈikwᵊl.",
-"voice": "af_heart"
-},
-"c4b1ed67d1bb8644": {
-"id": "14",
-"kind": "sub",
-"seconds": 17.92,
-"sounds": "nˈʌmbəɹ fˌɔɹtˈin. ðə vˈɛʤi. swˈɪs, pɹˈOvəlˌOn, ɡɹˈin bˈɛl pˈɛpəɹz. ðˈɛn mˈIks wˈA. mˈIks wˈA ɪz ˈʌnjᵊnz, lˈɛTəs, təmˈATOz, ɹˈɛd wˈIn vˈɪnəɡəɹ, ˈɑləv ˈYl blˈɛnd, əɹˈɛɡənˌO, sˈɔlt. tˈu ʧˈizᵻz ænd ɡɹˈin pˈɛpəɹz, nˈO mˈit. mˈIks wˈA ɪz wˌʌt pˌʊts ði ˈʌnjᵊnz, lˈɛTəs ænd təmˈATOz ˌɔn ɪt.",
 "voice": "af_heart"
 },
 "c4bb00f078aba35b": {
@@ -5816,6 +6123,14 @@
 "kind": "lesson",
 "seconds": 6.18,
 "sounds": "ˌɔn ɐ kˈɛʧ ænd flˈɪp, ðə slˈIs lˈændz ˌɔn: jˌʊɹ fˈɔɹ fˈɪŋɡəɹz. əkɹˈɔs ðə fˈɔɹ fˈɪŋɡəɹz, ðˈɛn lˈAd dˌWn.",
+"voice": "af_heart"
+},
+"c6f27347692b566c": {
+"id": "s117",
+"kind": "lesson",
+"peak": 0.6,
+"seconds": 11.61,
+"sounds": "ðə ʃˈɑɹpᵊnəɹ kæn ɡˌO θɹu ɐ dˈɪʃwˌɔʃəɹ æz lˈɔŋ æz ɪt stˈAz ˈʌndəɹ: wˈʌn hˈʌndɹəd sˈɛvənti dəɡɹˈiz. wˈɔʃ ænd dɹˈIɪŋ bˈOθ ˈʌndəɹ wˈʌn hˈʌndɹəd sˈɛvənti dəɡɹˈiz. ˌɔɹ wˈɔʃ ɪt æt ðə θɹˈi kəmpˈɑɹtmənt sˈɪŋk.",
 "voice": "af_heart"
 },
 "c7bcda030c456019": {
@@ -5945,6 +6260,22 @@
 "sounds": "ɐ kˈɜɹənt ɡˈɛst kˈænt ɡɛt əwˈA fɔɹ lˈʌnʧ. jˌu ˈɔfəɹ: ˈɑpʃənz: ˌɑnlˈIn ˈɔɹdəɹɪŋ ɔɹ dəlˈɪvəɹi. ɡˈɪv ɪɡzˈɪstɪŋ ɡˈɛsts mˈɔɹ wˈAz tə ɡɛt ðə fˈud.",
 "voice": "af_heart"
 },
+"cc2a9d89602bdb92": {
+"id": "s115",
+"kind": "lesson",
+"peak": 0.49,
+"seconds": 6.51,
+"sounds": "hˌu mˈA ʧˈAnʤ ɐ slˈIsəɹ blˈAd? bɪzˈɜɹbəz sˈɜɹvəs. fˌɔɹ sˈAfti, ˈOnli bɪzˈɜɹbəz sˈɜɹvəs ʧˈAnʤᵻz ðə blˈAd.",
+"voice": "af_heart"
+},
+"cc335164b989795c": {
+"id": "s104",
+"kind": "lesson",
+"peak": 0.87,
+"seconds": 11.47,
+"sounds": "ðə slˈIsəɹ ɪz fˈʊli klˈind fˈɔɹ tˈImz ɐ dˈA. wˌɪʧ ɪz wˈʌn ʌv ðˌɛm? ˈæftəɹ pɹˈɛpɪŋ ænd ʃˈɑɹpənɪŋ. ˈæftəɹ pɹˈɛpɪŋ ænd ʃˈɑɹpənɪŋ, ˈæftəɹ ðə lˈʌnʧ ɹˈʌʃ, bəfˈɔɹ ðə dˈɪnəɹ ɹˈʌʃ, ænd æt klˈOzɪŋ.",
+"voice": "af_heart"
+},
 "cc6d5e715c8950aa": {
 "id": "e22",
 "kind": "lesson",
@@ -6036,11 +6367,27 @@
 "sounds": "wˌɪʧ wˈʌn ɪz ɐn ɪɡzˈæmpəl ʌv pəɹˈɪfəɹəl hˈɪɹɪŋ? jˌu hˈɪɹ ɐ kæʃˈɪɹ ˈæsk ɐ ɡˈɛst wˌʌt ðA ˈɔɹdəɹd, ænd ju tˈɛl ðə kæʃˈɪɹ. jˌu lˈɪsᵊn tə ðə hˈOl stˈɔɹ wˌIl ju wˈɜɹk, ænd ju ˈækt ˌɔn wˌʌt ju hˈɪɹ.",
 "voice": "af_heart"
 },
+"ce6c6991bf594b72": {
+"id": "s89",
+"kind": "lesson",
+"peak": 0.9,
+"seconds": 13.26,
+"sounds": "hˌW mˈʌʧ pɹˈOvəlˌOn ɡˈOz ˌɔn ɐ ɹˈɛɡjələɹ, ˌɔn ˈɔlmOst ˈɛvəɹi sˈʌb? wˈʌn pYnt tˈu ˈWnsᵻz. tˈu ˈWnsᵻz ˌɔn ɐ ʤˈIənt, wˈʌn pYnt tˈu ˈWnsᵻz ˌɔn ɐ ɹˈɛɡjələɹ, zˈɪɹO pYnt ˈAt ˈWnsᵻz ˌɔn ɐ mˈɪni. ˈOnli ðə vˈɛʤi ɡɛts mˈɔɹ.",
+"voice": "af_heart"
+},
 "ce963a85f5a000f9": {
 "id": "b52",
 "kind": "lesson",
 "seconds": 11.51,
 "sounds": "ɐ ɡˈɛst ˈɔɹdəɹz ɐ ɡlˌutnfɹˈi sˈʌb. wˌʌt kˈʌmz fˈɜɹst? klˈin ðə slˈIsəɹ ænd ðə kˈWntəɹ. klˈin ðə slˈIsəɹ ænd kˈWntəɹz. ðˈɛn wˈɔʃ hˈændz ænd ʧˈAnʤ ɡlˈʌvz. ðˈɛn ðə pˈɑɹʧmᵊnt ɡˈOz dˌWn.",
+"voice": "af_heart"
+},
+"ceac0e62f9c8446b": {
+"id": "s113",
+"kind": "lesson",
+"peak": 0.58,
+"seconds": 7.21,
+"sounds": "wˌʌt hˈOldz ðə spˈIk plˈAt ˌɔn ðə ɡˈɑɹd? ðə smˈɔl blˈæk nˈɑb. lˈusᵊn ɪt ænd ðə spˈIk plˈAt kˈʌmz ˈɔf fɔɹ ðə fˈɔɹ ˈWəɹ klˈin.",
 "voice": "af_heart"
 },
 "ceffced6af1b6e8c": {
@@ -6078,6 +6425,14 @@
 "peak": 0.59,
 "seconds": 12.96,
 "sounds": "ðə tɹˈAnɪŋz ˈænsəɹ: mˌAk ɪt, ænd klˈin ðə ɡɹˈɪl əɡˈɛn ˈæftəɹ. jˌu sˈɜɹv ɡˈɛsts ɹˈIt ˌʌp tə klˈOzɪŋ tˈIm. ɐ hˈɑt sˈʌb ˌɔn ɐ pɹˌiklˈind ɡɹˈɪl kˈʊks fˈæst, ænd ɐ ɡɹˈɪl ɪz ˈizi tə klˈin əɡˈɛn ˈæftəɹ wˈʌn ɔɹ tˈu sˈʌbz.",
+"voice": "af_heart"
+},
+"d14ef1c8355328b8": {
+"id": "8",
+"kind": "sub",
+"peak": 0.57,
+"seconds": 15.86,
+"sounds": "nˈʌmbəɹ ˈAt. klˈʌb sˈʌb. pɹˈOvəlˌOn, hˈæm, tˈɜɹki. ðˈɛn mˈIks wˈA. mˈAO ænd bˈAkən ˌɔn ðə lˈɪd. mˈIks wˈA ɪz ˈʌnjᵊnz, lˈɛTəs, təmˈATOz, ɹˈɛd wˈIn vˈɪnəɡəɹ, ˈɑləv ˈYl blˈɛnd, əɹˈɛɡənˌO, sˈɔlt. hˈæm ænd tˈɜɹki, wɪð mˈAO ænd bˈAkən ˌɔn ðə lˈɪd ˌɔTəmˈæTəkᵊli.",
 "voice": "af_heart"
 },
 "d15b4b4c55e1b6bc": {
@@ -6326,13 +6681,6 @@
 "sounds": "ɹˈOst bˈif ænd pɹˈOvəlˌOn.",
 "voice": "af_heart"
 },
-"da04119922c263d1": {
-"id": "o-guard",
-"kind": "card",
-"seconds": 47.76,
-"sounds": "mˈit kˈAs, ɡˈɑɹd, hˈændz. fjˈu stˈɛps tə ðə mˈit kˈAs ænd bˈæk, ænd klˈOz ðə mˈit kˈAs dˈɔɹ ˈɛvəɹi tˈIm ju tˈAk sˈʌmθˌɪŋ ˈWt. plˈAs pɹˈɑdˌʌkt ɪn ʤˈɛntli. dɹˈɑpɪŋ ɔɹ tˈɔsɪŋ ɪt ɪn wˈɛɹz ðə slˈIsəɹ ˈWt. “bɹˈɪŋ ðə ɡˈɑɹd tə ðə pˈɑɹTi.” ðə ɡˈɑɹd ɡˈOz ˌɔn tˈɑp ʌv ðə pɹˈɑdˌʌkt ˈɛvəɹi tˈIm. ˌɪt hˈOldz ðə pɹˈɑdˌʌkt ɪn plˈAs ænd kˈips ju ˈɔf ðə blˈAd. ˌæz ðə ɡˈɑɹd kˈʌmz dˌWn, ðə lˈɛft hˈænd sˈɛts ðə dˈIᵊl. sˈɛTɪŋ ɪt tˈɜɹnz ðə slˈIsəɹ ˌɔn. ɹˈIt θˈʌm lˈɑkt ɪn bəhˈInd ðə pˈʊʃəɹ dˈɛk, fˈɪŋɡəɹz ɹˈɛstɪŋ ˌɔn ðə ɡˈɑɹd. nˌɑt ˌɔn ðə hˈændəl: ðə hˈændəl pˈʊlz jʊɹ ˈɛlbˌO ˌʌp. ɐ lˈɪTᵊl pɹˈɛʃəɹ fɹʌm jʊɹ fˈɪŋɡəɹz ɡˈɪvz ɐ slˈItli θˈɪkəɹ slˈIs wˌɛn ju nˈid wˈʌn. tˈAkɪŋ pɹˈɑdˌʌkt ˈWt: ɡˈɑɹd ˈɔf, ɹˈIt hˈænd slˈIdz ðə pɹˈɑdˌʌkt ˈɪntu jʊɹ lˈɛft, bˈæk tə ðə mˈit kˈAs, dˈɔɹ klˈOzd. nˈɛvəɹ ɹˈiʧ ɪn wɪð jʊɹ lˈɛft hˈænd.",
-"voice": "af_heart"
-},
 "da764ccbc267bc50": {
 "id": "p69",
 "kind": "lesson",
@@ -6430,13 +6778,6 @@
 "kind": "lesson",
 "seconds": 7.02,
 "sounds": "hˌW mˈʌʧ kˈʌmz ˈɔf ðə tˈɑp ʌv ðə sˈɛləɹi stˈɔks? ðə fˈɜɹst wˈʌn hˈæf ˈɪnʧ. ðə tˈɑps ɑɹ dɹˈI, dɪskˈʌləɹd ænd dˈɜɹTi.",
-"voice": "af_heart"
-},
-"dd3d5ac589444a5c": {
-"id": "14-number",
-"kind": "tell",
-"seconds": 4.18,
-"sounds": "ðə vˈɛʤi. swˈɪs, pɹˈOvəlˌOn, ɡɹˈin bˈɛl pˈɛpəɹz. ðˈɛn mˈIks wˈA.",
 "voice": "af_heart"
 },
 "de0d2c9712c33a59": {
@@ -6537,6 +6878,14 @@
 "kind": "lesson",
 "seconds": 8.16,
 "sounds": "ˌɔn ɐ klˈOzɪŋ ʃˈɪft, dˈɪʃᵻz ɑɹ wˈɔʃt: ˌæz ju ɡˌO, ˈɔl ˈivnɪŋ. lˈɛt ðˌɛm pˈIl ˌʌp ænd sˈʌmwˌʌn lˈuzᵻz twˈɛnti mˈɪnəts æt ði ˈɛnd ʌv ðə nˈIt.",
+"voice": "af_heart"
+},
+"e2c4aaed4fd884f5": {
+"id": "14",
+"kind": "sub",
+"peak": 0.54,
+"seconds": 17.97,
+"sounds": "nˈʌmbəɹ fˌɔɹtˈin. ðə vˈɛʤi. pɹˈOvəlˌOn, swˈɪs, ɡɹˈin bˈɛl pˈɛpəɹz. ðˈɛn mˈIks wˈA. mˈIks wˈA ɪz ˈʌnjᵊnz, lˈɛTəs, təmˈATOz, ɹˈɛd wˈIn vˈɪnəɡəɹ, ˈɑləv ˈYl blˈɛnd, əɹˈɛɡənˌO, sˈɔlt. tˈu ʧˈizᵻz ænd ɡɹˈin pˈɛpəɹz, nˈO mˈit. mˈIks wˈA ɪz wˌʌt pˌʊts ði ˈʌnjᵊnz, lˈɛTəs ænd təmˈATOz ˌɔn ɪt.",
 "voice": "af_heart"
 },
 "e306eec148911130": {
@@ -6703,6 +7052,14 @@
 "sounds": "klˈinɪŋ ænd sˈænɪtˌIzɪŋ. klˈinɪŋ ɹəmˈuvz fˈud ænd dˈɜɹt. sˈænɪtˌIzɪŋ bɹˈɪŋz ʤˈɜɹmz dˌWn tə sˈAf lˈɛvᵊlz. tˈu dˈɪfəɹənt θˈɪŋz, ˈɔlwˌAz ɪn ðæt ˈɔɹdəɹ. ɐ fˈud kˈɑntækt sˈɜɹfəs ɪz ˈɛniθˌɪŋ ðæt tˈʌʧᵻz fˈud: pɹˈɛp tˈAbᵊlz, ðə pɹˈɛp sˈɪŋk, jutˈɛnsᵊlz, nˈIvz, pˈænz, kəntˈAnəɹz, kˈʌTɪŋ bˈɔɹdz, ðə slˈIsəɹ. klˈin ænd sˈænətˌIz bəfˈɔɹ ænd ˈæftəɹ jˈus, ænd ˈɛvəɹi fˈɔɹ ˈWəɹz ʌv kəntˈɪnjəwəs jˈus. ðə slˈIsəɹ ɡɛts fˈʊli tˈAkən əpˈɑɹt fɔɹ ɪt: ˈæftəɹ pɹˈɛp, ˈæftəɹ lˈʌnʧ ɹˈʌʃ, bəfˈɔɹ dˈɪnəɹ ɹˈʌʃ, ænd æt klˈOz. ˈɛni vˈɑməTɪŋ ɔɹ dˌIəɹˈiə ɪn ðə stˈɔɹ ɪz tɹˈiTᵻd æz ɐ pˈɑsəbᵊl nˈɔɹəvˌIɹəs əvˈɛnt. ðˌɛɹz ɐ bˈIOhˌæzəɹd spˈɪl kˈɪt ænd ɐ plˈAbˌʊk (fˈud sˈAfti mˈIks wˈA tˈu pYnt zˈɪɹO) fɔɹ ɪt. ðə θɹˌikəmpˈɑɹtmənt sˈɪŋk. klˈɔɹˌin. fˈɪfti tə tˈu hˈʌndɹəd pˈɑɹts pɜɹ mˈɪljᵊn. kwˈɑts. kwˈɑTəɹnˌɛɹi əmˈOniəm, tˈu hˈʌndɹəd tə fˈIv hˈʌndɹəd pˈɑɹts pɜɹ mˈɪljᵊn. tˈɛst stɹˈɪps. tˈɛst ˈɛvəɹi tˈIm ɪf ju fɹˌipˈɔɹ. tˈu lˈɪTᵊl dˈʌzᵊnt kˈɪl ɪnˈʌf; tˈu mˈʌʧ ɪz ɐ kˈɛməkᵊl hˈæzəɹd. ðə hˈɛlθ ɪnspˈɛktəɹ lˈʊks fɔɹ ðə stɹˈɪps. ʧˈAnʤ ðə wˈɔTəɹ. wˌɛn ɪts dˈɜɹTi ɔɹ ðə sˈænətˌIzəɹ tˈɛsts wˈik. nˈIvz. tˈAk ɐ nˈIf ˈɔl ðə wˈA θɹu wˈɔʃ, ɹˈɪns, sˈænətˌIz. nˈɛvəɹ lˈiv wˈʌn ɪn ðə sˈɪŋk. ɹˈɛd bˈʌkəts. sˈAm sˈænətˌIzəɹ æz ðə sˈɪŋk, ɪn ɐ klˈin, sˈænətˌIzd ɹˈɛd bˈʌkət, fˈɪld wˈʌn θˈɜɹd, tˈWᵊlz səbmˈɜɹʤd. wˈʌn fɔɹ ðə slˈIsəɹ, wˈʌn ʃˈɛɹd bI spɹˈɪŋkᵊləɹ ænd ɹˈæpəɹ, wˈʌn fɔɹ ðə ɡɹˈɪl, wˈʌn fɔɹ pɹˈɛp, wˈʌn fɔɹ ðə dˈInɪŋ ɹˈum. ˌɪt lˈuzᵻz stɹˈɛŋθ fˈæst, sˌO tˈɛst ænd swˈɑp ˈɔfᵊn.",
 "voice": "af_heart"
 },
+"e6254e773db97df4": {
+"id": "s97",
+"kind": "lesson",
+"peak": 0.62,
+"seconds": 7.97,
+"sounds": "hˌW mˈɛni pˈɛpəɹ ɹˈɪŋz ɡˌO ˌɔn ɐ ʤˈIənt nˈʌmbəɹ fˌɔɹtˈin, ðə vˈɛʤi? fˈIv ɹˈɪŋz. fˈIv ˌɔn ɐ ʤˈIənt, θɹˈi ˌɔn ɐ ɹˈɛɡjələɹ, tˈu ˌɔn ɐ mˈɪni.",
+"voice": "af_heart"
+},
 "e662b00df7bdc7f1": {
 "id": "a27",
 "kind": "lesson",
@@ -6715,6 +7072,14 @@
 "kind": "lesson",
 "seconds": 7.95,
 "sounds": "ðə kˈʌt ʃˌʊd lˈiv ɐ kˈOld sˈʌbz bɹˈɛd ˈɪn: ˈikwᵊl hˈævz, tˈɑp ænd bˈɑTəm. ɐ bˈælənst sˈʌb. ðə pˈɑkət ɪz ðə hˈɑt sˈʌb kˈʌt.",
+"voice": "af_heart"
+},
+"e6b112d87bf79ad0": {
+"id": "s85",
+"kind": "lesson",
+"peak": 0.69,
+"seconds": 11.74,
+"sounds": "ɐ ɹˈɛɡjələɹ nˈʌmbəɹ nˈIn, ðə klˈʌb səpɹˈim, ʃˌʊd wˈA: fˈIv pYnt ˈAt fˈIv ˈWnsᵻz. swˈɪs zˈɪɹO pYnt nˈIn, tˈɜɹki tˈu pYnt nˈIn, ɹˈOst bˈif tˈu pYnt zˈɪɹO fˈIv, plˈʌs tˈu slˈIsᵻz ʌv bˈAkən.",
 "voice": "af_heart"
 },
 "e71b5d2217565356": {
@@ -6807,6 +7172,14 @@
 "kind": "lesson",
 "seconds": 12.65,
 "sounds": "wˌʌts ðə tˈɛmpəɹəʧəɹ dˈAnʤəɹ zˈOn? fˈɔɹTi wˈʌn dəɡɹˈiz tə wˈʌn hˈʌndɹəd θˈɜɹTi fˈIv dəɡɹˈiz. fˈud lˈɛft bətwˈin fˈɔɹTi wˈʌn dəɡɹˈiz ænd wˈʌn hˈʌndɹəd θˈɜɹTi fˈIv dəɡɹˈiz tˈu lˈɔŋ ɪz tˈIm ænd tˈɛmpəɹəʧəɹ əbjˈus.",
+"voice": "af_heart"
+},
+"ea23fc2644f87f2d": {
+"id": "s114",
+"kind": "lesson",
+"peak": 0.77,
+"seconds": 11.52,
+"sounds": "ɐ wˈɔɹn blˈAdz ɡˈæp tə ðə ɡˈɑɹd ɹˈɪŋ hæz ɹˈiʧt sˈɪks mˈɪləmˌiTəɹz, əbˈWt wˈʌn kwˈɔɹTəɹ ʌv ɐn ˈɪnʧ. wˌʌt nˈW? ðə blˈAd hæz tə bi ɹəplˈAst. ˌæt ðæt ɡˈæp ðə ʃˈɑɹpᵊnəɹ kˈænt ʃˈɑɹpən ɪt ˈɛni mˈɔɹ.",
 "voice": "af_heart"
 },
 "ea4c04f58cec5190": {
@@ -6909,6 +7282,14 @@
 "sounds": "nˈʌmbəɹ tˈu. ʤˈɜɹzi ʃˈɔɹz fˈAvəɹət. pɹˈOvəlˌOn, hˈæm, kˌæpəkˈOlə. ðˈɛn mˈIks wˈA. mˈIks wˈA ɪz ˈʌnjᵊnz, lˈɛTəs, təmˈATOz, ɹˈɛd wˈIn vˈɪnəɡəɹ, ˈɑləv ˈYl blˈɛnd, əɹˈɛɡənˌO, sˈɔlt. hˈæm ænd pɹˈOvəlˌOn (ðə nˈʌmbəɹ θɹˈi) plˈʌs kˌæpəkˈOlə.",
 "voice": "af_heart"
 },
+"ed9bd253493dabdc": {
+"id": "s107",
+"kind": "lesson",
+"peak": 0.54,
+"seconds": 8.02,
+"sounds": "ðə wˈIt lˈIt nˈɛkst tə ðə slˈIsəɹz bˈʌtnz ɪz ˌɔn. ðˌæt mˈinz: ðə blˈAd mˈOTəɹ ɪz ˌɔn. ˌɪt stˈAz lˈɪt wˌIl ðə blˈAd mˈOTəɹ ɹˈʌnz.",
+"voice": "af_heart"
+},
 "eda8c5dd0152b094": {
 "id": "lto-hotitalian",
 "kind": "sub",
@@ -6950,6 +7331,14 @@
 "kind": "lesson",
 "seconds": 10.56,
 "sounds": "ɐ təmˈATO ɪz ɡˈOɪŋ vˈɛɹi sˈɔft bˌʌt ðə kˈʌləɹ ɪz bˈɔɹdəɹlˌIn. jˌu: ɹˈIp kˈAs: sˈælvɪʤ wˌʌt ju kˈæn. ənˈʌðəɹ dˈA ænd ɪt mˌIt ɡˌO bˈæd, sˌO ɪt ɡˈOz ɪn ðə ɹˈIp kˈAs.",
+"voice": "af_heart"
+},
+"eed2bc3cce91004e": {
+"id": "s101",
+"kind": "lesson",
+"peak": 0.68,
+"seconds": 5.58,
+"sounds": "hˌW ˈɔfᵊn ɪz ðə mˈit kˈAs ˈɛmptid ænd klˈind? wˈikli. ˈɛmpti ɪt ænd klˈin ɪt ˈɛvəɹi wˈik.",
 "voice": "af_heart"
 },
 "eefff1e7385fe776": {
@@ -7042,13 +7431,6 @@
 "kind": "sub",
 "seconds": 15.26,
 "sounds": "nˈʌmbəɹ twˈɛlv. kˈæŋkɹO spˈɛʃᵊl. pɹˈOvəlˌOn, ɹˈOst bˈif, pˌɛpəɹˈOni. ðˈɛn mˈIks wˈA. mˈIks wˈA ɪz ˈʌnjᵊnz, lˈɛTəs, təmˈATOz, ɹˈɛd wˈIn vˈɪnəɡəɹ, ˈɑləv ˈYl blˈɛnd, əɹˈɛɡənˌO, sˈɔlt. ɹˈOst bˈif ænd pɹˈOvəlˌOn (ðə nˈʌmbəɹ sˈɪks) plˈʌs pˌɛpəɹˈOni.",
-"voice": "af_heart"
-},
-"f12cdbc6255bd665": {
-"id": "8-number",
-"kind": "tell",
-"seconds": 4.91,
-"sounds": "klˈʌb sˈʌb. pɹˈOvəlˌOn, tˈɜɹki, hˈæm. ðˈɛn mˈIks wˈA. mˈAO ænd bˈAkən ˌɔn ðə lˈɪd.",
 "voice": "af_heart"
 },
 "f1e984e475d5c1bb": {
@@ -7228,6 +7610,14 @@
 "sounds": "hˌW mˈɛni vˈɛɹiənsᵻz dˈu ju wˈɜɹk ˌɔn ˈiʧ wˈik? θɹˈi tə fˈIv, ðˈɛn ʧˈɛk ðˌɛm əɡˈɛn nˈɛkst wˈik. pˈɪk θɹˈi tə fˈIv, fˈɪks ðˌɛm, ænd fˈɑlO ˌʌp.",
 "voice": "af_heart"
 },
+"f6bbed94d557b56d": {
+"id": "o-meatcase",
+"kind": "card",
+"peak": 0.87,
+"seconds": 33.44,
+"sounds": "sˈɛTɪŋ ˌʌp ðə mˈit kˈAs. fˈIv ɹˈulz fɹʌm ðə pˈOstəɹ ˌɔn ðə mˈit kˈAs dˈɔɹ. ˌɔn dəlˈɪvəɹi, wˈA ɪt ænd dˈAt ɪt. ɹˈIt ðə wˈAt ænd ðə dəlˈɪvəɹi dˈAt ˌɔn ˈiʧ pɹˈɑdˌʌkt. ðə jˈusbˌI dˈAt ɪz ˌɔlɹˈɛdi pɹˈɪntᵻd ˌɔn ɪt. ˈɛmpti ænd klˈin ðə mˈit kˈAs ˈɛvəɹi wˈik. ɹˈOtˌAt nˈu pɹˈɑdˌʌkt ˈɪntu ðə dəsplˈA. ˈɛkstɹə pɹˈɑdˌʌkt ɡˈOz tə ðə wˈɔkˌɪn. lˈiv ɐ θɹˈi ˈɪnʧ ɡˈæp bətwˈin ðə dəsplˈA ænd ðə fɹˈʌnt ɡlˈæs, sˌO ˈɛɹ kæn flˈO. dˈOnt lˈIn ðə kˈAs wɪð pˈApəɹ. ðə pˈOstəɹ ˈɔlsO ʃˈOz wˌɪʧ mˈit sˈɪts wˌɛɹ, fɔɹ ɐ sˈɪks fˈʊt kˈAs ænd ɐ fˈɔɹ fˈʊt kˈAs. fˈɑlO ðə wˈʌn ˌɔn jʊɹ dˈɔɹ.",
+"voice": "af_heart"
+},
 "f6e54cd3d91f26a4": {
 "id": "o46",
 "kind": "lesson",
@@ -7297,6 +7687,14 @@
 "kind": "card",
 "seconds": 56.13,
 "sounds": "bˈɪznəs bˈAsɪks: ðə pˈi ænd ˈɛl. ɐ pɹˈɑfət ænd lˈɔs stˈAtmənt ʃˈOz, ˈɛvəɹi mˈʌnθ, wˈɛðəɹ ðə stˈɔɹ mˌAd ɔɹ lˈɔst mˈʌni. pˈɪkʧəɹ wˈʌn dˈɑləɹ ʌv sˈAlz ɡˈɛTɪŋ tˈɔɹn ˌʌp: tˈɑp lˈIn. sˈAlz, wˈʌn hˈʌndɹəd pəɹsˈɛnt. kˈɔst ʌv ɡˈʊdz jˈuzd. fˈud, bˈɛvəɹɪʤ ænd pˈApəɹ, θˈɜɹTi pəɹsˈɛnt. ðə jˈuʒəwəl ˈɪndəstɹi nˈAm ɪz kˈɔst ʌv ɡˈʊdz sˈOld, kˈɑɡz. lˈAbəɹ. twˈɛnti pəɹsˈɛnt: ˈWəɹli kɹˈu twˈɛlv tə fˌɔɹtˈin pəɹsˈɛnt, sˈæləɹid mˈænɪʤəɹz sˈɪks tʊ ˈAt pəɹsˈɛnt. vˈɛɹiəbᵊl kˈɔsts. ɡˈʊdz plˈʌs lˈAbəɹ, fˈɪfti pəɹsˈɛnt. ðˌA mˈuv wɪð sˈAlz, ænd hˌW wˈɛl ðə stˈɔɹ ɹˈʌnz kəntɹˈOlz ðˌɛm. fˈɪkst kˈɔsts. ɪkspˈɛnsᵻz lˈIk ɹˈɛnt ænd jutˈɪləTiz, θˈɜɹTi pəɹsˈɛnt. sˈAm ˈɛvəɹi mˈʌnθ nˈO mˈæTəɹ ðə sˈAlz. bˈɑTəm lˈIn. pɹˈɑfət ɔɹ lˈɔs. ðə ɡˈOl ɪz twˈɛnti pəɹsˈɛnt. ˈibɪtdˌɑ. ˈɜɹnɪŋz bəfˈɔɹ ˈɪntəɹəst, tˈæksᵻz, dəpɹˌiʃiˈAʃən ænd ˌæməɹTəzˈAʃən. ðə twˈɛnti pəɹsˈɛnt stˈɪl hæz ðOz tə pˈA, sˌO ðə stˈɔɹ dˈʌzᵊnt kˈip ˈɔl ʌv ɪt.",
+"voice": "af_heart"
+},
+"f8b27b706ea296a9": {
+"id": "s88",
+"kind": "lesson",
+"peak": 0.8,
+"seconds": 10.14,
+"sounds": "ɐ ɹˈɛɡjələɹ nˈʌmbəɹ θɹˈi, hˈæm ænd pɹˈOvəlˌOn, ʃˌʊd wˈA: fˈɔɹ pYnt sˈɛvən fˈIv ˈWnsᵻz. wˈʌn pYnt tˈu ˈWnsᵻz ʌv pɹˈOvəlˌOn ænd θɹˈi pYnt fˈIv fˈIv ˈWnsᵻz ʌv hˈæm.",
 "voice": "af_heart"
 },
 "f8de53e95d6d317e": {
@@ -7374,6 +7772,14 @@
 "kind": "card",
 "seconds": 79.82,
 "sounds": "ðə vˈɪzət: bˈɪɡ stˈɔɹz, smˈɔl ʃˈɑps, ˈɔfəsᵻz. ˈiʧ kˈInd ʌv bˈɪznəs hæz ɐ bˈɛst tˈIm tə vˈɪzət ænd wˈʌn pˈɜɹsᵊn wˈɜɹθ nˈOɪŋ. bˌɪɡbˈɑks stˈɔɹz. wˌɛn: ˈɜɹli, ɹˈIt ˈæftəɹ ðA ˈOpᵊn. hˌu: ðə mˈænɪʤəɹ. jˌul ˈOnli ɹˈiʧ wˈʌn ɔɹ tˈu pˈipᵊl, bˌʌt ðə mˈænɪʤəɹ kæn bɹˈɪŋ ju ˈɪntu ɐ mˈɔɹnɪŋ mˈiTɪŋ ɔɹ pˈæs kˈɑɹdz tə ðə stˈæf. ɡˌɛt ɐ nˈAm, ɐ nˈʌmbəɹ ænd ɐ bˈɪznəs kˈɑɹd. smˈɔl ʃˈɑps. wˌɛn: ˈɛni tˈIm ʌv dˈA. hˌu: ði ˈOnəɹ ɔɹ mˈænɪʤəɹ, ænd ðˈɛn ˈɛvəɹi ˌɛmplˌYˈi. wˌɪð ɐ smˈɔl stˈæf ju kæn ɪnvˈIt ˈiʧ wˈʌn ɪn pˈɜɹsᵊn. ˈɔfəsᵻz. wˌɛn: ɪt dəpˈɛndz. ɐ dˈɑktəɹz ˈɔfəs fˈɜɹst θˈɪŋ, bəfˈɔɹ pˈAʃənts. ɐ bˈɪɡ ˈɔfəs bˈɪldɪŋ ˈɛni tˈIm. hˌu: ðə ɹəsˈɛpʃənəst, hˌu jˈuʒəwəli ˈɔɹdəɹz lˈʌnʧ. bˌi pˈAʃənt ænd kˈInd. dɹˈɛs ðə pˈɑɹt: fɔɹ ˈɔfəs bˈɪldɪŋz, ɐ pɹˈɛst ˈɑksfəɹd ʃˈɜɹt. wˌʌt tə sˈA. jˌʊɹ nˈAm, ænd ðæt jʊɹ fɹʌm ðə stˈɔɹ dˌWn ðə stɹˈit. “hˌæv ju ˈɛvəɹ bɪn ˈɪn?” ˌɪf nˈO: ˈæsk hˌW mˈɛni wˈɜɹk ðɛɹ ænd ɪf ðA kæn ɡɛt ˈWt fɔɹ lˈʌnʧ. hˈænd ðˌɛm ɐ fɹˈi sˈʌb kˈɑɹd. nˈO kˈɛʧᵻz. “ˌId lˈʌv tə mˌAk ju lˈʌnʧ.” ˌɪf jˈɛs: θˈæŋk ðˌɛm. ɡˈɪv ðˌɛm ɐ kˈɑɹd fɔɹ ðɛɹ nˈɛkst vˈɪzət. ˈæsk tə mˈit ðə ɹˈɛst ʌv ðə stˈæf. ˈæsk fɔɹ ðɛɹ bˈɪznəs kˈɑɹd bəfˈɔɹ ju ɡˌO. kˈATəɹɪŋ kˈʌmz ˌʌp ˈOnli wˌɛn ɪt fˈɪts. ˌɪn ðə tɹˈAnɪŋz ɹˈOl plˈA ðə mˈænɪʤəɹ ˌɔlɹˈɛdi lˈʌvd ðə fˈud ænd mˈɛnʧᵊnd mˈʌnθli stˈæf mˈiTɪŋz, sˌO ˈɔfəɹɪŋ ɐ tɹˈA mˌAd sˈɛns.",
+"voice": "af_heart"
+},
+"fbad5883a3a29938": {
+"id": "14-number",
+"kind": "tell",
+"peak": 0.49,
+"seconds": 4.19,
+"sounds": "ðə vˈɛʤi. pɹˈOvəlˌOn, swˈɪs, ɡɹˈin bˈɛl pˈɛpəɹz. ðˈɛn mˈIks wˈA.",
 "voice": "af_heart"
 },
 "fbb98b34d8e53b82": {
@@ -7466,6 +7872,14 @@
 "kind": "step",
 "seconds": 16.97,
 "sounds": "stˈɛp θɹˈi. pˈɪnʧ, pˈʊl ˈOvəɹ, pˈʌnʧ. pˈɪnʧ ðə kˈɔɹnəɹ ʌv ðə pˈApəɹ klˈOsɪst tə ju, θˈʌm ˌʌndəɹnˈiθ ænd fˈɪŋɡəɹz ˌɔn tˈɑp. bɹˈɪŋ ɪt ˈOvəɹ ðə sˈʌb ænd hˈOld ɪt əɡˈɛnst ðə pˈApəɹ ænd ðə kˈWntəɹ wɪð ðə pˈɑlm ʌv jʊɹ hˈænd. ˌɔn ɐ ʤˈIənt, ʧˈɛk ði ˌWtsˈId kˈɔɹnəɹz, sˈɪns ðA sˈʌmtˌImz mˈuv.",
+"voice": "af_heart"
+},
+"ffae3c1e35ee0ee1": {
+"id": "s80",
+"kind": "lesson",
+"peak": 0.74,
+"seconds": 8.84,
+"sounds": "ɐ mˈɪni nˈʌmbəɹ sˈɛvən ʃˌʊd wˈA: tˈu pYnt nˈIn fˈIv ˈWnsᵻz. zˈɪɹO pYnt ˈAt ˈWnsᵻz ʌv pɹˈOvəlˌOn ænd tˈu pYnt wˈʌn fˈIv ˈWnsᵻz ʌv tˈɜɹki.",
 "voice": "af_heart"
 },
 "ffe6445fb65e9acd": {

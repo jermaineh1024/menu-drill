@@ -17,6 +17,7 @@ initNow();
 initListen();
 initVoiceUI();
 initMore();
+initWeights();
 try { if (window.__speechLog) window.__jmSpoken = allSpoken; } catch(e){}   /* only where a test or the recording tool asked for it before the page loaded */
 /* someone who has already started doesn't need the first-day explainer open */
 if (Object.keys(sched).length){ var intro = $("j-first"); if (intro) intro.open = false; }

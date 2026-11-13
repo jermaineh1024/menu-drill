@@ -499,13 +499,13 @@ function checkCold(sub, seq){
     placed.push(it);
     if (cheese.indexOf(it) >= 0){
       if (maxStage > 0){ st = "bad"; add("Cheese goes on the bread first, before the meat and the toppings."); }
-      else if (cheese.indexOf(it) < maxCheese){ st = "bad"; add("The board lists the cheese as " + cheese.join(", then ").toLowerCase() + ", and that's the order it goes on."); }
+      else if (cheese.indexOf(it) < maxCheese){ st = "bad"; add("The slicing sheet lists the cheese as " + cheese.join(", then ").toLowerCase() + ", and that's the order it goes on."); }
       maxCheese = Math.max(maxCheese, cheese.indexOf(it));
       if (maxStage < 0) maxStage = 0;
       corePlaced++;
     } else if (meats.indexOf(it) >= 0){
       if (maxStage > 1){ st = "bad"; add("Meat goes on before Mike's Way."); }
-      else if (meats.indexOf(it) < maxMeat){ st = "bad"; add("The meats go on in the order the board lists them: " + meats.join(", ").toLowerCase() + "."); }
+      else if (meats.indexOf(it) < maxMeat){ st = "bad"; add("The meats go on in the order the slicing sheet lists them: " + meats.join(", ").toLowerCase() + "."); }
       maxMeat = Math.max(maxMeat, meats.indexOf(it));
       if (maxStage < 1) maxStage = 1;
       corePlaced++;
@@ -732,8 +732,8 @@ function checkOrder(sub, o, seq){
       else if (sg === 4) add("Pickles and peppers go on top of the tomatoes, after Mike's Way, before the lid.");
       else add(it + " is out of order.");
     }
-    if (sg === 0){ var ci = sub.cheese.indexOf(it); if (ci < maxCheese){ st = "bad"; add("The board lists the cheese as " + sub.cheese.join(", then ").toLowerCase() + ", and that's the order it goes on."); } maxCheese = Math.max(maxCheese, ci); }
-    if (sg === 1){ var ei = sub.meats.indexOf(it); if (ei < maxMeat){ st = "bad"; add("The meats go on in the order the board lists them: " + sub.meats.join(", ").toLowerCase() + "."); } maxMeat = Math.max(maxMeat, ei); }
+    if (sg === 0){ var ci = sub.cheese.indexOf(it); if (ci < maxCheese){ st = "bad"; add("The slicing sheet lists the cheese as " + sub.cheese.join(", then ").toLowerCase() + ", and that's the order it goes on."); } maxCheese = Math.max(maxCheese, ci); }
+    if (sg === 1){ var ei = sub.meats.indexOf(it); if (ei < maxMeat){ st = "bad"; add("The meats go on in the order the slicing sheet lists them: " + sub.meats.join(", ").toLowerCase() + "."); } maxMeat = Math.max(maxMeat, ei); }
     if (sg === 3){ var mi = MW.indexOf(it); if (mi < maxMW){ st = "bad"; add("Mike's Way order: onions, lettuce, tomatoes, vinegar, oil, oregano, salt."); } maxMW = Math.max(maxMW, mi); }
     if (sg === 5){ var li = LID_ORDER.indexOf(it); if (li < maxLid){ st = "bad"; add("On the lid: mayo first, then mustard or relish, then bacon."); } maxLid = Math.max(maxLid, li); }
     maxStage = Math.max(maxStage, sg);

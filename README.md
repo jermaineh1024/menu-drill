@@ -28,13 +28,15 @@ The files at the top (`index.html`, `sw.js`, the manifest and icons) are the liv
   - `js/14a-crew.js`, `14b-shift.js`, `14c-numbers.js` and `14d-business.js` are the rest of the course, and say which level each station sits in.
   - `js/72-manage.js` runs the Training tab's extras: the levels, one card open at a time, the tick lists, the practice math, the day clock and the read-aloud.
   - `js/15-shifts.js` is Run the shift: short situations with a call to make, then the situation changes. Every right answer is something a training card says. `js/76-more.js` plays them, and also holds your own notes on a card, the backup code, and the short Training landing.
+  - `js/16-weights.js` holds the slice weights for every cold sub, in the order they are sliced, with the questions on them; `js/77-weights.js` draws the look-up and the table on each sub's sheet. The cheese and meat order in `js/10-data.js` follows the same sheet.
+  - `js/17-slicer.js` holds the questions for Know your slicer. Its photo is `src/img/slicer-gsph.jpg`: the store's slicer with the background blurred and no camera data (the original photos stay private, outside the repo). `tools/pics_mgr.py` numbers the parts on it (`SLICER_MARKS`).
   - `js/40-voice.js` does the talking: it plays a recording when there is one for the exact words, and otherwise uses the device's voice. `js/74-voice.js` is the sheet where you pick a voice.
   - `src/include/train-*.html` are the training cards, one file per station. `src/include/pic-*.html` and `howto-*.html` are drawn by scripts.
 - `tools/howto.py` and `tools/howto_lib.py` draw the step-by-step pictures (cutting, wrapping, bagging, a #17 on the grill).
 - `tools/pics.py` draws the station diagrams and `tools/pics_mgr.py` the rest of the course's. They measure every label and stop the build if one would run past its box or the picture's edge.
 - `tools/make.sh VERSION` builds everything into `dist/`: one file for claude.ai (`dist/artifact.html`) and the site (`dist/site/`), with fonts built in, an offline worker named for the version, and a baked copy that still reads when scripts are off.
 - `tools/test/suite.js` taps through the built site in Chromium, WebKit and Firefox the way a person would and fails loudly if anything is off: every sub built right and wrong, hot subs in the order they're made, every way to practice, every quiz and every training card, the put-in-order games, the levels, the tick lists, the practice math against the training's numbers, the day clock, the read-aloud, today's session, the walkthroughs, Run the shift, notes, backup and restore, no voice, no storage, no motion, no scripts, tap sizes, contrast, picture labels, and nothing wider than the screen.
-- `tools/test/planted.js` breaks a copy of the site twenty-eight ways on purpose to prove the suite catches each one.
+- `tools/test/planted.js` breaks a copy of the site thirty-five ways on purpose to prove the suite catches each one.
 - `audio/` holds the recordings: one small MP3 for each fixed thing the page says, about a thousand of them. Each file is named by a fingerprint of the exact words, which the page works out the same way, so a recording can never be played for words that have since changed.
 - `tools/voice/` makes them:
   - `census.js` asks the built page for the list of everything it can say (`dist/spoken.json`).
@@ -45,9 +47,9 @@ The files at the top (`index.html`, `sw.js`, the manifest and icons) are the liv
 ## To change something
 
 1. Edit the piece in `src/` (a fact about a sub lives in `src/js/10-data.js`; a training question lives in `src/js/12-train.js` or one of the `14*.js` files; a card's words live in `src/include/train-*.html`).
-2. `bash tools/make.sh 2026-11-10c` with a new version name.
+2. `bash tools/make.sh 2026-11-13a` with a new version name.
 3. If words that get read out loud changed, record them again (below), then run `make.sh` once more so the site lists the new files. Skip this and the changed pieces are simply read by the device's own voice.
-4. `node tools/test/suite.js --version 2026-11-10c` and get the line that starts `ALL_CHECKS_PASSED`. It fails if something the page says has no recording; add `--allow-unrecorded` to let that pass.
+4. `node tools/test/suite.js --version 2026-11-13a` and get the line that starts `ALL_CHECKS_PASSED`. It fails if something the page says has no recording; add `--allow-unrecorded` to let that pass.
 5. Copy the files in `dist/site/` (not the `audio` link) over the files at the top of this repo, and push.
 
 Needs Python 3 and Node, each with Playwright and its browsers.

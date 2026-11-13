@@ -624,6 +624,82 @@ def pic_week():
           h=100, extra=note(126, ["Line up the weeks. Circle what needs work."], n, "t2"), total_h=136)
 
 
+
+# ================================================================ THE SHEETS ON THE MEAT CASE DOOR (Nov 12, 2026)
+@pic
+def pic_weights():
+    n = "weights"
+    tiles([("#7 TURKEY", "9.2", ["giant", "5.5 regular", "2.95 mini"], "okb"), ("#13 ITALIAN", "11", ["giant", "6.4 regular", "3.9 mini"], "okb"), ("PROVOLONE", "2", ["giant", "1.2 regular", "0.8 mini"], "")],
+          n, "Three sets of weights to learn first, in ounces. The number 7, turkey and provolone: 9.2 for a giant, 5.5 for a regular, 2.95 for a mini. The number 13, the Original Italian: 11, 6.4 and 3.9. Provolone on almost every sub: 2, 1.2 and 0.8.",
+          h=96, extra=note(122, ["Ounces of cheese and meat, with no bread."], n), total_h=132)
+
+
+@pic
+def pic_meatcase():
+    n = "meatcase"
+    b, y = grid(n, [("Weigh and date", "on delivery"), ("Empty and clean", "every week"), ("New product", "into the display"), ("Extra product", "into the walk-in")], cols=2, h=42)
+    b += box(0, y + 8, W, 42, "okb")
+    b += text(W / 2, y + 25, "3-inch gap to the front glass", "t1", room=W - 10, name=n)
+    b += text(W / 2, y + 40, "so the air can flow. No paper lining.", "ts", room=W - 10, name=n)
+    svg(y + 56, b, "The meat case rules. On delivery, weigh and date each product. Empty and clean the case every week. New product rotates into the display, and extra product goes into the walk-in. Leave a 3-inch gap between the display and the front glass so the air can flow, and do not line the case with paper.", n)
+
+
+@pic
+def pic_sprkarea():
+    n = "sprkarea"
+    pans = [("Tomatoes", "warnb"), ("Lettuce", "okb"), ("Onions", ""), ("Mayo", ""), ("Relish", "")]
+    b = text(4, 14, "SLICER", "ts", "start", room=60, name=n) + arr(f"M92 10 H50")
+    b += text(W - 4, 14, "far end", "ts", "end", room=60, name=n)
+    w, gap = 50, 4
+    for i, (lab, cls) in enumerate(pans):
+        x = 2 + i * (w + gap)
+        b += box(x, 22, w, 46, cls)
+        b += text(x + w / 2, 50, lab, "ts", room=w - 2, name=n)
+    x = 2 + len(pans) * (w + gap) + 10
+    b += box(x, 22, W - 2 - x, 46, "")
+    b += text(x + (W - 2 - x) / 2, 50, "Bacon", "ts", room=W - x - 4, name=n)
+    b += note(86, ["The extras sit behind the mayo and the relish.", "Oil, vinegar, oregano and salt stand at both ends."], n)
+    svg(108, b, "The sprinkling area from the slicer's end: tomatoes nearest the slicer, then lettuce, onions, mayo and the chopped pepper relish, with the bacon pan at the far end. The extras sit behind the mayo and the relish. Oil, vinegar, oregano and salt stand at both ends.", n)
+
+
+
+# ================================================================ THE SLICER ITSELF (photo taken in the store, Nov 12, 2026)
+# src/img/slicer-gsph.jpg is that photo with the background blurred out and nothing else in it: no metadata, nothing
+# readable behind the machine. Each mark is (number, the point on the machine, where the number sits), in the
+# picture's own units (340 wide). The names are the training's; the card under the picture says what each part does.
+SLICER_MARKS = [
+    (1, (178, 88), (178, 88)),       # pusher deck: the ribbed tray
+    (2, (262, 160), (300, 168)),     # green handle, on the pusher deck
+    (3, (236, 20), (204, 14)),       # guard: the frame that comes down on the product
+    (4, (318, 30), (324, 56)),       # red handle, on the guard
+    (5, (258, 74), (258, 74)),       # spike plate, under the guard (held on by the small black knob)
+    (6, (248, 184), (290, 206)),     # black knob on the side: the pusher deck swings open
+    (7, (210, 242), (210, 242)),     # dial
+    (8, (67, 250), (40, 226)),       # buttons: green I, white light, red O
+    (9, (99, 86), (99, 86)),         # blade end: blade, guard ring, blade plate
+    (10, (258, 110), (232, 124)),    # the sticker: sharpen and lube daily
+]
+
+
+@pic
+def pic_slicerparts():
+    import base64
+    n = "slicerparts"
+    img = ROOT / "src" / "img" / "slicer-gsph.jpg"
+    data = base64.b64encode(img.read_bytes()).decode("ascii")
+    h = 285
+    b = f'<defs><clipPath id="sp-clip"><rect x="0" y="0" width="{P.W}" height="{h}" rx="12"/></clipPath></defs>'
+    b += f'<image href="data:image/jpeg;base64,{data}" x="0" y="0" width="{P.W}" height="{h}" preserveAspectRatio="xMidYMid slice" clip-path="url(#sp-clip)"/>'
+    for num, (px, py), (dx, dy) in SLICER_MARKS:
+        if (px, py) != (dx, dy):
+            d = f"M{dx} {dy} L{px} {py}"
+            b += f'<path d="{d}" style="fill:none;stroke:#1B2B44;stroke-width:3.6;stroke-linecap:round"/>'
+            b += f'<path d="{d}" style="fill:none;stroke:#FFFFFF;stroke-width:1.6;stroke-linecap:round"/>'
+            b += f'<circle cx="{px}" cy="{py}" r="2.8" style="fill:#FFFFFF;stroke:#1B2B44;stroke-width:1.4"/>'
+        b += f'<circle cx="{dx}" cy="{dy}" r="10.5" style="fill:#FFFFFF"/>' + P.disc(dx, dy, num)
+    P.svg(h, b, "Photo of the slicer, a Bizerba GSP H, with its parts numbered. 1, the pusher deck. 2, the green handle on the pusher deck. 3, the guard. 4, the red handle on the guard. 5, the spike plate under the guard. 6, the black knob on the side that lets the pusher deck swing open. 7, the dial. 8, the buttons. 9, the blade end. 10, the sharpen and lube sticker.", n)
+
+
 if __name__ == "__main__":
     for fn in MINE: fn()
     if P.TOO_WIDE:

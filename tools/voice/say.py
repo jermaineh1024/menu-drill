@@ -84,6 +84,8 @@ OWN = {
     'crocs': 'kɹˈɑks',
     'seq': 'ˌɛsˌikjˈu',                    # the count sheet's SEQ column, said as letters
     "who've": 'hˈuv',
+    'bizerba': 'bɪzˈɜɹbə',                 # the slicer's maker, "bih-ZER-buh"
+    'use-by': 'jˈusbˌI',                   # the noun "use", not the verb
     'typed': 'tˈIpt',
     'bagged': 'bˈæɡd',
     'overthawed': 'ˌOvəɹθˈɔd',

@@ -1,4 +1,4 @@
-// node tools/test/planted.js  -> proves the suite can fail: breaks a copy of the site twenty-eight ways and expects each to be caught
+// node tools/test/planted.js  -> proves the suite can fail: breaks a copy of the site thirty-five ways and expects each to be caught
 // Each broken copy gets its own folder and its own quick run of the suite, two at a time.
 const fs = require('fs'); const path = require('path'); const { spawn } = require('child_process');
 const ROOT = path.resolve(__dirname, '../..'); const SRC = path.join(ROOT, 'dist/site');
@@ -35,7 +35,16 @@ const plants = [
   ['a restore that takes a code carrying anything', s => s.replace('if (k.indexOf("jm-") !== 0 || typeof all[k] !== "string") return null;', ''), "a code that carries something that is not this page's is refused"],
   ['a landing that never folds', s => s.replace('fold(loadRaw(LEVEL_KEY) !== null);', 'fold(false);'), 'on the next visit the levels fold into one line with your path and what is next'],
   ['a card reading that lets the phone lock', s => s.replace('Awake.on();   /* a long card', '/* a long card'), 'reading a card asks the phone to keep its screen on'],
-  ['the old label back on the meter', s => s.replace('<h2>Knowledge practice</h2>', '<h2>Ready for the floor</h2>'), 'the progress meter is called Knowledge practice, and nothing says Ready for the floor']
+  ['the old label back on the meter', s => s.replace('<h2>Knowledge practice</h2>', '<h2>Ready for the floor</h2>'), 'the progress meter is called Knowledge practice, and nothing says Ready for the floor'],
+  // slice weights
+  ['a slice weight that is not the sheet\'s', s => s.replace('["Turkey", 7.2, 4.3, 2.15]]},', '["Turkey", 7.4, 4.3, 2.15]]},'), "every sub's look-up shows the slicing sheet's numbers under its own name"],
+  ['a look-up that shows one sub under every name', s => s.replace('onclick:function(){ fillWeights(w.n); }', 'onclick:function(){ fillWeights(7); }'), "every sub's look-up shows the slicing sheet's numbers under its own name"],
+  ['a club drawn turkey first', s => s.replace('meats:["Ham","Turkey"], fixed:[], lid:["Mayo","Bacon"]', 'meats:["Turkey","Ham"], fixed:[], lid:["Mayo","Bacon"]'), 'and its picture stacks the cheese and meats in slicing-sheet order'],
+  // know your slicer
+  ['a part missing from the list under the slicer photo', s => s.replace(/\s*<li><b>Blade end\.<\/b>[^\n]*<\/li>/, ''), 'the photo has ten numbered parts, and the list names them in order'],
+  ['two numbers swapped on the slicer photo', s => s.replace('<text x="300" y="172.2" text-anchor="middle" class="num">2</text>', '<text x="300" y="172.2" text-anchor="middle" class="num">3</text>'), 'the photo has ten numbered parts, and the list names them in order'],
+  ['the old one-line sharpener step back', s => s.replace('<b>Open the blade all the way.</b>', 'The blade is opened all the way.'), "the sharpening steps are the GSP H's: blade open all the way, sharpener on the adjustable deck, small knob tightened"],
+  ['a slicer photo that still carries its camera data', s => s.replace(/data:image\/jpeg;base64,([A-Za-z0-9+\/=]+)/, (m, b) => { const buf = Buffer.from(b, 'base64'); const app1 = Buffer.concat([Buffer.from([0xFF, 0xE1, 0x00, 0x10]), Buffer.from('Exif\0\0'), Buffer.alloc(8)]); return 'data:image/jpeg;base64,' + Buffer.concat([buf.subarray(0, 2), app1, buf.subarray(2)]).toString('base64'); }), 'the slicer photo carries no camera data (no EXIF, so no location)']
 ];
 
 // a broken copy is thrown away when its run is over; the link to the recordings goes first, so nothing can reach through it

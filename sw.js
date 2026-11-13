@@ -1,5 +1,5 @@
 // Keeps the drill working offline after the first visit. Bump VERSION to push an update.
-const VERSION = '2026-11-10c';
+const VERSION = '2026-11-13a';
 const FILES = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));

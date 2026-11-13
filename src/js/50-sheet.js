@@ -140,6 +140,7 @@ function fillSub(sub, animate){
   sheetBody.appendChild(pic);
   if (isCold && sub.mw) sheetBody.appendChild(h("p", {class:"fine mt-s", text:"Every topping starts at the end closest to the guest and covers both ends."}));
   if (!isCold && HOT_AMT_IDS.indexOf(sub.id) >= 0) sheetBody.appendChild(h("p", {class:"fine mt-s", text:"The numbers are the order it's made in." + (sub.lid.length ? " The lid gets dressed first, before the meat hits the grill." : "") + " Amounts are from the grill video, which gives regular and giant. A giant doubles the regular and cooks as two regular portions."}));
+  var wts = wtForSheet(sub); if (wts) sheetBody.appendChild(wts);
   /* the meats and cheeses again as full-size buttons: the bands in the picture are tappable too, but they are thin */
   var seen = {}, known = itemsOf(sub).map(function(k){ return k.replace(/^Extra /, ""); }).filter(function(k){ var ok = LAYERS[k] && LAYERS[k].cue && !seen[k]; seen[k] = true; return ok; });
   if (known.length){
